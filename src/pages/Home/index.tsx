@@ -18,7 +18,7 @@ const Home = () => {
     <>
       <ProfileImage
         src="https://user-images.githubusercontent.com/63512217/180431797-88c715f3-5787-49f6-916e-a5bf7f07f45d.png"
-        alt="달다로고"
+        alt="달다 로고"
       />
       <div className="flex flex-col items-center">
         {/* Title */}
