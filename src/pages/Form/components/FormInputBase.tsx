@@ -5,7 +5,7 @@ import FormLabel from '@/features/Form/components/FormLabel'
 import React from 'react'
 import { FormBaseProps } from '../types'
 
-const FormName = ({ label, value, onChange, helper }: FormBaseProps & { helper?: string }) => {
+const FormInputBase = ({ label, value, onChange, helper }: FormBaseProps & { helper?: string }) => {
   return (
     <FormControl as="div" isRequired>
       <FormLabel>{label}</FormLabel>
@@ -15,4 +15,4 @@ const FormName = ({ label, value, onChange, helper }: FormBaseProps & { helper?:
   )
 }
 
-export default React.memo(FormName)
+export default React.memo(FormInputBase)

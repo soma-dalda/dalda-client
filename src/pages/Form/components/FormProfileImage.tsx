@@ -6,13 +6,14 @@ import React from 'react'
 type Props = {
   imgData: string | undefined
   handleUplodaImage: React.ChangeEventHandler<HTMLInputElement>
+  label?: string
 }
 
-const FormProfileImage = ({ handleUplodaImage, imgData }: Props) => {
+const FormProfileImage = ({ label, handleUplodaImage, imgData }: Props) => {
   return (
     <>
       <FormControl id="profile" className="w-full shrink-0 p-2" isRequired>
-        <FormLabel>프로필 이미지 등록</FormLabel>
+        <FormLabel>{label}</FormLabel>
         <FormInput
           className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none "
           aria-describedby="file_input_help"
