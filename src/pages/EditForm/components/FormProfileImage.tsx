@@ -1,6 +1,6 @@
-import FormControl from '@/features/Form/components/FormControl'
-import FormInput from '@/features/Form/components/FormInput'
-import FormLabel from '@/features/Form/components/FormLabel'
+import FormControl from '@/features/EditForm/components/FormControl'
+import FormInput from '@/features/EditForm/components/FormInput'
+import FormLabel from '@/features/EditForm/components/FormLabel'
 import React from 'react'
 
 type Props = {
@@ -13,7 +13,7 @@ const FormProfileImage = ({ label, handleUplodaImage, imgData }: Props) => {
   return (
     <>
       <FormControl id="profile" className="w-full shrink-0 p-2" isRequired>
-        <FormLabel>{label}</FormLabel>
+        {label && <FormLabel>{label}</FormLabel>}
         <FormInput
           className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none "
           aria-describedby="file_input_help"

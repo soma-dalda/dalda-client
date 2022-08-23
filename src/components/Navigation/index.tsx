@@ -13,7 +13,7 @@ const Navigation = () => {
       </h1>
       <div className="flex items-center gap-1">
         {/* 로그인 한 유저의 정보 가 해당 프로필 주인이면 보이도록 */}
-        <Link to={`./${domain}/form`}>
+        <Link to={`./${domain}/edit`}>
           <ConfigurationIcon className="relative w-7 cursor-pointer" />
         </Link>
         <span className="relative cursor-pointer text-xl font-thin after:absolute after:-top-1 after:-right-1 after:h-4 after:w-4 after:rounded-full after:bg-red-400 after:text-center after:text-xs after:content-['5'] ">

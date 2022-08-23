@@ -1,11 +1,11 @@
 import React from 'react'
-import FormControl from '@/features/Form/components/FormControl'
-import useInput from '@/features/Form/hooks/useInput'
-import useAddLinks from '@/features/Form/hooks/useAddLinks'
-import useUploadImage from '@/features/Form/hooks/useUploadImage'
+import FormControl from '@/features/EditForm/components/FormControl'
+import useInput from '@/features/EditForm/hooks/useInput'
+import useAddLinks from '@/features/EditForm/hooks/useAddLinks'
+import useUploadImage from '@/features/EditForm/hooks/useUploadImage'
 import { FormProfileImage, FormInputBase, FormDescription, FormLinks, FormLink } from './components'
 
-const Form = () => {
+const EditForm = () => {
   const [domain, , onChangeDomain] = useInput()
   const [name, , onChangeName] = useInput()
   const [instagram, , onChangeInstagram] = useInput()
@@ -58,4 +58,4 @@ const Form = () => {
   )
 }
 
-export default Form
+export default EditForm

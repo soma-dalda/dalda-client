@@ -1,8 +1,8 @@
 import React from 'react'
 
-import FormControl from '@/features/Form/components/FormControl'
-import FormLabel from '@/features/Form/components/FormLabel'
-import FormTextArea from '@/features/Form/components/FormTextArea'
+import FormControl from '@/features/EditForm/components/FormControl'
+import FormLabel from '@/features/EditForm/components/FormLabel'
+import FormTextArea from '@/features/EditForm/components/FormTextArea'
 
 import { FormBaseProps } from '../types'
 
