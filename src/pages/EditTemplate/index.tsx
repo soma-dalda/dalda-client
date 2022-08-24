@@ -1,20 +1,15 @@
 import React from 'react'
-import LeftArrowIcon from '@/components/icons/LeftArrowIcon'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
-import { useNavigate } from 'react-router-dom'
 import useHandleTemplates from '@/features/EditTemplate/hooks/useHandleTemplates'
+import HeaderWithBackButton from '@/components/HeaderWithBackButton'
 import Template from './components/Template'
 
 const EditTemplate = () => {
-  const navigation = useNavigate()
   const { onChangeType, addTemplate, templates, type } = useHandleTemplates()
 
   return (
     <div className="flex w-full flex-col">
-      <div className="m-2 grid grid-cols-3 items-center">
-        <LeftArrowIcon onClick={() => navigation(-1)} cursor="pointer" />
-        <h1 className="flex justify-center">내 주문서 관리</h1>
-      </div>
+      <HeaderWithBackButton>내 주문서 관리</HeaderWithBackButton>
       <div className="flex items-center">
         <input
           className="ml-2 w-full rounded-xl border bg-gray-50 p-2 text-sm"
