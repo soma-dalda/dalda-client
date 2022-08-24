@@ -11,8 +11,9 @@ const App = () => {
     <Routes>
       <Route element={<Layout outlet />} path="/">
         <Route element={<Home />} path="" />
+        <Route element={<EditForm />} path="edit" />
         <Route element={<EditForm />} path=":domain/edit" />
-        <Route element={<EditTemplate />} path=":domain/template/:template" />
+        <Route element={<EditTemplate />} path=":domain/template" />
         <Route element={<Domain />} path=":domain" />
       </Route>
     </Routes>

@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .layout {
+    @apply mobile:w-full mobile:max-w-full tablet:max-w-sm;
+  }
+}
+
 * {
   font-family: 'Spoqa Han Sans Neo', 'sans-serif';
 }

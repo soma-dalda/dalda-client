@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import {
   ChatIcon,
@@ -71,12 +71,14 @@ const Domain = () => {
 
         {/* 문의 하기 */}
         <div className="w-full">
-          <button
-            type="button"
-            className="w-full rounded-xl bg-blue-500 py-3 font-light text-white hover:bg-blue-400"
-          >
-            주문 폼 관리 하기
-          </button>
+          <Link to="template">
+            <button
+              type="button"
+              className="w-full rounded-xl bg-blue-500 py-3 font-light text-white hover:bg-blue-400"
+            >
+              주문 폼 관리 하기
+            </button>
+          </Link>
         </div>
       </div>
     </>

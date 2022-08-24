@@ -2,25 +2,33 @@ import CheckboxControl from '@/features/EditTemplate/components/CheckboxControl'
 import CheckboxAddButton from '@/features/EditTemplate/components/CheckboxAddButton'
 import React, { useState } from 'react'
 import Checkboxs from '@/features/EditTemplate/components/Checkboxs'
-import { Checkbox } from '@/features/EditTemplate/types'
+import { Checkbox, Option } from '@/features/EditTemplate/types'
 import useUploadImage from '@/features/EditForm/hooks/useUploadImage'
 import FormImageUpload from '@/features/EditTemplate/components/FormImageUpload'
 import useInput from '@/features/EditForm/hooks/useInput'
+import useHandleTemplates from '@/features/EditTemplate/hooks/useHandleTemplates'
+import TemplateDeleteButton from '@/features/EditTemplate/components/TemplateDeleteButton'
 import TemplateHeader from '../TemplateHeader'
 
-const CheckboxTemplate = () => {
+type Props = {
+  checkboxType?: Option
+  index: number
+}
+
+const CheckboxTemplate = ({ checkboxType, index }: Props) => {
   const [checkboxs, setCheckBoxs] = useState<Checkbox[]>([])
   const [isOpen, setIsOpen] = useState(true)
   const { handleUplodaImage, imgData } = useUploadImage()
   const [title, , onChangeTitle] = useInput()
-  const [type, setType] = useState<string>()
+  const { deleteTemplate, updateDetailType } = useHandleTemplates()
 
   return (
     <CheckboxControl
       checkboxs={checkboxs}
       setCheckboxs={setCheckBoxs}
-      className="m-2 flex flex-col rounded-md border"
+      className="relative m-2 mt-6 flex flex-col rounded-md border"
     >
+      <TemplateDeleteButton onClick={() => deleteTemplate(index)} />
       <TemplateHeader
         title={title}
         onChangeTitle={onChangeTitle}
@@ -31,12 +39,12 @@ const CheckboxTemplate = () => {
         <div className="flex animate-fade-in-down flex-col">
           <div className="p-2">
             <select
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              value={checkboxType}
+              onChange={updateDetailType(index)}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900"
             >
-              <option value="single">단답형</option>
-              <option value="multi">장문형</option>
+              <option value="SingleOption">단답형</option>
+              <option value="MultiOption">장문형</option>
             </select>
           </div>
           <Checkboxs />
@@ -50,4 +58,4 @@ const CheckboxTemplate = () => {
   )
 }
 
-export default CheckboxTemplate
+export default React.memo(CheckboxTemplate)

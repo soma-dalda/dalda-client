@@ -12,6 +12,7 @@ const FormImageUpload = ({ handleUplodaImage, imgData }: Props) => {
         className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:outline-none"
         aria-describedby="file_input_help"
         id="file_input"
+        accept=".png, .jpg, .jpeg"
         type="file"
         onChange={handleUplodaImage}
       />

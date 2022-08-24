@@ -8,7 +8,7 @@ type Props = {
 
 const Layout = ({ outlet, children }: PropsWithChildren<Props>) => {
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col border bg-white">
+    <main className="layout mx-auto flex min-h-screen flex-col border bg-white">
       <Navigation />
       <section className="flex flex-col items-center gap-5">
         {outlet ? <Outlet /> : children}
