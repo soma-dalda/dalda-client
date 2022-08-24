@@ -1,37 +1,53 @@
 import CheckboxControl from '@/features/EditTemplate/components/CheckboxControl'
 import CheckboxAddButton from '@/features/EditTemplate/components/CheckboxAddButton'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Checkboxs from '@/features/EditTemplate/components/Checkboxs'
-import { Checkbox, Option } from '@/features/EditTemplate/types'
+import { Option } from '@/features/EditTemplate/types'
 import useUploadImage from '@/features/EditForm/hooks/useUploadImage'
 import FormImageUpload from '@/features/EditTemplate/components/FormImageUpload'
-import useInput from '@/features/EditForm/hooks/useInput'
-import useHandleTemplates from '@/features/EditTemplate/hooks/useHandleTemplates'
+import useHandleTemplate from '@/features/EditTemplate/hooks/useHandleTemplate'
 import TemplateDeleteButton from '@/features/EditTemplate/components/TemplateDeleteButton'
 import TemplateHeader from '../TemplateHeader'
 
 type Props = {
-  checkboxType?: Option
+  checkboxType: Option
   index: number
 }
 
-const CheckboxTemplate = ({ checkboxType, index }: Props) => {
-  const [checkboxs, setCheckBoxs] = useState<Checkbox[]>([])
+const CheckboxQuestion = ({ checkboxType, index }: Props) => {
   const [isOpen, setIsOpen] = useState(true)
   const { handleUplodaImage, imgData } = useUploadImage()
-  const [title, , onChangeTitle] = useInput()
-  const { deleteTemplate, updateDetailType } = useHandleTemplates()
+  const { deleteTemplate, updateDetailType, setQuestion, template } = useHandleTemplate()
+
+  const checkboxs = template?.[index]?.options
+  const setCheckboxs = useCallback((callback: (params: string[]) => string[]) => {
+    setQuestion(index, (prev) => {
+      return {
+        ...prev,
+        options: callback(prev?.options ?? []),
+      }
+    })
+  }, [])
+
+  const handleChangeTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestion(index, (prev) => {
+      return {
+        ...prev,
+        question: e.target.value,
+      }
+    })
+  }, [])
 
   return (
     <CheckboxControl
       checkboxs={checkboxs}
-      setCheckboxs={setCheckBoxs}
+      setCheckboxs={setCheckboxs}
       className="relative m-2 mt-6 flex flex-col rounded-md border"
     >
       <TemplateDeleteButton onClick={() => deleteTemplate(index)} />
       <TemplateHeader
-        title={title}
-        onChangeTitle={onChangeTitle}
+        title={template?.[index].question ?? ''}
+        onChangeTitle={handleChangeTitle}
         isOpen={isOpen}
         toggleOpen={() => setIsOpen((prev) => !prev)}
       />
@@ -43,11 +59,11 @@ const CheckboxTemplate = ({ checkboxType, index }: Props) => {
               onChange={updateDetailType(index)}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900"
             >
-              <option value="SingleOption">단답형</option>
-              <option value="MultiOption">장문형</option>
+              <option value="singleObjective">단일선택</option>
+              <option value="multiObjective">다중선택</option>
             </select>
           </div>
-          <Checkboxs />
+          <Checkboxs templateIndex={index} />
           <FormImageUpload handleUplodaImage={handleUplodaImage} imgData={imgData} />
           <CheckboxAddButton className="m-2 rounded-lg bg-gray-200 p-3 text-sm">
             옵션 추가하기
@@ -58,4 +74,4 @@ const CheckboxTemplate = ({ checkboxType, index }: Props) => {
   )
 }
 
-export default React.memo(CheckboxTemplate)
+export default React.memo(CheckboxQuestion)

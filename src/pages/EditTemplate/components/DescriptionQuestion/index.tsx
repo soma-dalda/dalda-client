@@ -1,10 +1,9 @@
-import useInput from '@/features/EditForm/hooks/useInput'
 import useUploadImage from '@/features/EditForm/hooks/useUploadImage'
 import FormImageUpload from '@/features/EditTemplate/components/FormImageUpload'
 import TemplateDeleteButton from '@/features/EditTemplate/components/TemplateDeleteButton'
-import useHandleTemplates from '@/features/EditTemplate/hooks/useHandleTemplates'
+import useHandleTemplate from '@/features/EditTemplate/hooks/useHandleTemplate'
 import { Description } from '@/features/EditTemplate/types'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import TemplateHeader from '../TemplateHeader'
 
 type Props = {
@@ -12,18 +11,26 @@ type Props = {
   index: number
 }
 
-const DescriptionTemplate = ({ type: descriptionType, index }: Props) => {
+const DescriptionQuestion = ({ type: descriptionType, index }: Props) => {
   const [isOpen, setIsOpen] = useState(true)
   const { handleUplodaImage, imgData } = useUploadImage()
-  const [title, , onChangeTitle] = useInput()
-  const { deleteTemplate, updateDetailType } = useHandleTemplates()
+  const { deleteTemplate, updateDetailType, setQuestion, template } = useHandleTemplate()
+
+  const handleChangeTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestion(index, (prev) => {
+      return {
+        ...prev,
+        question: e.target.value,
+      }
+    })
+  }, [])
 
   return (
     <div className="relative m-2 mt-6 flex flex-col rounded-md border">
       <TemplateDeleteButton onClick={() => deleteTemplate(index)} />
       <TemplateHeader
-        title={title}
-        onChangeTitle={onChangeTitle}
+        title={template?.[index].question ?? ''}
+        onChangeTitle={handleChangeTitle}
         isOpen={isOpen}
         toggleOpen={() => setIsOpen((prev) => !prev)}
       />
@@ -35,10 +42,10 @@ const DescriptionTemplate = ({ type: descriptionType, index }: Props) => {
               onChange={updateDetailType(index)}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900"
             >
-              <option value="ShortDescription">단답형</option>
-              <option value="LongDescription">장문형</option>
+              <option value="shortSubjective">단답형</option>
+              <option value="longSubjective">장문형</option>
             </select>
-            {descriptionType === 'LongDescription' ? (
+            {descriptionType === 'longSubjective' ? (
               <textarea
                 className="mt-4 block w-full rounded-lg border bg-gray-50 p-2 text-sm text-gray-900"
                 disabled
@@ -60,4 +67,4 @@ const DescriptionTemplate = ({ type: descriptionType, index }: Props) => {
   )
 }
 
-export default React.memo(DescriptionTemplate)
+export default React.memo(DescriptionQuestion)

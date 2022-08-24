@@ -15,9 +15,6 @@ const App = () => {
         <Route element={<EditFormLayout />} path="edit">
           <Route element={<EditForm />} path="" />
         </Route>
-        <Route element={<EditFormLayout />} path=":domain/edit">
-          <Route element={<EditForm />} path="" />
-        </Route>
         <Route element={<EditTemplate />} path=":domain/template" />
         <Route element={<Domain />} path=":domain" />
       </Route>

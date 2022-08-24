@@ -1,18 +1,14 @@
 import React, { createContext, PropsWithChildren, useCallback, useEffect, useMemo } from 'react'
+import useHandleTemplate from '../hooks/useHandleTemplate'
 import { CheckboxControlContextAPI, Checkbox, CheckboxProviderProps } from '../types'
 
-const defaultCheckbox: Checkbox = {
-  value: '',
-  isChecked: false,
-  isUpdate: true,
-}
+const defaultCheckbox: Checkbox = ''
 
 const defaultValue: CheckboxControlContextAPI = {
   checkboxs: [],
   addCheckbox: () => {},
   deleteCheckbox: () => {},
   getCheckbox: () => null,
-  updateCheckbox: () => {},
   updateCheckboxValue: () => {},
 }
 
@@ -23,36 +19,46 @@ const CheckboxControlProvider = ({
   checkboxs,
   setCheckboxs,
 }: PropsWithChildren<CheckboxProviderProps>) => {
+  const { setQuestion } = useHandleTemplate()
+
   const addCheckbox = useCallback(() => {
     setCheckboxs((prev) => [...prev, defaultCheckbox])
-  }, [])
+  }, [setCheckboxs])
 
-  const deleteCheckbox = useCallback((id: number) => {
-    setCheckboxs((prev) => prev.filter((_, i) => i !== id))
-  }, [])
+  const deleteCheckbox = useCallback(
+    (id: number) => {
+      setCheckboxs((prev) => prev.filter((_, i) => i !== id))
+    },
+    [setCheckboxs]
+  )
 
-  const getCheckbox = useCallback((id: number) => {
-    if (!checkboxs[id]) {
-      return null
-    }
-    return checkboxs[id]
-  }, [])
+  const getCheckbox = useCallback(
+    (id: number) => {
+      if (!checkboxs?.[id]) {
+        return null
+      }
+      return checkboxs?.[id]
+    },
+    [checkboxs]
+  )
 
-  const updateCheckbox = useCallback((id: number) => {
-    setCheckboxs((prev) =>
-      prev.map((checkbox, i) => (i === id ? { ...checkbox, isUpdate: true } : checkbox))
-    )
-  }, [])
-
-  const updateCheckboxValue = useCallback((id: number, { value }: Checkbox) => {
-    setCheckboxs((prev) =>
-      prev.map((checkbox, i) => (i === id ? { ...checkbox, value, isUpdate: false } : checkbox))
-    )
-  }, [])
+  const updateCheckboxValue = useCallback(
+    (id: number, data: { value: string; optionIndex: number }) => {
+      setQuestion(id, (params) => {
+        return {
+          ...params,
+          options: params.options?.map((option, index) =>
+            index === data.optionIndex ? data.value : option
+          ),
+        }
+      })
+    },
+    [setQuestion]
+  )
 
   useEffect(() => {
-    setCheckboxs(Array(2).fill(defaultCheckbox))
-  }, [])
+    setCheckboxs((prev) => (prev?.length ? prev : Array(2).fill(defaultCheckbox)))
+  }, [setCheckboxs])
 
   const value: CheckboxControlContextAPI = useMemo(
     () => ({
@@ -60,7 +66,6 @@ const CheckboxControlProvider = ({
       addCheckbox,
       deleteCheckbox,
       getCheckbox,
-      updateCheckbox,
       updateCheckboxValue,
     }),
     [checkboxs]

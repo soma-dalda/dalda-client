@@ -1,31 +1,31 @@
-import useInput from '@/features/EditForm/hooks/useInput'
 import React from 'react'
 import useCheckboxControlContext from '../../hooks/useCheckboxControlContext'
 
 type Props = {
-  value: string
-  checkboxId: number
+  index: number
+  templateIndex: number
 }
 
-const CheckboxUpdateInput = ({ value: checkboxValue, checkboxId }: Props) => {
-  const [value, , onChangeValue] = useInput(checkboxValue)
-  const { updateCheckboxValue } = useCheckboxControlContext()
+const CheckboxUpdateInput = ({ templateIndex, index }: Props) => {
+  const { getCheckbox, updateCheckboxValue, deleteCheckbox } = useCheckboxControlContext()
 
   return (
-    <div className="mb-2 flex w-full justify-between">
+    <div className="mb-2 flex w-full justify-between rounded-lg border bg-gray-50">
       <input
-        className="block w-[calc(100%-50px)] rounded-lg border bg-gray-50 p-2 text-sm text-gray-900"
+        className="block w-[calc(100%)] bg-transparent p-2 text-sm text-gray-900"
         type="text"
-        placeholder="옵션 변경하기"
-        value={value}
-        onChange={onChangeValue}
+        placeholder="옵션"
+        value={getCheckbox(index) ?? ''}
+        onChange={(e) =>
+          updateCheckboxValue(templateIndex, { optionIndex: index, value: e.target.value })
+        }
       />
       <button
+        className="mr-2 bg-transparent text-center text-xs text-red-400"
         type="button"
-        className="h-[40px] w-[40px] rounded-lg bg-blue-500 text-xs text-white "
-        onClick={() => updateCheckboxValue(checkboxId, { value })}
+        onClick={() => deleteCheckbox(index)}
       >
-        변경
+        &times;
       </button>
     </div>
   )

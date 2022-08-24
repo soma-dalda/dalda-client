@@ -1,11 +1,11 @@
 import { atom } from 'recoil'
 import { TemplateAtom } from '../../types'
 
-const defaultValue: TemplateAtom = null
+const defaultValue: TemplateAtom[] = []
 
-const TemplateState = atom<TemplateAtom>({
-  key: 'TemplateState',
+const TemplatesState = atom<TemplateAtom[]>({
+  key: 'TemplatesState',
   default: defaultValue,
 })
 
-export default TemplateState
+export default TemplatesState

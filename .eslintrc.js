@@ -4,7 +4,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['airbnb', 'airbnb-typescript', 'plugin:prettier/recommended'],
+  extends: ['airbnb', 'airbnb-typescript', 'prettier/prettier', 'plugin:prettier/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -26,7 +26,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
-    indent: ['error', 2],
     'prettier/prettier': [
       'error',
       {

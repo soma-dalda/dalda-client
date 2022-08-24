@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
-import useHandleTemplates from '@/features/EditTemplate/hooks/useHandleTemplates'
+import useHandleTemplate from '@/features/EditTemplate/hooks/useHandleTemplate'
 import HeaderWithBackButton from '@/components/HeaderWithBackButton'
-import Template from './components/Template'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import TemplatesState from '@/features/EditTemplate/recoil/atoms/templatesState'
+import Question from './components/Question'
 
 const EditTemplate = () => {
-  const { onChangeType, addTemplate, templates, type } = useHandleTemplates()
+  const { onChangeType, addTemplate, template, type } = useHandleTemplate()
+  const setTemplates = useSetRecoilState(TemplatesState)
+  const templates = useRecoilValue(TemplatesState)
+
+  useEffect(() => {
+    console.log(templates)
+  }, [templates])
 
   return (
     <div className="flex w-full flex-col">
@@ -26,10 +34,13 @@ const EditTemplate = () => {
           />
         </div>
       </div>
-      {templates?.map((template, index) => (
-        <Template key={`${template.type}-${+index}`} type={template.type} index={index} />
+      {template?.map((question, index) => (
+        <Question key={`${question.type}-${+index}`} type={question.type} index={index} />
       ))}
       <button
+        onClick={() => {
+          setTemplates((prev) => [...prev, template])
+        }}
         type="button"
         className="m-2 rounded-lg border bg-blue-500 p-2 text-white hover:bg-blue-400"
       >

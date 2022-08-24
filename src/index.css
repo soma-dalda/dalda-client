@@ -9,6 +9,13 @@
   }
 }
 
+input:checked + div {
+  @apply border-blue-500;
+}
+input:checked + div svg {
+  @apply block;
+}
+
 * {
   font-family: 'Spoqa Han Sans Neo', 'sans-serif';
 }
