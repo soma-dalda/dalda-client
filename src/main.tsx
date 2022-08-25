@@ -1,22 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { RecoilRoot } from 'recoil'
 import App from './App'
 
 import './index.css'
+import store from './store/config'
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RecoilRoot>
+    <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
       </QueryClientProvider>
-    </RecoilRoot>
+    </Provider>
   </React.StrictMode>
 )

@@ -4,8 +4,9 @@ import Domain from './pages/Domain'
 import Home from './pages/Home'
 import { Layout } from './components'
 import EditFormLayout from './pages/EditForm/components/Layout'
-import EditTemplate from './pages/EditTemplate'
 import EditForm from './pages/EditForm'
+import Template from './pages/Template'
+import Templates from './pages/Templates'
 
 const App = () => {
   return (
@@ -15,8 +16,11 @@ const App = () => {
         <Route element={<EditFormLayout />} path="edit">
           <Route element={<EditForm />} path="" />
         </Route>
-        <Route element={<EditTemplate />} path=":domain/template" />
         <Route element={<Domain />} path=":domain" />
+      </Route>
+      <Route element={<Layout outlet navigateion={false} />} path="/">
+        <Route element={<Templates />} path=":domain/templates" />
+        <Route element={<Template />} path=":domain/templates/:id" />
       </Route>
     </Routes>
   )

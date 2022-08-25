@@ -71,7 +71,7 @@ const Domain = () => {
 
         {/* 문의 하기 */}
         <div className="w-full">
-          <Link to="template">
+          <Link to="templates">
             <button
               type="button"
               className="w-full rounded-xl bg-blue-500 py-3 font-light text-white hover:bg-blue-400"

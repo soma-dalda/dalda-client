@@ -32,6 +32,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'no-param-reassign': 0,
     'react/jsx-props-no-spreading': [0],
     'import/extensions': [
       'error',

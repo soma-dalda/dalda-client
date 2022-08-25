@@ -4,12 +4,13 @@ import Navigation from '../Navigation'
 
 type Props = {
   outlet?: boolean
+  navigateion?: boolean
 }
 
-const Layout = ({ outlet, children }: PropsWithChildren<Props>) => {
+const Layout = ({ outlet, children, navigateion = true }: PropsWithChildren<Props>) => {
   return (
-    <main className="layout mx-auto flex min-h-screen flex-col border bg-white">
-      <Navigation />
+    <main className="layout mx-auto flex min-h-screen flex-col border bg-[#FAFAFB]">
+      {navigateion && <Navigation />}
       <section className="flex flex-col items-center gap-5">
         {outlet ? <Outlet /> : children}
       </section>
