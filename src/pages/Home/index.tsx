@@ -12,6 +12,7 @@ import {
   YoutubeIcon,
 } from '@/components'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   return (
@@ -46,9 +47,11 @@ const Home = () => {
         <TitleMessage
           title="내 가게 프로필을 갖고 싶다면?"
           messages={[
-            <div className="w-full max-w-sm cursor-pointer rounded-lg border py-4 px-3 text-sm font-thin hover:bg-gray-300">
-              내 가게 등록 하러가기 🙌
-            </div>,
+            <Link to="edit">
+              <div className="w-full max-w-sm cursor-pointer rounded-lg border py-4 px-3 text-sm font-thin hover:bg-gray-300">
+                내 가게 등록 하러가기 🙌
+              </div>
+            </Link>,
           ]}
         />
         {/* 새롭게 등록된 가게 프로필 */}
