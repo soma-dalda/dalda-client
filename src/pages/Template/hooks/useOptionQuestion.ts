@@ -9,7 +9,7 @@ import {
   deleteQuestion,
 } from '../slice/templateSlice'
 
-const useOptionQuestion = ({ index, id }: { index: number; id: number | string }) => {
+const useOptionQuestion = ({ index, id }: { index: number; id: string }) => {
   const templates = useAppSelector((state) => state.template)
   const template = templates.find((v) => v.id === id)
   const dispatch = useAppDispatch()

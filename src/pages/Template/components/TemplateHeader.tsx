@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom'
 
 type Props = {
   save?: boolean
+  onClickSaveButton?: () => void
 }
 
-const TemplateHeader = ({ children, save }: PropsWithChildren<Props>) => {
+const TemplateHeader = ({ children, onClickSaveButton, save = true }: PropsWithChildren<Props>) => {
   const navigate = useNavigate()
   return (
     <nav className="flex w-full justify-between">
@@ -14,7 +15,11 @@ const TemplateHeader = ({ children, save }: PropsWithChildren<Props>) => {
         <LeftArrowTailIcon className="h-5 w-5 cursor-pointer" onClick={() => navigate(-1)} />
         <div className="font-bold">{children}</div>
       </div>
-      {save && <span className="cursor-pointer text-brand-500">저장</span>}
+      {save && (
+        <button type="button" onClick={onClickSaveButton} className="cursor-pointer text-brand-500">
+          저장
+        </button>
+      )}
     </nav>
   )
 }

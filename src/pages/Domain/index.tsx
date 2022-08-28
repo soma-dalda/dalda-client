@@ -12,24 +12,29 @@ import {
   TitleMessage,
   YoutubeIcon,
 } from '@/components'
+import SliceCakeIcon from '@/components/icons/SliceCakeIcon'
+import useDomainRequest from './hooks/useDomainRequest'
 
 const Domain = () => {
   const { domain } = useParams()
+  const { data: company } = useDomainRequest(domain, {
+    onSuccess: (data) => {
+      if (data.orders.length > 0) {
+        alert('주문서 도착!')
+      }
+    },
+  })
 
   return (
     <>
-      <ProfileImage
-        src="https://picsum.photos/seed/picsum/200/300"
-        alt="로고"
-        className="max-x-full"
-      />
+      <ProfileImage src={company?.profileImg} alt="로고" className="max-x-full" />
       <div className="flex flex-col items-center">
         {/* Title */}
-        <ProfileTitle>{domain}</ProfileTitle>
+        <ProfileTitle key={domain}>{company?.title}</ProfileTitle>
         {/* Description */}
         <ProfileDescription className="break-all">
           Make Cake For Family, Friends, Importatnt Peron
-          <b className="px-2 text-red-400">{domain}</b>
+          <b className="px-2 text-red-400">{company?.title}</b>
           Provide.
         </ProfileDescription>
         {/* Icons */}
@@ -44,22 +49,24 @@ const Domain = () => {
         />
         {/* 사장님 등록 */}
         <TitleMessage
-          title="주문제작 케이크를 제작 하고 싶으세요?"
-          messages={[
-            <div className="w-full max-w-sm cursor-pointer rounded-lg border py-4 px-3 text-sm font-thin hover:bg-gray-300">
-              기본 주문제작 폼📝
-            </div>,
-            <div className="mt-2 w-full max-w-sm cursor-pointer rounded-lg border py-4 px-3 text-sm font-thin hover:bg-gray-300">
-              특별 주문제작 폼📝
-            </div>,
-          ]}
+          title=""
+          messages={
+            company?.templates.map((template) => (
+              <Link to={`order/${template.id}`} className="mt-2">
+                <div className="flex w-full max-w-sm cursor-pointer items-center gap-2 rounded-2xl border border-brand-300 py-4 px-3 text-sm font-semibold  text-brand-500 hover:bg-brand-100">
+                  <SliceCakeIcon />
+                  {template.title}
+                </div>
+              </Link>
+            )) ?? []
+          }
         />
         {/* 리뷰 */}
         <TitleMessage
           className="mt-2 mb-4"
           title="리뷰 확인"
           messages={[
-            <div className="flex max-h-[250px] min-h-[100px] w-full flex-col gap-y-3 overflow-y-scroll rounded-lg border p-5">
+            <div className="flex max-h-[250px] min-h-[100px] w-full flex-col gap-y-3 overflow-y-scroll rounded-lg border border-brand-300 p-5">
               <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
               <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
               <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
@@ -74,7 +81,7 @@ const Domain = () => {
           <Link to="templates">
             <button
               type="button"
-              className="w-full rounded-xl bg-blue-500 py-3 font-light text-white hover:bg-blue-400"
+              className="w-full rounded-xl bg-point-700 py-3 font-light text-white hover:bg-point-500"
             >
               주문 폼 관리 하기
             </button>

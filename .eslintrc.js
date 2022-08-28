@@ -16,6 +16,10 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'import'],
   rules: {
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: true, optionalDependencies: false, peerDependencies: false },
+    ],
     'import/no-unresolved': 'error',
     'consistent-return': [0],
     'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],

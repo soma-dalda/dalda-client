@@ -3,20 +3,20 @@ export type QuestionOption = {
   question: string
   detailType: 'singleObjective' | 'multiObjective'
   options: string[]
-  images: string[]
+  images?: string[]
 }
 
 export type QuestionDescription = {
   type: 'description'
   question: string
   detailType: 'shortSubjective' | 'longSubjective'
-  images: string[]
+  images?: string[]
 }
 
 export type Question = QuestionOption | QuestionDescription
 
 export type TemplateState = {
   title: string
-  id?: string
+  id: string
   content: Question[]
 }

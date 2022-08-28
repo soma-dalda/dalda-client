@@ -13,6 +13,7 @@ const EditProfile = () => {
   const [domain, , onChangeDomain] = useInput()
   const [name, , onChangeName] = useInput()
   const [instagram, , onChangeInstagram] = useInput()
+  const [location, , onChnageLocation] = useInput()
   const [description, , onChangeDescription] = useInput()
   const [openChat, , onChangeOpenChat] = useInput()
   const { handleAddLink, link, links, onChangeLink, handleDeleteLink } = useAddLinks({})
@@ -34,6 +35,12 @@ const EditProfile = () => {
             onChange={onChangeName}
           />
           <FormDescription label="가게 설명" value={description} onChange={onChangeDescription} />
+          <FormInputBase
+            label="위치정보"
+            helper="가게의 위치를 작성 해주세요 :)"
+            value={location}
+            onChange={onChnageLocation}
+          />
           <FormInputBase
             label="도메인"
             helper={`https://dalda.shop/${domain}`}

@@ -1,5 +1,6 @@
 import React from 'react'
 import useDescriptionQuestion from '../hooks/useDescriptionQuestion'
+import QuestionDeleteButton from './QuestionDeleteButton'
 // import QuestionDeleteButton from './QuestionDeleteButton'
 
 type Props = {
@@ -8,8 +9,12 @@ type Props = {
 }
 
 const TemplateDescriptionQuestion = ({ id, index }: Props) => {
-  const { descriptionQuestion, handleChangeQuestionTitle, handleCheckboxChange } =
-    useDescriptionQuestion({ index, id })
+  const {
+    descriptionQuestion,
+    handleChangeQuestionTitle,
+    handleCheckboxChange,
+    handleDeleteButtonClick,
+  } = useDescriptionQuestion({ index, id })
 
   return (
     <section className="mt-8 flex w-full flex-col">
@@ -17,7 +22,7 @@ const TemplateDescriptionQuestion = ({ id, index }: Props) => {
       <div className="w-full rounded-xl border bg-white">
         <form className="relative flex w-full flex-col gap-6 p-3">
           {/* 질문 삭제 버튼 */}
-          {/* <QuestionDeleteButton onClick={() => handleDeleteButtonClick(index)} /> */}
+          <QuestionDeleteButton onClick={handleDeleteButtonClick} />
           {/* 입력사항 타이틀 */}
           <input
             className="w-[90%] border-b p-2"

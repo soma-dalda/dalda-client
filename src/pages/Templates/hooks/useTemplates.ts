@@ -1,15 +1,22 @@
-import { addTemplate, deleteTemplate } from '@/pages/Template/slice/templateSlice'
+import { addTemplate, deleteTemplate, getTemplates } from '@/pages/Template/slice/templateSlice'
 import { useAppSelector, useAppDispatch } from '@/store/config'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import useTemplatesRequest from './useTemplatesRequest'
 
 const useTemplates = () => {
   const { domain } = useParams()
   const templates = useAppSelector((state) => state.template)
   const dispatch = useAppDispatch()
-
   const navigate = useNavigate()
   const [templateId, setTemplateId] = useState('')
+  const { data: templateData, ...rest } = useTemplatesRequest(domain)
+
+  useEffect(() => {
+    if (templateData) {
+      dispatch(getTemplates(templateData))
+    }
+  }, [templateData])
 
   const handleAddTemplateClick = useCallback(() => {
     const uuid =
@@ -44,6 +51,7 @@ const useTemplates = () => {
     handleClickDeleteButton,
     handleUpdateTempalateClick,
     handleAddTemplateClick,
+    ...rest,
   }
 }
 

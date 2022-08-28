@@ -7,6 +7,7 @@ import TemplateDescriptionQuestion from './components/TemplateDescriptionQuestio
 import TemplateHeader from './components/TemplateHeader'
 import TemplateHeaderInput from './components/TemplateHeaderInput'
 import TemplateOptionQuestion from './components/TemplateOptionQuestion'
+import usePostTemplateRequest from './hooks/usePostTemplateRequest'
 import { addQuestion, updateTitle } from './slice/templateSlice'
 import { Question } from './types'
 
@@ -29,6 +30,8 @@ const Template = () => {
   const templates = useAppSelector((state) => state.template)
   const template = templates.find((v) => v.id === id)
   const dispatch = useAppDispatch()
+  const { domain } = useParams()
+  const { mutate } = usePostTemplateRequest()
 
   if (!id) {
     return null
@@ -48,13 +51,17 @@ const Template = () => {
     [id]
   )
 
-  console.log(template)
+  const handleSaveButton = useCallback(() => {
+    if (template && domain) {
+      mutate({ domain, template })
+    }
+  }, [template, domain])
 
   return (
     <div className="relative flex min-h-screen w-full flex-col justify-between pt-4">
       <main className="px-2">
         {/* 주문서 헤더 */}
-        <TemplateHeader>{template?.title}</TemplateHeader>
+        <TemplateHeader onClickSaveButton={handleSaveButton}>{template?.title}</TemplateHeader>
         {/* 주문서 이름 작성 */}
         <TemplateHeaderInput
           value={template?.title}
