@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/config'
+import { Question } from '@/type'
 import React, { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -9,7 +10,6 @@ import TemplateHeaderInput from './components/TemplateHeaderInput'
 import TemplateOptionQuestion from './components/TemplateOptionQuestion'
 import usePostTemplateRequest from './hooks/usePostTemplateRequest'
 import { addQuestion, updateTitle } from './slice/templateSlice'
-import { Question } from './types'
 
 const Questions = React.memo(({ content, id }: { content: Question[]; id: string }) => {
   return (

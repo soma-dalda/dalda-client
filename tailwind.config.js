@@ -59,6 +59,10 @@ module.exports = {
           500: '#687BCA',
           700: '#354898',
         },
+        background: {
+          light: '#FAFAFB',
+          dark: '#F2F3F5',
+        },
         grayScale: {
           100: '#F7F8F9',
           200: '#E8EBED',

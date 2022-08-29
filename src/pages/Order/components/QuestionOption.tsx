@@ -1,15 +1,15 @@
 import React from 'react'
+import QuestionLayout from './QuestionLayout'
 
 type Props = {
-  questionTitle: string
-  options?: string[]
+  questionTitle?: string
+  options?: string[] | null
   handleChangeOption: React.ChangeEventHandler<HTMLInputElement>
 }
 
 const QuestionOption = ({ questionTitle, options, handleChangeOption }: Props) => {
   return (
-    <div className="mt-10 flex flex-col gap-4">
-      <h2 className="mb-20 text-xl font-semibold">{questionTitle}</h2>
+    <QuestionLayout title={questionTitle}>
       {options?.map((option, index) => (
         <label
           key={`option-${+index}`}
@@ -18,7 +18,7 @@ const QuestionOption = ({ questionTitle, options, handleChangeOption }: Props) =
         >
           <div className="flex gap-3">
             <input
-              name="form"
+              name={questionTitle}
               type="radio"
               id={`option-${+index}`}
               value={option}
@@ -28,7 +28,7 @@ const QuestionOption = ({ questionTitle, options, handleChangeOption }: Props) =
           </div>
         </label>
       ))}
-    </div>
+    </QuestionLayout>
   )
 }
 

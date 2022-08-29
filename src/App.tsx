@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Domain from './pages/Domain'
 import Home from './pages/Home'
@@ -8,6 +8,7 @@ import EditForm from './pages/EditForm'
 import Template from './pages/Template'
 import Templates from './pages/Templates'
 import Order from './pages/Order'
+import TemplatesSkeleton from './pages/Template/components/TemplatesSkeleton'
 
 const App = () => {
   return (
@@ -17,11 +18,18 @@ const App = () => {
         <Route element={<EditFormLayout />} path="edit">
           <Route element={<EditForm />} path="" />
         </Route>
-        <Route element={<Domain />} path=":domain" />
       </Route>
+      <Route element={<Domain />} path=":domain" />
       <Route element={<Layout outlet navigateion={false} />} path="/">
         <Route element={<Order />} path=":domain/order/:id" />
-        <Route element={<Templates />} path=":domain/templates" />
+        <Route
+          element={
+            <Suspense fallback={<TemplatesSkeleton />}>
+              <Templates />
+            </Suspense>
+          }
+          path=":domain/templates"
+        />
         <Route element={<Template />} path=":domain/templates/:id" />
       </Route>
     </Routes>

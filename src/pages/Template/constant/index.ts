@@ -1,21 +1,22 @@
-import { TemplateState, QuestionOption, QuestionDescription } from '../types'
+import { OptionQuestion, Template, DescriptionQuestion } from '@/type'
 
-export const initialTemplate: TemplateState = {
+export const initialTemplate: Template = {
   title: '',
   id: '0',
   content: [],
 }
 
-export const initalOptionQuestion: QuestionOption = {
+export const initalOptionQuestion: OptionQuestion = {
   type: 'option',
   question: '',
   detailType: 'multiObjective',
   options: [],
   images: [],
 }
-export const initalDescriptionQuestion: QuestionDescription = {
+export const initalDescriptionQuestion: DescriptionQuestion = {
   type: 'description',
-  question: '',
   detailType: 'longSubjective',
+  question: '',
+  options: null,
   images: [],
 }
