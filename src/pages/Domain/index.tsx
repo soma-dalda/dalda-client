@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Layout, Navigation } from '@/components'
 
+import { useAppDispatch } from '@/store/config'
+import { useNavigate } from 'react-router-dom'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
 import DomainProfileImage from './components/DomainProfileImage'
 import DomainProfileTitle from './components/DomainProfileTitle'
@@ -10,15 +12,28 @@ import DomainProfileIcons from './components/DomainProfileIcons'
 import DomainProfileHours from './components/DomainProfileHours'
 import useGetTemplates from './hooks/useGetTemplates'
 import DomainTemplates from './components/DomainTemplates'
+import { updateError } from '../slice/errorSlice'
 
 const Domain = () => {
-  const { data: company } = useGetCompanyRequest()
-  const { data: templates } = useGetTemplates({ companyId: company?.id })
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(company)
-    console.log(templates)
-  }, [company, templates])
+  const { data: company } = useGetCompanyRequest({
+    onError: (err) => {
+      dispatch(updateError({ error: err.response?.data.error }))
+      navigate('/error')
+    },
+  })
+
+  const { data: templates } = useGetTemplates(
+    { companyId: company?.id },
+    {
+      onError: (err) => {
+        dispatch(updateError({ error: err.response?.data.error }))
+        navigate('/error')
+      },
+    }
+  )
 
   return (
     <Layout
