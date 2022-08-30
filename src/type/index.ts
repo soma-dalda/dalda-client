@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { QuestionType } from '@/pages/Templates/constant'
 
 export type Days = '월' | '화' | '수' | '목' | '금' | '토' | '일'
@@ -94,3 +95,5 @@ export type Order = {
 }
 
 export type Company = User
+
+export type RequestError = AxiosError<{ error: { message: string } }>

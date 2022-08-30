@@ -9,6 +9,8 @@ import Template from './pages/Template'
 import Templates from './pages/Templates'
 import Order from './pages/Order'
 import TemplatesSkeleton from './pages/Template/components/TemplatesSkeleton'
+import ErrorPage from './pages/404'
+import LoadingPage from './components/LoadingPage'
 
 const App = () => {
   return (
@@ -32,6 +34,8 @@ const App = () => {
         />
         <Route element={<Template />} path=":domain/templates/:id" />
       </Route>
+      <Route element={<ErrorPage />} path="/error" />
+      <Route element={<LoadingPage />} path="/loading" />
     </Routes>
   )
 }

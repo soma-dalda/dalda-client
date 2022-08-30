@@ -7,9 +7,8 @@ type GetCompanyAPIParmas = {
 }
 
 export const getCompany = async ({ companyDomain }: GetCompanyAPIParmas) => {
-  const { data } = await http.get<Company>(PATH.getCompany({ companyDomain }))
-
-  return data
+  const data = await http.get<Company>(PATH.getCompany({ companyDomain }))
+  return data.data
 }
 
 type GetTemplatesAPIParmas = {

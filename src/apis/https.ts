@@ -43,10 +43,10 @@ class Http {
 
     http.interceptors.request.use(injectJWToken, (error) => Promise.reject(error))
 
-    http.interceptors.response.use(
-      (response) => response,
-      (error) => error
-    )
+    // http.interceptors.response.use(
+    //   (response) => response,
+    //   (error) => error
+    // )
 
     this.instance = http
     return http

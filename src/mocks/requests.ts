@@ -15,7 +15,7 @@ type API = (
   req: RestRequest<never, PathParams<string>>,
   res: ResponseComposition<DefaultBodyType>,
   ctx: RestContext
-) => Promise<MockedResponse<DefaultBodyType>>
+) => Promise<MockedResponse<DefaultBodyType> | void>
 
 export const login: API = async (req, res, ctx) => {
   const token = req.headers.get('Authorization')
@@ -82,6 +82,8 @@ export const getCompany: API = async (req, res, ctx) => {
     if (data) {
       return res(ctx.status(200), ctx.json(data))
     }
+
+    // return res.networkError('Error Not find company')
 
     return res(ctx.status(403), ctx.json({ error: { message: 'Error Not find company' } }))
   }
