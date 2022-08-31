@@ -3,8 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Domain from './pages/Domain'
 import Home from './pages/Home'
 import { Layout } from './components'
-import EditFormLayout from './pages/EditForm/components/Layout'
-import EditForm from './pages/EditForm'
+import Edit from './pages/Edit'
 import Template from './pages/Template'
 import Templates from './pages/Templates'
 import Order from './pages/Order'
@@ -17,9 +16,6 @@ const App = () => {
     <Routes>
       <Route element={<Layout outlet />} path="/">
         <Route element={<Home />} path="" />
-        <Route element={<EditFormLayout />} path="edit">
-          <Route element={<EditForm />} path="" />
-        </Route>
       </Route>
       <Route element={<Domain />} path=":domain" />
       <Route element={<Layout outlet navigateion={false} />} path="/">
@@ -34,6 +30,8 @@ const App = () => {
         />
         <Route element={<Template />} path=":domain/templates/:id" />
       </Route>
+
+      <Route element={<Edit />} path="/edit" />
       <Route element={<ErrorPage />} path="/error" />
       <Route element={<LoadingPage />} path="/loading" />
     </Routes>

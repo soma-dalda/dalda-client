@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppSelector } from '@/store/config'
 
-import { Layout, Navigation } from '@/components'
+import { Layout } from '@/components'
 import IllustErrorIcon from '@/components/icons/IllustErrorIcon'
+import { Navigation } from '@/components/blocks'
 
 const ErrorPage = () => {
   const navigate = useNavigate()

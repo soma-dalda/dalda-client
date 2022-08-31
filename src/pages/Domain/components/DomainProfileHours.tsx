@@ -1,18 +1,11 @@
-import { User } from '@/type'
 import React, { PropsWithChildren } from 'react'
 
-type Props = {
-  businessHours?: User['businessHours']
-}
+type Props = JSX.IntrinsicElements['button']
 
-const DomainProfileHours = ({ businessHours, children }: PropsWithChildren<Props>) => {
+const DomainProfileHours = ({ children, ...props }: PropsWithChildren<Props>) => {
   return (
     <div className="mt-6 flex w-full justify-center border-y p-2 text-sm">
-      <button
-        type="button"
-        className="cursor-pointer text-grayScale-700"
-        onClick={() => console.log(businessHours)}
-      >
+      <button type="button" className="cursor-pointer text-grayScale-700" {...props}>
         {children}
       </button>
     </div>

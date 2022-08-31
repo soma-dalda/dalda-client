@@ -25,8 +25,8 @@ const DomainProfileIcons = ({ instagramLink, qnaLink, etcLinks }: Props) => {
         <div className="absolute left-[calc(100%+4px)] top-0 hidden w-[70px] animate-fade-in-down flex-col items-center justify-center gap-2 rounded-lg border bg-white p-3 text-xs opacity-95 group-hover:flex group-focus:flex group-active:flex">
           {etcLinks?.map((value) =>
             Object.keys(value).map((key) => (
-              <span>
-                <a className="w-fit" href={qnaLink ?? ''} target="_blank" rel="noreferrer">
+              <span key={value[key]}>
+                <a className="w-fit" href={value[key] ?? ''} target="_blank" rel="noreferrer">
                   {key}
                 </a>
               </span>

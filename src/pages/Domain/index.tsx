@@ -1,8 +1,8 @@
 import React from 'react'
-import { Layout, Navigation } from '@/components'
+import { Layout } from '@/components'
+import { Navigation } from '@/components/blocks'
 
-import { useAppDispatch } from '@/store/config'
-import { useNavigate } from 'react-router-dom'
+import useError from '@/hooks/useError'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
 import DomainProfileImage from './components/DomainProfileImage'
 import DomainProfileTitle from './components/DomainProfileTitle'
@@ -12,16 +12,13 @@ import DomainProfileIcons from './components/DomainProfileIcons'
 import DomainProfileHours from './components/DomainProfileHours'
 import useGetTemplates from './hooks/useGetTemplates'
 import DomainTemplates from './components/DomainTemplates'
-import { updateError } from '../slice/errorSlice'
 
 const Domain = () => {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const { dispatchUpdateError } = useError()
 
   const { data: company } = useGetCompanyRequest({
     onError: (err) => {
-      dispatch(updateError({ error: err.response?.data.error }))
-      navigate('/error')
+      dispatchUpdateError(err.response?.data.error.message)
     },
   })
 
@@ -29,8 +26,7 @@ const Domain = () => {
     { companyId: company?.id },
     {
       onError: (err) => {
-        dispatch(updateError({ error: err.response?.data.error }))
-        navigate('/error')
+        dispatchUpdateError(err.response?.data.error.message)
       },
     }
   )
@@ -58,7 +54,11 @@ const Domain = () => {
         instagramLink={company?.instagramLink}
         qnaLink={company?.qnaLink}
       />
-      <DomainProfileHours businessHours={company?.businessHours}>
+      <DomainProfileHours
+        onClick={() => {
+          console.log(company?.businessHours)
+        }}
+      >
         영업시간 확인하기
       </DomainProfileHours>
       <DomainTemplates templates={templates} />

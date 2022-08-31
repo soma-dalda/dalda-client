@@ -2,6 +2,8 @@ import { Template, Company, Templates } from '@/type'
 import { http } from './https'
 import { PATH } from './paths'
 
+// 입력, 출력에 대한 Type 추론
+
 type GetCompanyAPIParmas = {
   companyDomain?: string
 }

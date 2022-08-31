@@ -84,7 +84,7 @@ export const MOCK_COMPANY: Company = {
   profileImage: '/src/assets/logo.png',
   companyDomain: 'test',
   instagramLink: 'https://instagram.com',
-  qnaLink: '',
+  qnaLink: 'https://open.kakao.com/o/gSgY8Ove',
   etcLinks: [{ 블로그: 'https://velog.io', 트위터: 'https://twitter.com' }],
   businessHours: MOCK_HOURS,
   companyLocation: '서울시 강남구 압구정동 120-2',

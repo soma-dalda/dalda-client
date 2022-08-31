@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { Layout, Navigation } from '@/components'
+import { Layout } from '@/components'
 import LoadingIcon from '../icons/LoadingIcon'
+import { Navigation } from '../blocks'
 
 const LoadingPage = () => {
   return (
