@@ -1,12 +1,13 @@
 import { InstagramIcon } from '@/components'
 import InfoIcon from '@/components/icons/InfoIcon'
 import KakaoIcon from '@/components/icons/KakaoIcon'
+import { User } from '@/type'
 import React from 'react'
 
 type Props = {
   instagramLink?: string | null
   qnaLink?: string | null
-  etcLinks?: { [key: string]: string }[] | null
+  etcLinks?: User['etcLinks'] | null
 }
 
 const DomainProfileIcons = ({ instagramLink, qnaLink, etcLinks }: Props) => {
@@ -23,15 +24,13 @@ const DomainProfileIcons = ({ instagramLink, qnaLink, etcLinks }: Props) => {
       <span className="group relative" tabIndex={-1}>
         <InfoIcon className="cursor-pointer" />
         <div className="absolute left-[calc(100%+4px)] top-0 hidden w-[70px] animate-fade-in-down flex-col items-center justify-center gap-2 rounded-lg border bg-white p-3 text-xs opacity-95 group-hover:flex group-focus:flex group-active:flex">
-          {etcLinks?.map((value) =>
-            Object.keys(value).map((key) => (
-              <span key={value[key]}>
-                <a className="w-fit" href={value[key] ?? ''} target="_blank" rel="noreferrer">
-                  {key}
-                </a>
-              </span>
-            ))
-          )}
+          {etcLinks?.map(({ title, link }) => (
+            <span key={title}>
+              <a className="w-fit" href={link ?? ''} target="_blank" rel="noreferrer">
+                {title}
+              </a>
+            </span>
+          ))}
         </div>
       </span>
     </div>

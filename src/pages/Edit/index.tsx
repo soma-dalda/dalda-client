@@ -1,43 +1,47 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Layout } from '@/components'
 import { NavigationWithArrow } from '@/components/blocks'
-import ActiveButton from '@/components/atoms/ActiveButton'
+// import { User } from '@/type'
+import { Route, Routes, useParams } from 'react-router-dom'
+import ActiveLink from '@/components/atoms/ActiveLink'
 import EditDays from './components/blocks/EditDays'
 import EditProfile from './components/blocks/EditProfile'
 import FormNavigationWithDivider from './components/molecules/FormNavigationWithDivider'
+import CompanyEditContextProvider from './context/CompanyEditContextProvider'
+
+// type CompanyProfile = {
+//   companyName: string
+//   companyDomain: string
+//   companyIntroduction: string
+//   companyLocation: string
+//   instagramLink: string
+//   qnaLink: string
+//   etcLinks: {
+//     [key: string]: string
+//   }
+// }
 
 const Edit = () => {
-  const [editType, setEditType] = useState<'profile' | 'days'>('profile')
+  const params = useParams()
 
   return (
     <Layout navigateion={<NavigationWithArrow>프로필 설정</NavigationWithArrow>}>
       <FormNavigationWithDivider
         buttons={[
-          <ActiveButton
-            active={editType === 'profile'}
-            type="button"
-            onClick={() => setEditType((prev) => (prev === 'days' ? 'profile' : 'days'))}
-          >
+          <ActiveLink active={params['*'] === ''} type="button" to="">
             프로필
-          </ActiveButton>,
-          <ActiveButton
-            active={editType === 'days'}
-            type="button"
-            onClick={() => setEditType((prev) => (prev === 'days' ? 'profile' : 'days'))}
-          >
+          </ActiveLink>,
+          <ActiveLink active={params['*'] === 'days'} type="button" to="days">
             날짜
-          </ActiveButton>,
+          </ActiveLink>,
         ]}
       />
-      {editType === 'profile' ? (
-        <section className="w-full animate-fade-in-left">
-          <EditProfile />
-        </section>
-      ) : (
-        <section className="w-full animate-fade-in-right">
-          <EditDays />
-        </section>
-      )}
+      <CompanyEditContextProvider>
+        <Routes>
+          <Route path="" element={<EditProfile />} />
+          <Route path="days" element={<EditDays />} />
+        </Routes>
+      </CompanyEditContextProvider>
     </Layout>
   )
 }

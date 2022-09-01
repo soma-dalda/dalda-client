@@ -8,19 +8,21 @@ type UseAddLinks = {
 
 const useAddLinks = ({ onSuccess, onError }: UseAddLinks) => {
   const [link, setLink, onChangeLink] = useInput()
-  const [links, setLinks] = useState<string[]>([])
+  const [title, setTitle, onChangeTitle] = useInput()
+  const [links, setLinks] = useState<{ title: string; link: string }[]>([])
 
   const handleAddLink = useCallback(() => {
     if (link.replace(/^\s+|\s+$/g, '') !== '') {
-      setLinks((prev) => [...prev, link])
+      setLinks((prev) => [...prev, { title, link }])
       setLink('')
+      setTitle('')
       if (onSuccess) {
         onSuccess(link)
       }
     } else if (onError) {
       onError(link)
     }
-  }, [link])
+  }, [link, title])
 
   const handleDeleteLink = useCallback(
     (index: number) => () => {
@@ -29,7 +31,16 @@ const useAddLinks = ({ onSuccess, onError }: UseAddLinks) => {
     []
   )
 
-  return { link, onChangeLink, links, handleAddLink, handleDeleteLink }
+  return {
+    link,
+    onChangeLink,
+    links,
+    handleAddLink,
+    handleDeleteLink,
+    title,
+    setTitle,
+    onChangeTitle,
+  }
 }
 
 export default useAddLinks

@@ -31,7 +31,7 @@ const App = () => {
         <Route element={<Template />} path=":domain/templates/:id" />
       </Route>
 
-      <Route element={<Edit />} path="/edit" />
+      <Route element={<Edit />} path="/edit/*" />
       <Route element={<ErrorPage />} path="/error" />
       <Route element={<LoadingPage />} path="/loading" />
     </Routes>

@@ -26,7 +26,12 @@ export type User = {
   profileImage: string | null
   qnaLink: string | null
   instagramLink: string | null
-  etcLinks: { [key: string]: string }[] | null
+  etcLinks:
+    | {
+        title: string
+        link: string
+      }[]
+    | null
   createdAt: string
   modifiedAt: string
   latestAt: string

@@ -17,23 +17,39 @@ const FormDay = ({
   children,
 }: PropsWithChildren<Props>) => {
   return (
-    <label htmlFor={id} className="flex w-full items-center gap-1">
+    <div className="flex w-full items-center gap-1">
       <span className="p-2 text-sm text-gray-500">{children}</span>
-      <input
-        id={id}
-        className="w-full rounded-xl border bg-gray-50 p-2"
-        type="time"
-        value={openValue}
-        onChange={onChangeOpenValue}
-      />
-      <input
-        id={id}
-        className="w-full rounded-xl border bg-gray-50 p-2"
-        type="time"
-        value={endValue}
-        onChange={onChangeEndValue}
-      />
-    </label>
+      <label htmlFor={`${id}open`} className="relative w-full">
+        <input
+          id={`${id}open`}
+          className="w-full rounded-xl border bg-white p-2"
+          value={openValue}
+          type="number"
+          max={24}
+          min={0}
+          onChange={onChangeOpenValue}
+        />
+        <span className="absolute left-[1px] top-[1px] flex items-center p-2">
+          <span className="z-0 opacity-0">{openValue}</span>
+          <span>:00</span>
+        </span>
+      </label>
+      <label htmlFor={`${id}end`} className="relative w-full">
+        <input
+          id={`${id}end`}
+          className="w-full rounded-xl border bg-white p-2"
+          value={endValue}
+          type="number"
+          max={24}
+          min={0}
+          onChange={onChangeEndValue}
+        />
+        <span className="absolute left-[1px] top-[1px] flex items-center p-2">
+          <span className="z-0 opacity-0">{endValue}</span>
+          <span>:00</span>
+        </span>
+      </label>
+    </div>
   )
 }
 
