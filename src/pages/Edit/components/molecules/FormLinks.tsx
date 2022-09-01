@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormControl, FormLabel, FormInput } from '@/components/compounds/Form/components'
+import CancleButton from '@/components/atoms/CancleButton'
 
 type Props = {
   link: string
@@ -17,13 +18,7 @@ const FormLinks = ({ link, onChangeLink, links, handleAddLink, handleDeleteLink 
           <FormLabel>링크 ✓</FormLabel>
           <FormInput className="w-full" value={value} />
           <div className="flex w-full justify-end">
-            <button
-              type="button"
-              onClick={handleDeleteLink(index)}
-              className="absolute -right-3 top-3 flex h-2 w-2 items-center justify-center rounded-full bg-black p-3 font-bold text-white"
-            >
-              &times;
-            </button>
+            <CancleButton onClick={handleDeleteLink(index)} />
           </div>
         </FormControl>
       ))}
