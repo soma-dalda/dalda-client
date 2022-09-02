@@ -63,9 +63,19 @@ export const putUserById: API = async (req, res, ctx) => {
   if (user) {
     const index = db.users.findIndex((u) => u.id === userId)
     if (index > -1) {
+      const indexByDomain = db.users.findIndex((u) => u.companyDomain === user.companyDomain)
+      if (indexByDomain > -1) {
+        if (indexByDomain !== index) {
+          return res(ctx.status(403), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
+        }
+      }
       user.role = 'company'
-      db.users[index] = user
-      return res(ctx.status(200))
+      db.users[index] = {
+        ...db.users[index],
+        ...user,
+      }
+
+      return res(ctx.status(200), ctx.delay(1200), ctx.json(db.users[index]))
     }
     return res(ctx.status(403), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
   }

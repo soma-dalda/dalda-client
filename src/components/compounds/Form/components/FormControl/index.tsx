@@ -24,13 +24,19 @@ const FormControl = <E extends React.ElementType = 'form'>({
   isDisabled,
   isInvalid,
   isRequired,
+  isError,
   children,
   as,
   ...props
 }: FormControlProps<E>) => {
   const Component = useMemo(() => as ?? 'form', [])
   return (
-    <FormContextProvider isInvalid={isInvalid} isRequired={isRequired} isDisabled={isDisabled}>
+    <FormContextProvider
+      isError={isError}
+      isInvalid={isInvalid}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    >
       <Component {...props}>{children}</Component>
     </FormContextProvider>
   )

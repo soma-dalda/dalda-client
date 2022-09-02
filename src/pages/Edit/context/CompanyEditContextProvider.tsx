@@ -1,7 +1,8 @@
+import React, { createContext, PropsWithChildren, useCallback, useMemo } from 'react'
+import { Updater, useImmer } from 'use-immer'
+
 import { User } from '@/type'
-import React, { createContext, PropsWithChildren, useCallback, useEffect, useMemo } from 'react'
-import { useImmer } from 'use-immer'
-import { getDay } from '../utils'
+import { getDay, validateBlank } from '../utils'
 
 type ComapnyKeys =
   | 'id'
@@ -20,23 +21,25 @@ type Company = {
   [key in keyof CompanyPick]: CompanyPick[key]
 }
 
-type CompanyEditContextValue = Company
+type CompanyEditContextValue = Company & { error?: ComapnyKeys | null }
 type CompanyEditContextAction = {
   handleChangeDomain: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleChangeName: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleChangeInstagram: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleChangeLocation: (e: React.ChangeEvent<HTMLInputElement>) => void
-  handleChangeIntroduction: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleChangeIntroduction: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
   handleChangeQnaLink: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleChangeLink: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleOpenChange: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
   handleEndChange: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleUpdateError: (key?: ComapnyKeys | null) => void
   addEtcLinks: () => void
   deleteEtcLink: (index: number) => () => void
+  setCompany: Updater<Company>
 }
 
-const initialValue = {
+const initialValue: CompanyEditContextValue = {
   businessHours: {
     월: { open: '0', end: '0' },
     화: { open: '0', end: '0' },
@@ -68,12 +71,14 @@ export const CompanyEditActionContext = createContext<CompanyEditContextAction>(
   handleChangeTitle: () => {},
   handleEndChange: () => () => {},
   handleOpenChange: () => () => {},
+  handleUpdateError: () => {},
   addEtcLinks: () => {},
   deleteEtcLink: () => () => {},
+  setCompany: () => {},
 })
 
 const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
-  const [company, setCompany] = useImmer<Company>({ ...initialValue })
+  const [company, setCompany] = useImmer<CompanyEditContextValue>({ ...initialValue })
 
   const handleChangeDomain = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCompany((draft) => {
@@ -99,7 +104,7 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
     })
   }, [])
 
-  const handleChangeIntroduction = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeIntroduction = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCompany((draft) => {
       draft.companyIntroduction = e.target.value
     })
@@ -161,6 +166,9 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
 
   const handleEndChange = useCallback(
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!validateBlank(e.target.value)) {
+        return
+      }
       setCompany((draft) => {
         if (+e.target.value <= 24 && +e.target.value >= 0) {
           if (draft.businessHours) {
@@ -172,9 +180,11 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
     []
   )
 
-  useEffect(() => {
-    console.log(company)
-  }, [company])
+  const handleUpdateError = useCallback((key?: ComapnyKeys | null) => {
+    setCompany((draft) => {
+      draft.error = key
+    })
+  }, [])
 
   const value = useMemo(() => company, [company])
   const action = useMemo(
@@ -188,9 +198,11 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       handleChangeLink,
       handleChangeTitle,
       handleOpenChange,
+      handleUpdateError,
       handleEndChange,
       addEtcLinks,
       deleteEtcLink,
+      setCompany,
     }),
     [
       handleChangeDomain,
@@ -198,6 +210,7 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       handleChangeInstagram,
       handleChangeLocation,
       handleChangeIntroduction,
+      handleUpdateError,
       handleChangeQnaLink,
       handleChangeLink,
       handleChangeTitle,
@@ -205,6 +218,7 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       handleEndChange,
       addEtcLinks,
       deleteEtcLink,
+      setCompany,
     ]
   )
 

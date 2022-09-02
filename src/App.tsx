@@ -17,7 +17,6 @@ const App = () => {
       <Route element={<Layout outlet />} path="/">
         <Route element={<Home />} path="" />
       </Route>
-      <Route element={<Domain />} path=":domain" />
       <Route element={<Layout outlet navigateion={false} />} path="/">
         <Route element={<Order />} path=":domain/order/:id" />
         <Route
@@ -30,8 +29,10 @@ const App = () => {
         />
         <Route element={<Template />} path=":domain/templates/:id" />
       </Route>
-
-      <Route element={<Edit />} path="/edit/*" />
+      <Route path="">
+        <Route element={<Domain />} path=":domain" />
+        <Route element={<Edit />} path=":domain/edit/*" />
+      </Route>
       <Route element={<ErrorPage />} path="/error" />
       <Route element={<LoadingPage />} path="/loading" />
     </Routes>

@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom'
 type Props = {
   save?: boolean
   onClickSaveButton?: () => void
+  isLoading?: boolean
 }
 
 const NavigationWithArrow = ({
   children,
   onClickSaveButton,
   save = true,
+  isLoading,
 }: PropsWithChildren<Props>) => {
   const navigate = useNavigate()
   return (
@@ -20,8 +22,15 @@ const NavigationWithArrow = ({
         <div className="font-bold">{children}</div>
       </div>
       {save && (
-        <button type="button" onClick={onClickSaveButton} className="cursor-pointer text-brand-500">
-          저장
+        <button
+          type="button"
+          onClick={onClickSaveButton}
+          disabled={isLoading}
+          className={`cursor-pointer ${
+            isLoading ? 'cursor-not-allowed text-grayScale-400' : 'text-brand-500'
+          }`}
+        >
+          {isLoading ? '진행중' : '저장'}
         </button>
       )}
     </nav>

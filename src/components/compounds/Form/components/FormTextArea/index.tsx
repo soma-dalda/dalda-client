@@ -6,7 +6,7 @@ const FormTextarea = forwardRef<
   HTMLTextAreaElement,
   React.TextareaHTMLAttributes<HTMLTextAreaElement>
 >(({ value, className, ...props }, ref) => {
-  const { isInvalid, isRequired, isDisabled } = useFormContext()
+  const { isInvalid, isRequired, isDisabled, isError } = useFormContext()
 
   return (
     <textarea
@@ -16,7 +16,7 @@ const FormTextarea = forwardRef<
       disabled={isDisabled}
       required={isRequired}
       className={`"block w-full rounded-xl border border-border-400 bg-white p-2 text-sm text-gray-900 ${getStyleByProps(
-        { isInvalid, isRequired, isDisabled }
+        { isInvalid, isRequired, isDisabled, isError }
       )} ${className}`}
       {...props}
     />

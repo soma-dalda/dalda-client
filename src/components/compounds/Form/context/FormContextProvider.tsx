@@ -10,14 +10,16 @@ const FormContextProvider = ({
   isInvalid,
   isRequired,
   isDisabled,
+  isError,
 }: PropsWithChildren<FormProviderProps>) => {
   const providerProps: FormContext = useMemo(
     () => ({
       isInvalid,
       isRequired,
+      isError,
       isDisabled,
     }),
-    [isInvalid, isRequired, isDisabled]
+    [isInvalid, isRequired, isDisabled, isError]
   )
 
   return <FormContextAPI.Provider value={providerProps}>{children}</FormContextAPI.Provider>

@@ -4,9 +4,9 @@ import { FormControl, FormLabel, FormTextArea } from '@/components/compounds/For
 
 import { FormBaseProps } from '../../types'
 
-const FormDescription = ({ label, value, onChange }: FormBaseProps) => {
+const FormDescription = ({ label, value, isError, onChange }: FormBaseProps) => {
   return (
-    <FormControl as="div" isRequired>
+    <FormControl isError={isError} as="div" isRequired>
       <FormLabel>{label}</FormLabel>
       <FormTextArea
         value={value}

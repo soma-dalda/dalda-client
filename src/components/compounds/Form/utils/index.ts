@@ -34,6 +34,16 @@ export const getHelperColorByVariant = (variant?: 'success' | 'error' | 'normal'
   return 'text-gray-500'
 }
 
-export const getStyleByProps = ({ isDisabled, isInvalid }: FormProviderProps) => {
-  return `${clsx(getBorderColor(isInvalid), getDisabledStyle(isDisabled))}`
+export const getStyleByError = (error?: boolean) => {
+  if (error) {
+    return 'border-danger-500'
+  }
+}
+
+export const getStyleByProps = ({ isDisabled, isInvalid, isError }: FormProviderProps) => {
+  return `${clsx(
+    getBorderColor(isInvalid),
+    getDisabledStyle(isDisabled),
+    getStyleByError(isError)
+  )}`
 }

@@ -1,6 +1,8 @@
 import React from 'react'
-import { FormControl, FormLabel, FormInput } from '@/components/compounds/Form/components'
+
 import CancleButton from '@/components/atoms/CancleButton'
+import { FormControl, FormLabel, FormInput } from '@/components/compounds/Form/components'
+
 import useCompanyEditValue from '../../hooks/useCompanyEditValue'
 import useCompanyEditAction from '../../hooks/useCompanyEditAction'
 

@@ -6,7 +6,7 @@ import React, { forwardRef } from 'react'
 
 const FormInput = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   ({ value, className, ...props }, ref) => {
-    const { isInvalid, isRequired, isDisabled } = useFormContext()
+    const { isInvalid, isRequired, isDisabled, isError } = useFormContext()
     return (
       <Input
         value={value}
@@ -14,7 +14,7 @@ const FormInput = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInp
         aria-invalid={isInvalid}
         disabled={isDisabled}
         required={isRequired}
-        className={clsx(getStyleByProps({ isInvalid, isDisabled }), className)}
+        className={clsx(getStyleByProps({ isInvalid, isDisabled, isError }), className)}
         {...props}
       />
     )

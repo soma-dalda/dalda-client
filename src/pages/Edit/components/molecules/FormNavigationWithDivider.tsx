@@ -6,7 +6,6 @@ type Props = {
 }
 
 const FormNavigationWithDivider = ({ buttons, divider = true }: Props) => {
-  console.log(buttons)
   return (
     <div className="my-6 flex w-full items-center justify-start gap-2 border-b p-3 px-2 text-sm">
       {buttons.map((button, i) => (

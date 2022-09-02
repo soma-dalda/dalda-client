@@ -16,6 +16,7 @@ const EditProfile = () => {
     companyName,
     instagramLink,
     qnaLink,
+    error,
   } = useCompanyEditValue()
 
   const {
@@ -33,18 +34,21 @@ const EditProfile = () => {
         <FormControl as="form" className="flex w-full shrink-0 flex-col gap-6 p-2">
           <FormInputBase
             isRequired
+            isError={error === 'companyName'}
             label="상호명"
             helper="프로필에 보여줄 가게명을 입력해주세요 :)"
             value={companyName ?? ''}
             onChange={handleChangeName}
           />
           <FormDescription
+            isError={error === 'companyIntroduction'}
             label="가게 설명"
             value={companyIntroduction ?? ''}
             onChange={handleChangeIntroduction}
           />
           <FormInputBase
             isRequired
+            isError={error === 'companyLocation'}
             label="위치정보"
             helper="가게의 위치를 작성 해주세요 :)"
             value={companyLocation ?? ''}
@@ -52,6 +56,7 @@ const EditProfile = () => {
           />
           <FormInputBase
             isRequired
+            isError={error === 'companyDomain'}
             label="도메인"
             helper={`https://dalda.shop/${companyDomain}`}
             value={companyDomain ?? ''}

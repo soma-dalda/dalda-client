@@ -1,4 +1,4 @@
-import { Template, Company, Templates } from '@/type'
+import { Template, Company, Templates, User } from '@/type'
 import { http } from './https'
 import { PATH } from './paths'
 
@@ -41,5 +41,15 @@ type PostOrderAPIParmas = {
 
 export const postOrder = async (order: PostOrderAPIParmas) => {
   const data = await http.post(PATH.postOrders(), { ...order })
+  return data
+}
+
+type PutUserAPIParams = {
+  [key in keyof User]?: User[key]
+}
+
+export const putUser = async (user: PutUserAPIParams) => {
+  const data = await http.put(PATH.putUser({ userId: user.id }), { ...user })
+
   return data
 }

@@ -14,12 +14,17 @@ const FormInputBase = ({
   value,
   onChange,
   helper,
+  isError,
   isDisabled,
   isInvalid,
   isRequired,
 }: FormBaseProps & { helper?: string }) => {
   return (
-    <FormControl as="div" className="flex flex-col" {...{ isDisabled, isInvalid, isRequired }}>
+    <FormControl
+      as="div"
+      className="flex flex-col"
+      {...{ isDisabled, isInvalid, isRequired, isError }}
+    >
       <FormLabel className="mb-2">{label}</FormLabel>
       <FormInput className="w-full" value={value} onChange={onChange} />
       <FormHelper variant="normal">{helper}</FormHelper>
