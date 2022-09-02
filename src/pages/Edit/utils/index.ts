@@ -1,4 +1,4 @@
-export const DAYS = ['월', '화', '수', '목', '금', '토', '일']
+export const DAYS = ['월', '화', '수', '목', '금', '토', '일'] as const
 
 export const getDay = (num: number) => {
   const day = ['월', '화', '수', '목', '금', '토', '일'] as const

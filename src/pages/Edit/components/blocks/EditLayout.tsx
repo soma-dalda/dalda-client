@@ -8,12 +8,25 @@ import FormNavigationWithDivider from '../molecules/FormNavigationWithDivider'
 
 const EditLayout = ({ children }: PropsWithChildren) => {
   const params = useParams()
-  const { handleSaveButtonClick, isLoading } = useCompany()
+  const { isLoading } = useCompany()
 
   return (
     <Layout
       navigateion={
-        <NavigationWithArrow isLoading={isLoading} onClickSaveButton={handleSaveButtonClick}>
+        <NavigationWithArrow
+          button={
+            <button
+              form="profile"
+              type="submit"
+              disabled={isLoading}
+              className={`cursor-pointer ${
+                isLoading ? 'cursor-not-allowed text-grayScale-400' : 'text-brand-500'
+              }`}
+            >
+              {isLoading ? '진행중' : '저장'}
+            </button>
+          }
+        >
           프로필 설정
         </NavigationWithArrow>
       }

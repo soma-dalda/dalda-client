@@ -3,13 +3,19 @@ import { FormDay } from '@/components/compounds/Form/components'
 import { DAYS, getDay } from '../../utils'
 import useCompanyEditValue from '../../hooks/useCompanyEditValue'
 import useCompanyEditAction from '../../hooks/useCompanyEditAction'
+import useCompany from '../../hooks/useCompany'
 
 const EditDays = () => {
   const { businessHours } = useCompanyEditValue()
   const { handleOpenChange, handleEndChange } = useCompanyEditAction()
+  const { handleSaveButtonClick } = useCompany()
 
   return (
-    <div className="mt-2 grid w-full animate-fade-in-left grid-cols-1 gap-2 p-2">
+    <form
+      onSubmit={handleSaveButtonClick}
+      id="profile"
+      className="mt-2 grid w-full animate-fade-in-left grid-cols-1 gap-2 p-2"
+    >
       <div className="grid grid-cols-2 gap-2 text-sm text-gray-500">
         <span className="flex justify-center">오픈</span>
         <span className="flex justify-center">마감</span>
@@ -26,7 +32,7 @@ const EditDays = () => {
           {DAY}
         </FormDay>
       ))}
-    </div>
+    </form>
   )
 }
 

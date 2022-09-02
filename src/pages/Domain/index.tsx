@@ -3,15 +3,17 @@ import { Layout } from '@/components'
 import { Navigation } from '@/components/blocks'
 
 import useError from '@/hooks/useError'
+import { useModal } from '@jaewoong2/modal'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
-import DomainProfileImage from './components/DomainProfileImage'
-import DomainProfileTitle from './components/DomainProfileTitle'
-import DomainProfileDescription from './components/DomainProfileDescription'
-import DomainProfileLocation from './components/DomainProfileLocation'
-import DomainProfileIcons from './components/DomainProfileIcons'
-import DomainProfileHours from './components/DomainProfileHours'
+import DomainProfileImage from './components/atoms/DomainProfileImage'
+import DomainProfileTitle from './components/atoms/DomainProfileTitle'
+import DomainProfileDescription from './components/atoms/DomainProfileDescription'
+import DomainProfileLocation from './components/atoms/DomainProfileLocation'
+import DomainProfileIcons from './components/atoms/DomainProfileIcons'
+import DomainProfileHours from './components/atoms/DomainProfileHours'
 import useGetTemplates from './hooks/useGetTemplates'
-import DomainTemplates from './components/DomainTemplates'
+import DomainTemplates from './components/atoms/DomainTemplates'
+import BusinessHourMessage from './components/atoms/BusinessHourMessage'
 
 const Domain = () => {
   const { dispatchUpdateError } = useError()
@@ -30,6 +32,18 @@ const Domain = () => {
       },
     }
   )
+
+  const { show, hide } = useModal('text', {
+    header: null,
+    description: null,
+    modalWidth: '300px',
+    message: <BusinessHourMessage businessHours={company?.businessHours} />,
+    buttonText: '확인',
+    buttonType: 'normal',
+    onClickButton: () => {
+      hide()
+    },
+  })
 
   return (
     <Layout
@@ -54,13 +68,7 @@ const Domain = () => {
         instagramLink={company?.instagramLink}
         qnaLink={company?.qnaLink}
       />
-      <DomainProfileHours
-        onClick={() => {
-          console.log(company?.businessHours)
-        }}
-      >
-        영업시간 확인하기
-      </DomainProfileHours>
+      <DomainProfileHours onClick={show}>영업시간 확인하기</DomainProfileHours>
       <DomainTemplates templates={templates} />
     </Layout>
   )

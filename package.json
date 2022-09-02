@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@jaewoong2/modal": "^0.1.6",
     "@reduxjs/toolkit": "^1.8.5",
     "@types/redux-logger": "^3.0.9",
     "@vitejs/plugin-react": "^2.0.0",

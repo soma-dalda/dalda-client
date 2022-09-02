@@ -7,6 +7,8 @@ import FormLink from '../molecules/FormLink'
 import useCompanyEditValue from '../../hooks/useCompanyEditValue'
 import useCompanyEditAction from '../../hooks/useCompanyEditAction'
 import EditEtcLinks from './EditEtcLinks'
+import { validateBlank } from '../../utils'
+import useCompany from '../../hooks/useCompany'
 
 const EditProfile = () => {
   const {
@@ -16,7 +18,6 @@ const EditProfile = () => {
     companyName,
     instagramLink,
     qnaLink,
-    error,
   } = useCompanyEditValue()
 
   const {
@@ -28,27 +29,34 @@ const EditProfile = () => {
     handleChangeQnaLink,
   } = useCompanyEditAction()
 
+  const { handleSaveButtonClick } = useCompany()
+
   return (
     <div className="flex w-full animate-fade-in-left flex-col justify-between gap-5">
       <div className="w-full">
-        <FormControl as="form" className="flex w-full shrink-0 flex-col gap-6 p-2">
+        <FormControl
+          as="form"
+          onSubmit={handleSaveButtonClick}
+          className="flex w-full shrink-0 flex-col gap-6 p-2"
+          id="profile"
+        >
           <FormInputBase
             isRequired
-            isError={error === 'companyName'}
+            isError={!validateBlank(companyName)}
             label="상호명"
             helper="프로필에 보여줄 가게명을 입력해주세요 :)"
             value={companyName ?? ''}
             onChange={handleChangeName}
           />
           <FormDescription
-            isError={error === 'companyIntroduction'}
+            isError={!validateBlank(companyIntroduction)}
             label="가게 설명"
             value={companyIntroduction ?? ''}
             onChange={handleChangeIntroduction}
           />
           <FormInputBase
             isRequired
-            isError={error === 'companyLocation'}
+            isError={!validateBlank(companyLocation)}
             label="위치정보"
             helper="가게의 위치를 작성 해주세요 :)"
             value={companyLocation ?? ''}
@@ -56,7 +64,7 @@ const EditProfile = () => {
           />
           <FormInputBase
             isRequired
-            isError={error === 'companyDomain'}
+            isError={!validateBlank(companyDomain)}
             label="도메인"
             helper={`https://dalda.shop/${companyDomain}`}
             value={companyDomain ?? ''}

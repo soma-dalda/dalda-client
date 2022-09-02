@@ -5,13 +5,12 @@ import useError from '@/hooks/useError'
 import useCompanyEditAction from './useCompanyEditAction'
 import useCompanyEditValue from './useCompanyEditValue'
 import usePutUser from './usePutUser'
-import { validateBlank } from '../utils'
 
 const useCompany = () => {
   const company = useCompanyEditValue()
   const { dispatchUpdateError } = useError()
   const navigate = useNavigate()
-  const { setCompany, handleUpdateError } = useCompanyEditAction()
+  const { setCompany } = useCompanyEditAction()
   const { data: user } = useGetCompanyRequest({
     refetchInterval: false,
     refetchOnReconnect: false,
@@ -36,37 +35,18 @@ const useCompany = () => {
     },
   })
 
-  const checkCompanyBlank = useCallback(() => {
-    if (!validateBlank(company?.companyDomain)) {
-      handleUpdateError('companyDomain')
-      return false
-    }
-    if (!validateBlank(company?.companyIntroduction)) {
-      handleUpdateError('companyIntroduction')
-      return false
-    }
-    if (!validateBlank(company?.companyLocation)) {
-      handleUpdateError('companyLocation')
-      return false
-    }
-    if (!validateBlank(company?.companyName)) {
-      handleUpdateError('companyName')
-      return false
-    }
-    handleUpdateError(null)
-    return true
-  }, [company])
-
-  const handleSaveButtonClick = useCallback(() => {
-    if (user && company) {
-      if (checkCompanyBlank()) {
+  const handleSaveButtonClick = useCallback(
+    (e: React.FormEvent<React.ElementType<any> | HTMLFormElement>) => {
+      e.preventDefault()
+      if (user && company) {
         mutate({
           ...company,
           id: user?.id,
         })
       }
-    }
-  }, [user, company])
+    },
+    [user, company]
+  )
 
   return {
     isLoading,

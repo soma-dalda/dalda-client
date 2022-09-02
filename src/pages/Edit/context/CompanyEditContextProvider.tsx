@@ -33,7 +33,6 @@ type CompanyEditContextAction = {
   handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleOpenChange: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
   handleEndChange: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
-  handleUpdateError: (key?: ComapnyKeys | null) => void
   addEtcLinks: () => void
   deleteEtcLink: (index: number) => () => void
   setCompany: Updater<Company>
@@ -71,7 +70,6 @@ export const CompanyEditActionContext = createContext<CompanyEditContextAction>(
   handleChangeTitle: () => {},
   handleEndChange: () => () => {},
   handleOpenChange: () => () => {},
-  handleUpdateError: () => {},
   addEtcLinks: () => {},
   deleteEtcLink: () => () => {},
   setCompany: () => {},
@@ -180,12 +178,6 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
     []
   )
 
-  const handleUpdateError = useCallback((key?: ComapnyKeys | null) => {
-    setCompany((draft) => {
-      draft.error = key
-    })
-  }, [])
-
   const value = useMemo(() => company, [company])
   const action = useMemo(
     () => ({
@@ -198,7 +190,6 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       handleChangeLink,
       handleChangeTitle,
       handleOpenChange,
-      handleUpdateError,
       handleEndChange,
       addEtcLinks,
       deleteEtcLink,
@@ -210,7 +201,6 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       handleChangeInstagram,
       handleChangeLocation,
       handleChangeIntroduction,
-      handleUpdateError,
       handleChangeQnaLink,
       handleChangeLink,
       handleChangeTitle,
