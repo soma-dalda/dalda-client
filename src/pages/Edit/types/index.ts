@@ -6,5 +6,6 @@ export type FormBaseProps = {
   isRequired?: boolean
   isInvalid?: boolean
   isDisabled?: boolean
+  isError?: boolean
   onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
 }

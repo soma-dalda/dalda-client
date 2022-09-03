@@ -1,5 +1,6 @@
 import { SliceCakeIcon } from '@/components'
 import CakeIcon from '@/components/icons/CakeIcon'
+import clsx from 'clsx'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -27,12 +28,15 @@ const DomainTemplateItem = ({ to, variant, title }: Props) => {
   return (
     <Link
       to={to}
-      className={`flex w-full cursor-pointer gap-[15px] rounded-xl p-4 hover:bg-brand-300 ${getVariantItemStyle(
-        variant
-      )}`}
+      className={clsx(
+        'flex w-full cursor-pointer gap-[15px] rounded-xl p-4 hover:bg-brand-300',
+        getVariantItemStyle(variant)
+      )}
     >
       <span>{variant === 'special' ? <CakeIcon /> : <SliceCakeIcon />}</span>
-      <span className={`flex items-center text-sm font-semibold ${getVariantTitleStyle(variant)}`}>
+      <span
+        className={clsx('flex items-center text-sm font-semibold', getVariantTitleStyle(variant))}
+      >
         {title}
       </span>
     </Link>

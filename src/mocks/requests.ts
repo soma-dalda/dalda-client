@@ -66,7 +66,7 @@ export const putUserById: API = async (req, res, ctx) => {
       const indexByDomain = db.users.findIndex((u) => u.companyDomain === user.companyDomain)
       if (indexByDomain > -1) {
         if (indexByDomain !== index) {
-          return res(ctx.status(403), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
+          return res(ctx.status(403), ctx.json({ error: { message: '동일 도메인' } }))
         }
       }
       user.role = 'company'

@@ -3,18 +3,14 @@ import { Route, Routes } from 'react-router-dom'
 import { ModalProvider } from '@jaewoong2/modal'
 import Domain from './pages/Domain'
 import Home from './pages/Home'
-import { Layout } from './components'
 import Edit from './pages/Edit'
-import Templates from './pages/Templates'
 import ErrorPage from './pages/404'
 import LoadingPage from './components/LoadingPage'
+import TemplatesRoute from './pages/Templates'
 
 const App = () => {
   return (
     <Routes>
-      <Route element={<Layout outlet />} path="/">
-        <Route element={<Home />} path="" />
-      </Route>
       {/* <Route element={<Layout outlet navigateion={false} />} path="/">
         <Route element={<Order />} path=":domain/order/:id" />
         <Route
@@ -28,6 +24,7 @@ const App = () => {
         <Route element={<Template />} path=":domain/templates/:id" />
       </Route> */}
       <Route path="">
+        <Route element={<Home />} path="" />
         <Route
           element={
             <ModalProvider>
@@ -37,7 +34,7 @@ const App = () => {
           path=":domain"
         />
         <Route element={<Edit />} path=":domain/edit/*" />
-        <Route element={<Templates />} path=":domain/templates/*" />
+        <Route element={<TemplatesRoute />} path=":domain/templates/*" />
       </Route>
       <Route element={<ErrorPage />} path="/error" />
       <Route element={<LoadingPage />} path="/loading" />
