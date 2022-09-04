@@ -1,6 +1,0 @@
-export { default as FormDescription } from './FormDescription'
-export { default as FormLink } from './FormLink'
-export { default as FormLinks } from './FormLinks'
-export { default as FormInputBase } from './FormInputBase'
-export { default as FormProfileImage } from './FormProfileImage'
-export { default as FormDays } from './FormDays'

@@ -1,6 +1,6 @@
-import { addTemplate, deleteTemplate, getTemplates } from '@/pages/Template/slice/templateSlice'
+import { addTemplate, deleteTemplate, setTemplates } from '@/pages/Template/slice/templateSlice'
 import { useAppSelector, useAppDispatch } from '@/store/config'
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useTemplatesRequest from './useTemplatesRequest'
 
@@ -10,13 +10,13 @@ const useTemplates = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [templateId, setTemplateId] = useState('')
-  const { data: templateData, ...rest } = useTemplatesRequest(domain)
 
-  useEffect(() => {
-    if (templateData) {
-      dispatch(getTemplates(templateData))
-    }
-  }, [templateData])
+  const { data: templateData, ...rest } = useTemplatesRequest(domain, {
+    onSuccess: (data) => {
+      dispatch(setTemplates(data))
+    },
+    suspense: true,
+  })
 
   const handleAddTemplateClick = useCallback(() => {
     const uuid =

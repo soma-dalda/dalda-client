@@ -1,65 +1,88 @@
+import { Templates, Question } from '@/type'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TemplateState } from '../types/index'
 import { initalDescriptionQuestion, initalOptionQuestion, initialTemplate } from '../constant/index'
 
-const initialState: TemplateState[] = []
+const initialState: Templates = []
+
+type AddTemplatePayloadAction = PayloadAction<{ uuid: string }>
+type DeleteTemplatePayloadACtion = PayloadAction<{ id: string }>
+type UpdateTemplateTitlePayloadAction = PayloadAction<{ id: string; title: string }>
+type AddQuestionPayloadAction = PayloadAction<{ id: string; type: Question['type'] }>
+type DeleteQuestionPayloadAction = PayloadAction<{ id: string; index: number }>
+type UpdateQuestionTitlePayloadAction = PayloadAction<{ id: string; index: number; title: string }>
+type AddOptionPayloadAction = PayloadAction<{ id: string; index: number }>
+type UpdateOptionByOptionIdPayloadAction = PayloadAction<{
+  id: string
+  index: number
+  optionIndex: number
+  option: string
+}>
+type DeleteOptionByOptionIdPayloadAction = PayloadAction<{
+  id: string
+  index: number
+  optionIndex: number
+}>
+type UpdateDetailTypePayloadAction = PayloadAction<{
+  index: number
+  id: string
+  detailType: 'singleObjective' | 'multiObjective' | 'shortSubjective' | 'longSubjective'
+}>
 
 const templateSlice = createSlice({
   name: 'template',
   initialState,
   reducers: {
-    getTemplates(_, { payload }: PayloadAction<TemplateState[]>) {
+    setTemplates(_, { payload }: PayloadAction<Templates>) {
       return [...payload]
     },
 
-    addTemplate(state, { payload }: PayloadAction<{ uuid: string }>) {
+    addTemplate(state, { payload }: AddTemplatePayloadAction) {
       state.push({ ...initialTemplate, id: payload.uuid })
     },
 
-    deleteTemplate(state, { payload }: PayloadAction<{ id: string }>) {
+    deleteTemplate(state, { payload }: DeleteTemplatePayloadACtion) {
       state.splice(
         state.findIndex((template) => template.id === payload.id),
         1
       )
     },
 
-    updateTitle(state, action: PayloadAction<{ id: string; title: string }>) {
+    updateTitle(state, action: UpdateTemplateTitlePayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
       if (template) {
         template.title = action.payload.title
       }
     },
 
-    addQuestion(state, action: PayloadAction<{ id: string; type: 'option' | 'description' }>) {
+    addQuestion(state, action: AddQuestionPayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
+
       if (template) {
         if (action.payload.type === 'option') {
           template.content = [...template.content, initalOptionQuestion]
         }
+
         if (action.payload.type === 'description') {
           template.content = [...template.content, initalDescriptionQuestion]
         }
       }
     },
 
-    deleteQuestion(state, action: PayloadAction<{ id: string; index: number }>) {
+    deleteQuestion(state, action: DeleteQuestionPayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
       if (template) {
         template.content = template.content.filter((_, i) => i !== action.payload.index)
       }
     },
 
-    updateQuestionTitle(
-      state,
-      action: PayloadAction<{ id: string; index: number; title: string }>
-    ) {
+    updateQuestionTitle(state, action: UpdateQuestionTitlePayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
       if (template) {
         template.content[action.payload.index].question = action.payload.title
       }
     },
 
-    addOption(state, action: PayloadAction<{ id: string; index: number }>) {
+    addOption(state, action: AddOptionPayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
       if (template) {
         const content = template.content[action.payload.index]
@@ -69,15 +92,7 @@ const templateSlice = createSlice({
       }
     },
 
-    updateOptionByOptionIndex(
-      state,
-      action: PayloadAction<{
-        id: string
-        index: number
-        optionIndex: number
-        option: string
-      }>
-    ) {
+    updateOptionByOptionIndex(state, action: UpdateOptionByOptionIdPayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
       if (template) {
         const content = template.content[action.payload.index]
@@ -87,10 +102,7 @@ const templateSlice = createSlice({
       }
     },
 
-    deleteOptionByOptionIndex(
-      state,
-      action: PayloadAction<{ id: string; index: number; optionIndex: number }>
-    ) {
+    deleteOptionByOptionIndex(state, action: DeleteOptionByOptionIdPayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
 
       if (template) {
@@ -101,14 +113,7 @@ const templateSlice = createSlice({
       }
     },
 
-    updateDetailType(
-      state,
-      action: PayloadAction<{
-        index: number
-        id: string
-        detailType: 'singleObjective' | 'multiObjective' | 'shortSubjective' | 'longSubjective'
-      }>
-    ) {
+    updateDetailType(state, action: UpdateDetailTypePayloadAction) {
       const template = state.find((value) => value.id === action.payload.id)
       if (template) {
         template.content[action.payload.index].detailType = action.payload.detailType
@@ -126,7 +131,7 @@ export const {
   updateOptionByOptionIndex,
   updateDetailType,
   deleteTemplate,
-  getTemplates,
+  setTemplates,
   addTemplate,
   deleteOptionByOptionIndex,
 } = templateSlice.actions

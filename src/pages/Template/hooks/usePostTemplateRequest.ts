@@ -1,17 +1,14 @@
-import { MOCK_TEMPLATE } from '@/mocks/constant'
+import { Template } from '@/type'
 import axios from 'axios'
 import { useMutation, UseMutationOptions } from 'react-query'
 
-type Template = typeof MOCK_TEMPLATE
-
-const postTemplatesRequest = async ({
-  domain,
-  template,
-}: {
+type PostTemplateRequest = {
   domain: string
-  template: typeof MOCK_TEMPLATE
-}) => {
-  const { data } = await axios.post<typeof MOCK_TEMPLATE>(`/${domain}/templates`, {
+  template: Template
+}
+
+const postTemplateRequest = async ({ domain, template }: PostTemplateRequest) => {
+  const { data } = await axios.post<Template>(`/${domain}/templates`, {
     ...template,
   })
 
@@ -24,7 +21,7 @@ type UseMutaionOption = Omit<
 >
 
 const usePostTemplateRequest = (options?: UseMutaionOption) => {
-  return useMutation(postTemplatesRequest, {
+  return useMutation(postTemplateRequest, {
     ...options,
   })
 }
