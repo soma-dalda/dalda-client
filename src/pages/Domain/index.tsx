@@ -47,7 +47,7 @@ const Domain = () => {
 
   return (
     <Layout
-      navigateion={<Navigation />}
+      navigtaion={<Navigation />}
       bottom={
         <div className="flex w-full items-center justify-center px-4">
           <button
@@ -59,7 +59,7 @@ const Domain = () => {
         </div>
       }
     >
-      <DomainProfileImage src={company?.profileImage} />
+      <DomainProfileImage src={company?.profileImage ?? ''} />
       <DomainProfileTitle>{company?.companyName}</DomainProfileTitle>
       <DomainProfileDescription>{company?.companyIntroduction}</DomainProfileDescription>
       <DomainProfileLocation>{company?.companyLocation}</DomainProfileLocation>

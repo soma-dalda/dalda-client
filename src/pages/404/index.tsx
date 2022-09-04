@@ -12,7 +12,7 @@ const ErrorPage = () => {
   const { error } = useAppSelector((state) => state.error)
 
   return (
-    <Layout navigateion={<Navigation />}>
+    <Layout navigtaion={<Navigation />}>
       <div className="flex h-[calc(100vh-152px)] w-full flex-col items-center justify-center">
         <IllustErrorIcon />
         <span className="mt-6 text-lg font-bold">{error.message}</span>
