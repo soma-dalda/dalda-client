@@ -29,7 +29,6 @@ module.exports = {
             transform: 'translateX(-10)',
           },
         },
-
         'fade-in-left': {
           '0%': {
             opacity: '0',

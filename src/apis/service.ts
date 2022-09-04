@@ -53,3 +53,9 @@ export const putUser = async (user: PutUserAPIParams) => {
 
   return data
 }
+
+export const getCompanies = async () => {
+  const { data } = await http.get<Company[]>(PATH.getCompanies())
+
+  return data
+}

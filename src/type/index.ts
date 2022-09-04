@@ -6,7 +6,7 @@ export type Days = '월' | '화' | '수' | '목' | '금' | '토' | '일'
 export type User = {
   id: string
   oAuthId: string
-  role: string
+  role: 'company' | 'consumer'
   userName: string
   userPhone: string
   companyName: string | null
