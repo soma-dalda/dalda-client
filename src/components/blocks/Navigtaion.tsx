@@ -8,7 +8,9 @@ import UserIcon from '../icons/UserIcon'
 const Navigation = () => {
   return (
     <nav className="flex w-full justify-between">
-      <TitleLogoIcon className="h-[20px] w-fit cursor-pointer" />
+      <Link to="/">
+        <TitleLogoIcon className="h-[20px] w-fit cursor-pointer" />
+      </Link>
       <div className="flex gap-3">
         <UserIcon className="cursor-pointer" />
         <Link to="edit">
