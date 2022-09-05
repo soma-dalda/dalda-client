@@ -4,6 +4,7 @@ import { Navigation } from '@/components/blocks'
 
 import useError from '@/hooks/useError'
 import { useModal } from '@jaewoong2/modal'
+import { Link } from 'react-router-dom'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
 import DomainProfileImage from './components/atoms/DomainProfileImage'
 import DomainProfileTitle from './components/atoms/DomainProfileTitle'
@@ -50,12 +51,12 @@ const Domain = () => {
       navigtaion={<Navigation />}
       bottom={
         <div className="flex w-full items-center justify-center px-4">
-          <button
-            type="button"
+          <Link
+            to="templates"
             className="w-full rounded-xl bg-point-700 p-4 text-white hover:bg-point-500"
           >
             주문서 수정하기
-          </button>
+          </Link>
         </div>
       }
     >

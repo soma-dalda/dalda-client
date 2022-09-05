@@ -19,9 +19,8 @@ export const handlers = [
   rest.get('/oauth2/authorization/:registrationId', login),
   rest.get('/api/user', getUser),
   rest.put('/api/user/:userId', putUserById),
-
   rest.get('/api/company', getCompanies),
-  rest.get('/:companyDomain', getCompany),
+  rest.get('/api/:companyDomain', getCompany),
 
   rest.get('/api/templates/all/:companyId', getTemplates),
 

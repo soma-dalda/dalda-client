@@ -19,7 +19,6 @@ type GetTemplatesAPIParmas = {
 
 export const getTemplates = async ({ companyId }: GetTemplatesAPIParmas) => {
   const { data } = await http.get<Templates>(PATH.getTemplates({ companyId }))
-
   return data
 }
 
@@ -56,6 +55,18 @@ export const putUser = async (user: PutUserAPIParams) => {
 
 export const getCompanies = async () => {
   const { data } = await http.get<Company[]>(PATH.getCompanies())
+
+  return data
+}
+
+export const postTemplates = async (template: Template) => {
+  const data = await http.post(PATH.postTemplate(), { ...template })
+
+  return data
+}
+
+export const putTemplate = async (template: Template) => {
+  const data = await http.put(PATH.putTemplateById({ templateId: template.id }), { ...template })
 
   return data
 }

@@ -1,3 +1,4 @@
+import { NavigationWithArrow } from '@/components/blocks'
 import { useAppDispatch, useAppSelector } from '@/store/config'
 import { Question } from '@/type'
 import React, { useCallback } from 'react'
@@ -5,7 +6,6 @@ import { useParams } from 'react-router-dom'
 
 import TemplateBottom from './components/TemplateBottom'
 import TemplateDescriptionQuestion from './components/TemplateDescriptionQuestion'
-import TemplateHeader from './components/TemplateHeader'
 import TemplateHeaderInput from './components/TemplateHeaderInput'
 import TemplateOptionQuestion from './components/TemplateOptionQuestion'
 import usePostTemplateRequest from './hooks/usePostTemplateRequest'
@@ -58,10 +58,22 @@ const Template = () => {
   }, [template, domain])
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col justify-between pt-4">
+    <div className="relative flex min-h-screen w-full flex-col justify-between">
       <main className="px-2">
         {/* 주문서 헤더 */}
-        <TemplateHeader onClickSaveButton={handleSaveButton}>{template?.title}</TemplateHeader>
+        <NavigationWithArrow
+          button={
+            <button
+              type="button"
+              onClick={handleSaveButton}
+              className="cursor-pointer text-brand-500"
+            >
+              저장
+            </button>
+          }
+        >
+          {template?.title}
+        </NavigationWithArrow>
         {/* 주문서 이름 작성 */}
         <TemplateHeaderInput
           value={template?.title}

@@ -128,7 +128,7 @@ export const getTemplates: API = async (req, res, ctx) => {
 export const getTemplate: API = async (req, res, ctx) => {
   const { templateId } = req.params
   if (typeof templateId === 'string') {
-    const data = db.templates.filter((v) => v.id === templateId)
+    const data = db.templates.filter((v) => v.id === templateId)[0]
 
     if (data) {
       return res(ctx.status(200), ctx.delay(2000), ctx.json(data))
@@ -151,7 +151,7 @@ export const postTemplate: API = async (req, res, ctx) => {
   const newTemplate = await req.json<Template | null>()
 
   if (newTemplate) {
-    db.templates.push(newTemplate)
+    db.templates.push({ ...newTemplate, id: generatorUId() })
     return res(ctx.status(200))
   }
 
