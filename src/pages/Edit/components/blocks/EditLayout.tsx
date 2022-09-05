@@ -3,16 +3,18 @@ import ActiveLink from '@/components/atoms/ActiveLink'
 import { NavigationWithArrow } from '@/components/blocks'
 import React, { PropsWithChildren } from 'react'
 import { useParams } from 'react-router-dom'
-import useCompany from '../../hooks/useCompany'
 import FormNavigationWithDivider from '../molecules/FormNavigationWithDivider'
 
-const EditLayout = ({ children }: PropsWithChildren) => {
+type Props = {
+  isLoading?: boolean
+}
+
+const EditLayout = ({ children, isLoading }: PropsWithChildren<Props>) => {
   const params = useParams()
-  const { isLoading } = useCompany()
 
   return (
     <Layout
-      navigateion={
+      navigtaion={
         <NavigationWithArrow
           button={
             <button

@@ -21,11 +21,13 @@ type GetLoginParams = {
 export const PATH = {
   postUser: ({ userId }: UserParams) => `/api/user/${userId}`,
   putUser: ({ userId }: UserParams) => `/api/user/${userId}`,
-  getCompany: ({ companyDomain }: GetCompanyParams) => `/${companyDomain}`,
+  getCompany: ({ companyDomain }: GetCompanyParams) => `/api/${companyDomain}`,
+  getCompanies: () => `/api/company`,
 
   getTemplates: ({ companyId }: { companyId?: string }) => `/api/templates/all/${companyId}`,
   getTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
-  postTemplate: () => `/api/templates/`,
+  postTemplate: () => `/api/templates`,
+
   putTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
 
   getComsumerOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/consumer/${userId}`,

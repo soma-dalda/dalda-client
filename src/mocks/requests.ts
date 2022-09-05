@@ -56,6 +56,10 @@ export const getUser: API = async (req, res, ctx) => {
   return res(ctx.status(403), ctx.json({ error: { message: 'Error From Un Authorization Token' } }))
 }
 
+export const getCompanies: API = async (_, res, ctx) => {
+  return res(ctx.status(200), ctx.json(db.users.filter((user) => user.role === 'company')))
+}
+
 export const putUserById: API = async (req, res, ctx) => {
   const { userId } = req.params
   const user = await req.json<User>()

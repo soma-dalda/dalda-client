@@ -8,9 +8,12 @@ import useCompanyEditValue from '../../hooks/useCompanyEditValue'
 import useCompanyEditAction from '../../hooks/useCompanyEditAction'
 import EditEtcLinks from './EditEtcLinks'
 import { validateBlank } from '../../utils'
-import useCompany from '../../hooks/useCompany'
 
-const EditProfile = () => {
+type Props = {
+  handleSaveButtonClick?: (e: React.FormEvent<React.ElementType<any> | HTMLFormElement>) => void
+}
+
+const EditProfile = ({ handleSaveButtonClick }: Props) => {
   const {
     companyDomain,
     companyIntroduction,
@@ -28,8 +31,6 @@ const EditProfile = () => {
     handleChangeName,
     handleChangeQnaLink,
   } = useCompanyEditAction()
-
-  const { handleSaveButtonClick } = useCompany()
 
   return (
     <div className="flex w-full animate-fade-in-left flex-col justify-between gap-5">

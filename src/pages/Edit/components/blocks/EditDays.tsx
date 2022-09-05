@@ -3,12 +3,14 @@ import { FormDay } from '@/components/compounds/Form/components'
 import { DAYS, getDay } from '../../utils'
 import useCompanyEditValue from '../../hooks/useCompanyEditValue'
 import useCompanyEditAction from '../../hooks/useCompanyEditAction'
-import useCompany from '../../hooks/useCompany'
 
-const EditDays = () => {
+type Props = {
+  handleSaveButtonClick?: (e: React.FormEvent<React.ElementType<any> | HTMLFormElement>) => void
+}
+
+const EditDays = ({ handleSaveButtonClick }: Props) => {
   const { businessHours } = useCompanyEditValue()
   const { handleOpenChange, handleEndChange } = useCompanyEditAction()
-  const { handleSaveButtonClick } = useCompany()
 
   return (
     <form

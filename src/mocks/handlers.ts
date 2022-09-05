@@ -1,5 +1,6 @@
 import { rest } from 'msw'
 import {
+  getCompanies,
   getCompany,
   getCompanyOrdersByUserId,
   getConsumerOrdersByUserId,
@@ -19,6 +20,7 @@ export const handlers = [
   rest.get('/api/user', getUser),
   rest.put('/api/user/:userId', putUserById),
 
+  rest.get('/api/company', getCompanies),
   rest.get('/:companyDomain', getCompany),
 
   rest.get('/api/templates/all/:companyId', getTemplates),
