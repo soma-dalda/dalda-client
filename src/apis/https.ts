@@ -37,7 +37,7 @@ class Http {
 
   initHttp() {
     const http = axios.create({
-      // baseURL: 'https://api.dalda.shop',
+      // baseURL: 'http://api.dalda.shop:8080',
       withCredentials: true,
     })
 
