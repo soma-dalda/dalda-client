@@ -5,7 +5,7 @@ import Domain from './pages/Domain'
 import Home from './pages/Home'
 import Edit from './pages/Edit'
 import ErrorPage from './pages/404'
-import LoadingPage from './components/LoadingPage'
+import LoadingPage from './components/molecules/LoadingPage'
 import TemplatesRoute from './pages/Templates'
 
 const App = () => {

@@ -1,4 +1,4 @@
-import ThreeDotsIcon from '@/components/icons/ThreeDotsIcon'
+import ThreeDotsIcon from '@/components/molecules/icons/ThreeDotsIcon'
 import React from 'react'
 import StepButton from './StepButton'
 

@@ -9,6 +9,7 @@ import {
   Template,
 } from '@/type'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
+import useError from '@/hooks/useError'
 import { TemplateValueContext, defaultValue, TemplateActionContext } from './TemplateContext'
 
 export const defaultOptionQuestion: OptionQuestion = {
@@ -28,11 +29,15 @@ export const defaultDescriptionQuestion: DescriptionQuestion = {
 
 const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const [template, setTemplate] = useImmer(defaultValue)
+  const { dispatchUpdateError } = useError()
   const { refetch } = useGetCompanyRequest({
     onSuccess: (data) => {
       setTemplate((draft) => {
         draft.companyId = data.id
       })
+    },
+    onError: () => {
+      dispatchUpdateError('존재하지 않는 업체 입니다')
     },
   })
 

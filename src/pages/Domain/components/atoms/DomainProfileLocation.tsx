@@ -1,4 +1,4 @@
-import LocationIcon from '@/components/icons/LocationIcon'
+import LocationIcon from '@/components/molecules/icons/LocationIcon'
 import React, { PropsWithChildren } from 'react'
 
 const DomainProfileLocation = ({ children }: PropsWithChildren) => {

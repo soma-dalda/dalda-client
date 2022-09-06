@@ -32,7 +32,7 @@ const TemplateDescriptionQuestion = ({ index }: Props) => {
           required
           className="w-[90%] border-b p-2"
           placeholder="제목을 작성해주세요."
-          value={content[index].question}
+          value={content[index]?.question}
           onChange={handleUpdateQuestionTitle(index)}
         />
       </div>

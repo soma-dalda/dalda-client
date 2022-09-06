@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from '@/store/config'
 
 import { Layout } from '@/components'
-import IllustErrorIcon from '@/components/icons/IllustErrorIcon'
+import IllustErrorIcon from '@/components/molecules/icons/IllustErrorIcon'
 import { Navigation } from '@/components/blocks'
 
 const ErrorPage = () => {
@@ -19,9 +19,9 @@ const ErrorPage = () => {
         <button
           type="button"
           className="mt-12 rounded-3xl border p-3 px-6"
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
         >
-          홈 화면 으로
+          이전 화면 으로
         </button>
       </div>
     </Layout>

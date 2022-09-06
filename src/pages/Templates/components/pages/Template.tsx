@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationWithArrow } from '@/components/blocks'
 import QuestionAddForm from '@/pages/Templates/components/molecules/QuestionAddForm'
-import LoadingPage from '@/components/LoadingPage'
+import LoadingPage from '@/components/molecules/LoadingPage'
 import Questions from '../molecules/Questions'
 import TemplateTitleInput from '../molecules/TemplateTitleInput'
 import useTemplate from '../../hooks/useTemplate'

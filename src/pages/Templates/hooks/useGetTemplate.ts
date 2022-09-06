@@ -8,9 +8,13 @@ type UseQueryOption = Omit<
 >
 
 const useGetTemplate = (templateId: string, options?: UseQueryOption) => {
-  return useQuery<Template, RequestError>('getTemplate', () => getTemplate({ templateId }), {
-    ...options,
-  })
+  return useQuery<Template, RequestError>(
+    ['getTemplate', templateId],
+    () => getTemplate({ templateId }),
+    {
+      ...options,
+    }
+  )
 }
 
 export default useGetTemplate

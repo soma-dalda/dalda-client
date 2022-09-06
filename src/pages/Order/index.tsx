@@ -1,5 +1,5 @@
+import { NavigationWithArrow } from '@/components/blocks'
 import React from 'react'
-import TemplateHeader from '../Template/components/TemplateHeader'
 import OrderBottom from './components/OrderBottom'
 import QuestionDescription from './components/QuestionDescription'
 import QuestionOption from './components/QuestionOption'
@@ -24,7 +24,7 @@ const Order = () => {
   return (
     <div className="relative flex min-h-screen w-full flex-col justify-between pt-4">
       <main className="px-2">
-        <TemplateHeader save={false}>{template?.title}</TemplateHeader>
+        <NavigationWithArrow>{template?.title}</NavigationWithArrow>
         {template?.content && (
           <Stepper
             steps={template?.content?.length}
