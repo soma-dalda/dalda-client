@@ -7,6 +7,7 @@ import TitleLogoIcon from '@/components/molecules/icons/TitleLogoIcon'
 import { Link } from 'react-router-dom'
 import { Anchor } from '@/components/atoms'
 import clsx from 'clsx'
+import useGetUser from '@/hooks/useGetUser'
 import RecommandCards from './components/blocks/RecommandCards'
 
 const buttonText = clsx('p-3 text-[15px] font-[600]')
@@ -18,6 +19,8 @@ const editLink = clsx(
 )
 
 const Home = () => {
+  const { data: user } = useGetUser()
+
   return (
     <Layout
       navigtaion={<Navigation />}
@@ -35,7 +38,7 @@ const Home = () => {
         <LogoColorIcon className="h-[80px] w-[70px] translate-y-[-25px]" />
       </div>
       <h2 className="text-lg font-[500]">특별한 날 달달한 기억 달다</h2>
-      <Link to="/edit" className={editLink}>
+      <Link to={user?.companyDomain ? `${user?.companyDomain}/edit` : '/edit'} className={editLink}>
         <span className="rounded-full bg-blue-900 p-3 group-hover:bg-point-500">
           <StoreIcon />
         </span>
