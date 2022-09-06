@@ -1,7 +1,7 @@
 import useError from '@/hooks/useError'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import useGetTemplate from './useGetTemplate'
+import useGetTemplate from '../../../hooks/useGetTemplate'
 import usePostTemplates from './usePostTemplates'
 import usePutTemplate from './usePutTemplate'
 import useTemplateActionContext from './useTemplateActionContext'
@@ -14,6 +14,7 @@ const useTemplate = () => {
   const template = useTemplateValueContext()
   const { handleUpdateTitle, handleAddQuestion, handleUpdateTemplate, handleResetTemplate } =
     useTemplateActionContext()
+
   const { mutate: putMutate, isLoading: putLoading } = usePutTemplate({
     onSettled: () => {
       handleResetTemplate()
@@ -44,15 +45,16 @@ const useTemplate = () => {
     onError() {
       dispatchUpdateError('존재 하지 않는 주문서 입니다')
     },
+    enabled: Boolean(id !== 'post') && Boolean(id),
   })
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (template.id) {
-        putMutate(template)
+        putMutate({ ...template })
       } else {
-        postMutate(template)
+        postMutate({ ...template })
       }
     },
     [template]
