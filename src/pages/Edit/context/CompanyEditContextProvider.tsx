@@ -2,7 +2,7 @@ import React, { createContext, PropsWithChildren, useCallback, useMemo } from 'r
 import { Updater, useImmer } from 'use-immer'
 
 import { User } from '@/type'
-import { getDay, validateBlank } from '../utils'
+import { validateBlank } from '../utils'
 
 type ComapnyKeys =
   | 'id'
@@ -29,8 +29,8 @@ type CompanyEditContextAction = {
   handleChangeLocation: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleChangeIntroduction: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
   handleChangeQnaLink: (e: React.ChangeEvent<HTMLInputElement>) => void
-  handleChangeLink: (e: React.ChangeEvent<HTMLInputElement>) => void
-  handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleChangeLink: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleChangeTitle: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
   handleOpenChange: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
   handleEndChange: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
   addEtcLinks: () => void
@@ -39,15 +39,15 @@ type CompanyEditContextAction = {
 }
 
 const initialValue: CompanyEditContextValue = {
-  businessHours: {
-    월: { open: '0', end: '0' },
-    화: { open: '0', end: '0' },
-    수: { open: '0', end: '0' },
-    목: { open: '0', end: '0' },
-    금: { open: '0', end: '0' },
-    토: { open: '0', end: '0' },
-    일: { open: '0', end: '0' },
-  },
+  businessHours: [
+    { day: '월', start: '0', end: '0' },
+    { day: '화', start: '0', end: '0' },
+    { day: '수', start: '0', end: '0' },
+    { day: '목', start: '0', end: '0' },
+    { day: '금', start: '0', end: '0' },
+    { day: '토', start: '0', end: '0' },
+    { day: '일', start: '0', end: '0' },
+  ],
   companyDomain: '',
   companyIntroduction: '',
   companyLocation: '',
@@ -66,8 +66,8 @@ export const CompanyEditActionContext = createContext<CompanyEditContextAction>(
   handleChangeLocation: () => {},
   handleChangeName: () => {},
   handleChangeQnaLink: () => {},
-  handleChangeLink: () => {},
-  handleChangeTitle: () => {},
+  handleChangeLink: () => () => {},
+  handleChangeTitle: () => () => {},
   handleEndChange: () => () => {},
   handleOpenChange: () => () => {},
   addEtcLinks: () => {},
@@ -77,7 +77,6 @@ export const CompanyEditActionContext = createContext<CompanyEditContextAction>(
 
 const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
   const [company, setCompany] = useImmer<CompanyEditContextValue>({ ...initialValue })
-
   const handleChangeDomain = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCompany((draft) => {
       draft.companyDomain = e.target.value
@@ -114,21 +113,27 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
     })
   }, [])
 
-  const handleChangeLink = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setCompany((draft) => {
-      if (draft.etcLinks) {
-        draft.etcLinks[draft.etcLinks.length - 1].link = e.target.value
-      }
-    })
-  }, [])
+  const handleChangeLink = useCallback(
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCompany((draft) => {
+        if (draft.etcLinks) {
+          draft.etcLinks[index].link = e.target.value
+        }
+      })
+    },
+    []
+  )
 
-  const handleChangeTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setCompany((draft) => {
-      if (draft.etcLinks) {
-        draft.etcLinks[draft.etcLinks.length - 1].title = e.target.value
-      }
-    })
-  }, [])
+  const handleChangeTitle = useCallback(
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCompany((draft) => {
+        if (draft.etcLinks) {
+          draft.etcLinks[index].title = e.target.value
+        }
+      })
+    },
+    []
+  )
 
   const addEtcLinks = useCallback(() => {
     setCompany((draft) => {
@@ -154,12 +159,12 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       setCompany((draft) => {
         if (+e.target.value <= 24 && +e.target.value >= 0) {
           if (draft.businessHours) {
-            draft.businessHours[getDay(index)].open = `${+e.target.value}`
+            draft.businessHours[index].start = `${+e.target.value}`
           }
         }
       })
     },
-    []
+    [company]
   )
 
   const handleEndChange = useCallback(
@@ -170,7 +175,7 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       setCompany((draft) => {
         if (+e.target.value <= 24 && +e.target.value >= 0) {
           if (draft.businessHours) {
-            draft.businessHours[getDay(index)].end = `${+e.target.value}`
+            draft.businessHours[index].end = `${+e.target.value}`
           }
         }
       })
@@ -195,21 +200,7 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       deleteEtcLink,
       setCompany,
     }),
-    [
-      handleChangeDomain,
-      handleChangeName,
-      handleChangeInstagram,
-      handleChangeLocation,
-      handleChangeIntroduction,
-      handleChangeQnaLink,
-      handleChangeLink,
-      handleChangeTitle,
-      handleOpenChange,
-      handleEndChange,
-      addEtcLinks,
-      deleteEtcLink,
-      setCompany,
-    ]
+    []
   )
 
   return (

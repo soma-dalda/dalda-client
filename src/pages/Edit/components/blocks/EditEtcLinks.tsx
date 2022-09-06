@@ -12,34 +12,29 @@ const FormEtcLinks = () => {
 
   return (
     <>
-      {etcLinks?.slice(0, etcLinks.length - 1)?.map((value, index) => (
-        <FormControl key={`links-${+index}`} className="relative" as="div" isDisabled>
-          <FormLabel>{value.title}✓</FormLabel>
-          <FormInput className="w-full" value={value.link} />
-          <div className="flex w-full justify-end">
-            <CancleButton onClick={deleteEtcLink(index)} />
-          </div>
-        </FormControl>
-      ))}
-      {etcLinks && etcLinks[etcLinks.length - 1] && (
-        <FormControl as="div" className="flex w-full flex-col">
-          <FormLabel>링크</FormLabel>
-          <div className="flex w-full gap-3">
-            <FormInput
-              placeholder="링크제목"
-              className="w-[100px]"
-              value={etcLinks[etcLinks.length - 1].title ?? ''}
-              onChange={handleChangeTitle}
-            />
-            <FormInput
-              placeholder="추가하실 링크를 작성해주세요"
-              className="w-[calc(100%-100px)]"
-              value={etcLinks[etcLinks.length - 1].link ?? ''}
-              onChange={handleChangeLink}
-            />
-          </div>
-        </FormControl>
-      )}
+      {etcLinks &&
+        etcLinks.map((etcLink, index) => (
+          <FormControl as="div" className="relative flex w-full flex-col">
+            <FormLabel>링크</FormLabel>
+            <div className="flex w-full gap-3">
+              <FormInput
+                placeholder="링크제목"
+                className="w-[100px]"
+                value={etcLink.title ?? ''}
+                onChange={handleChangeTitle(index)}
+              />
+              <FormInput
+                placeholder="추가하실 링크를 작성해주세요"
+                className="w-[calc(100%-100px)]"
+                value={etcLink.link ?? ''}
+                onChange={handleChangeLink(index)}
+              />
+            </div>
+            <div className="flex w-full justify-end">
+              <CancleButton onClick={deleteEtcLink(index)} />
+            </div>
+          </FormControl>
+        ))}
       <button
         form="profile"
         onClick={addEtcLinks}

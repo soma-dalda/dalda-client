@@ -1,4 +1,4 @@
-import { putUser } from '@/apis/service'
+import { patchCompany } from '@/apis/service'
 import { User, RequestError } from '@/type'
 import { AxiosResponse } from 'axios'
 import { useMutation, UseMutationOptions } from 'react-query'
@@ -12,8 +12,8 @@ type UseMutationOption = Omit<
   'mutationFn'
 >
 
-const usePutUser = (option?: UseMutationOption) => {
-  return useMutation<AxiosResponse, RequestError, PutUserAPIParams>(putUser, { ...option })
+const usePatchUser = (option?: UseMutationOption) => {
+  return useMutation<AxiosResponse, RequestError, PutUserAPIParams>(patchCompany, { ...option })
 }
 
-export default usePutUser
+export default usePatchUser

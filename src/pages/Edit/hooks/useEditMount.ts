@@ -1,21 +1,16 @@
-import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
-import useError from '@/hooks/useError'
+import useGetUser from '@/hooks/useGetUser'
 import useCompanyEditAction from './useCompanyEditAction'
 
 const useEditMount = () => {
-  const { dispatchUpdateError } = useError()
   const { setCompany } = useCompanyEditAction()
 
-  return useGetCompanyRequest({
+  return useGetUser({
     refetchInterval: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     refetchIntervalInBackground: false,
     onSuccess: (data) => {
       setCompany(data)
-    },
-    onError: (err) => {
-      dispatchUpdateError(err.response?.data.error.message)
     },
   })
 }
