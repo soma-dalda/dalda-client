@@ -12,13 +12,15 @@ import {
   postOrders,
   postTemplate,
   putTemplateById,
-  putUserById,
+  patchCompany,
+  patchUser,
 } from './requests'
 
 export const handlers = [
   rest.get('/oauth2/authorization/:registrationId', login),
   rest.get('/api/user', getUser),
-  rest.put('/api/user/:userId', putUserById),
+  rest.patch('/api/user', patchUser),
+  rest.patch('/api/user-company', patchCompany),
   rest.get('/api/company', getCompanies),
   rest.get('/api/:companyDomain', getCompany),
 
