@@ -3,7 +3,7 @@ import QuestionLayout from './QuestionLayout'
 
 type Props = {
   questionTitle?: string
-  handleChangeDescription: React.ChangeEventHandler<HTMLTextAreaElement>
+  handleChangeDescription: React.ChangeEventHandler
   description: string
 }
 
