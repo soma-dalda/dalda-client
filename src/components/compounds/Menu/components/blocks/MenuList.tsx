@@ -6,6 +6,7 @@ import ProfileIcon from '@/components/molecules/icons/ProfileIcon'
 import LogoutIcon from '@/components/molecules/icons/LogoutIcon'
 import TermIcon from '@/components/molecules/icons/TermIcon'
 import PersonalTermIcon from '@/components/molecules/icons/PersonalTermIcon'
+import useGetUser from '@/hooks/useGetUser'
 import RightArrowIcon from '../../../../molecules/icons/RightArrowIcon'
 import MenuCloseButton from './MenuCloseButton'
 import MenuListItem from '../molecules/MenuListItem'
@@ -16,34 +17,49 @@ const getMenuStyle = () =>
   )
 
 const MenuList = () => {
+  const { data: user } = useGetUser()
+
   return (
     <div className={getMenuStyle()}>
       <MenuCloseButton className="flex w-fit justify-between py-5">
         <RightArrowIcon />
       </MenuCloseButton>
-      <ul>
-        <MenuListItem
-          to="https://dalda.shop"
-          icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
-        >
-          내 페이지
-        </MenuListItem>
-        <MenuListItem to="/#" icon={<MyInformationIcon />}>
-          내 정보 관리
-        </MenuListItem>
-        <MenuListItem to="/#" icon={<ProfileIcon />}>
-          프로필 관리
-        </MenuListItem>
-        <MenuListItem to="/#" icon={<TermIcon />}>
-          이용약관
-        </MenuListItem>
-        <MenuListItem to="/#" icon={<PersonalTermIcon />}>
-          개인정보처리방침
-        </MenuListItem>
-        <MenuListItem to="/#" icon={<LogoutIcon />}>
-          로그아웃
-        </MenuListItem>
-      </ul>
+      {user?.id ? (
+        <ul>
+          <MenuListItem
+            to={`/${user?.companyDomain}`}
+            icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
+          >
+            내 페이지
+          </MenuListItem>
+          <MenuListItem to="/configuration" icon={<MyInformationIcon />}>
+            내 정보 관리
+          </MenuListItem>
+          {user.companyDomain && (
+            <MenuListItem to={`/${user.companyDomain}/edit`} icon={<ProfileIcon />}>
+              프로필 관리
+            </MenuListItem>
+          )}
+          <MenuListItem to="/#" icon={<TermIcon />}>
+            이용약관
+          </MenuListItem>
+          <MenuListItem to="/#" icon={<PersonalTermIcon />}>
+            개인정보처리방침
+          </MenuListItem>
+          <MenuListItem to="/#" icon={<LogoutIcon />}>
+            로그아웃
+          </MenuListItem>
+        </ul>
+      ) : (
+        <ul>
+          <MenuListItem
+            to="/login"
+            icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
+          >
+            로그인
+          </MenuListItem>
+        </ul>
+      )}
     </div>
   )
 }

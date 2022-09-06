@@ -15,12 +15,12 @@ type OrderByOrderIdParmas = {
 }
 
 type GetLoginParams = {
-  registrationId?: 'kakao' | 'naver' | 'login'
+  registrationId?: 'kakao' | 'naver' | 'google'
 }
 
 export const PATH = {
-  postUser: ({ userId }: UserParams) => `/api/user/${userId}`,
-  putUser: ({ userId }: UserParams) => `/api/user/${userId}`,
+  patchUser: () => `/api/user`,
+  patchCompany: () => `/api/user-company`,
   getCompany: ({ companyDomain }: GetCompanyParams) => `/api/${companyDomain}`,
   getCompanies: () => `/api/company`,
 
