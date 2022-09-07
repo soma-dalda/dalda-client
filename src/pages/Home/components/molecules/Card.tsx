@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image } from '@/components/atoms'
-import LogoColorIcon from '@/components/icons/LogoColorIcon'
+import LogoColorIcon from '@/components/molecules/icons/LogoColorIcon'
 import { Company } from '@/type'
 import { Link } from 'react-router-dom'
 

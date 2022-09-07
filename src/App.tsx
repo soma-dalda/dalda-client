@@ -5,24 +5,14 @@ import Domain from './pages/Domain'
 import Home from './pages/Home'
 import Edit from './pages/Edit'
 import ErrorPage from './pages/404'
-import LoadingPage from './components/LoadingPage'
 import TemplatesRoute from './pages/Templates'
+import Login from './pages/Login'
+import OrderRoute from './pages/Order'
+import Configuration from './pages/Configuration'
 
 const App = () => {
   return (
     <Routes>
-      {/* <Route element={<Layout outlet navigateion={false} />} path="/">
-        <Route element={<Order />} path=":domain/order/:id" />
-        <Route
-          element={
-            <Suspense fallback={<TemplatesSkeleton />}>
-              <Templates />
-            </Suspense>
-          }
-          path=":domain/templates"
-        />
-        <Route element={<Template />} path=":domain/templates/:id" />
-      </Route> */}
       <Route path="">
         <Route element={<Home />} path="" />
         <Route
@@ -33,11 +23,14 @@ const App = () => {
           }
           path=":domain"
         />
-        <Route element={<Edit />} path=":domain/edit/*" />
         <Route element={<TemplatesRoute />} path=":domain/templates/*" />
+        <Route element={<OrderRoute />} path=":domain/order/*" />
+        <Route element={<Edit />} path=":domain/edit/*" />
+        <Route element={<Edit />} path="/edit/*" />
       </Route>
+      <Route element={<Configuration />} path="/configuration" />
+      <Route element={<Login />} path="/login" />
       <Route element={<ErrorPage />} path="/error" />
-      <Route element={<LoadingPage />} path="/loading" />
     </Routes>
   )
 }

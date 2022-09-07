@@ -1,7 +1,7 @@
 import { InstagramIcon } from '@/components'
 import { Anchor } from '@/components/atoms'
-import InfoIcon from '@/components/icons/InfoIcon'
-import KakaoIcon from '@/components/icons/KakaoIcon'
+import InfoIcon from '@/components/molecules/icons/InfoIcon'
+import KakaoIcon from '@/components/molecules/icons/KakaoIcon'
 import { User } from '@/type'
 import React from 'react'
 

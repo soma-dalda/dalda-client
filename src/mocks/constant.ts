@@ -1,35 +1,14 @@
 import { Company, Order, Template, User } from '@/type'
 
-export const MOCK_HOURS = {
-  월: {
-    open: '',
-    end: '',
-  },
-  화: {
-    open: '',
-    end: '',
-  },
-  수: {
-    open: '',
-    end: '',
-  },
-  목: {
-    open: '',
-    end: '',
-  },
-  금: {
-    open: '',
-    end: '',
-  },
-  토: {
-    open: '',
-    end: '',
-  },
-  일: {
-    open: '',
-    end: '',
-  },
-}
+export const MOCK_HOURS = [
+  { day: '월', start: '', end: '' },
+  { day: '화', start: '', end: '' },
+  { day: '수', start: '', end: '' },
+  { day: '목', start: '', end: '' },
+  { day: '금', start: '', end: '' },
+  { day: '토', start: '', end: '' },
+  { day: '일', start: '', end: '' },
+]
 
 export const MOCK_TEMPLATE: Template = {
   id: '0',

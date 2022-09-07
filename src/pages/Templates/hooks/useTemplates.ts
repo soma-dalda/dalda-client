@@ -1,57 +1,50 @@
-import { addTemplate, deleteTemplate, setTemplates } from '@/pages/Template/slice/templateSlice'
-import { useAppSelector, useAppDispatch } from '@/store/config'
+import useError from '@/hooks/useError'
+import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
+import useGetTemplates from '@/pages/Domain/hooks/useGetTemplates'
 import { useState, useCallback } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import useTemplatesRequest from './useTemplatesRequest'
+import { useNavigate } from 'react-router-dom'
 
 const useTemplates = () => {
-  const { domain } = useParams()
-  const templates = useAppSelector((state) => state.template)
-  const dispatch = useAppDispatch()
+  const { dispatchUpdateError } = useError()
+
+  const { data: company } = useGetCompanyRequest({
+    onError: (err) => {
+      dispatchUpdateError(err.response?.data.error.message)
+    },
+  })
+
+  const { data: templates } = useGetTemplates(
+    { companyId: company?.id },
+    {
+      onError: (err) => {
+        dispatchUpdateError(err.response?.data.error.message)
+      },
+    }
+  )
+
   const navigate = useNavigate()
   const [templateId, setTemplateId] = useState('')
 
-  const { data: templateData, ...rest } = useTemplatesRequest(domain, {
-    onSuccess: (data) => {
-      dispatch(setTemplates(data))
-    },
-    suspense: true,
-  })
-
   const handleAddTemplateClick = useCallback(() => {
-    const uuid =
-      Math.floor(Math.random() * 10009) +
-      Math.floor(Math.random() * 10009) * Math.floor(Math.random() * 10009)
-    dispatch(
-      addTemplate({
-        uuid: `${uuid}`,
-      })
-    )
-    navigate(`/${domain}/templates/${uuid}`)
+    navigate(`/post`)
   }, [])
 
   const handleUpdateTempalateClick = useCallback(() => {
     if (templateId) {
-      navigate(`/${domain}/templates/${templateId}`)
+      navigate(`${templateId}`)
     }
-  }, [templateId, domain])
+  }, [templateId])
 
   const handleChangeTemplateId = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setTemplateId(e.target.id)
-  }, [])
-
-  const handleClickDeleteButton = useCallback((id: string) => {
-    dispatch(deleteTemplate({ id }))
   }, [])
 
   return {
     templates,
     templateId,
     handleChangeTemplateId,
-    handleClickDeleteButton,
     handleUpdateTempalateClick,
     handleAddTemplateClick,
-    ...rest,
   }
 }
 

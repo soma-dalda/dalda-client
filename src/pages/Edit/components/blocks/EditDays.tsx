@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormDay } from '@/components/compounds/Form/components'
-import { DAYS, getDay } from '../../utils'
+import { DAYS } from '../../utils'
 import useCompanyEditValue from '../../hooks/useCompanyEditValue'
 import useCompanyEditAction from '../../hooks/useCompanyEditAction'
 
@@ -25,10 +25,10 @@ const EditDays = ({ handleSaveButtonClick }: Props) => {
       {DAYS.map((DAY, index) => (
         <FormDay
           key={DAY}
-          openValue={businessHours?.[getDay(index)].open ?? '0'}
-          endValue={businessHours?.[getDay(index)].end ?? '0'}
-          onChangeEndValue={handleEndChange(index)}
+          openValue={businessHours?.[index]?.start ?? '0'}
+          endValue={businessHours?.[index]?.end ?? '0'}
           onChangeOpenValue={handleOpenChange(index)}
+          onChangeEndValue={handleEndChange(index)}
           id={DAY}
         >
           {DAY}

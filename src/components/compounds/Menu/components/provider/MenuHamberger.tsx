@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import HambergerIcon from '@/components/icons/HambergerIcon'
+import HambergerIcon from '@/components/molecules/icons/HambergerIcon'
 import { MenuContextAPI } from '../../context/MenuContext'
 import MenuList from '../blocks/MenuList'
 

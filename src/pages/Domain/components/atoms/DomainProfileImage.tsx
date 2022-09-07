@@ -1,5 +1,5 @@
 import { Image } from '@/components/atoms'
-import LogoBlackIcon from '@/components/icons/LogoBlackIcon'
+import LogoBlackIcon from '@/components/molecules/icons/LogoBlackIcon'
 import React from 'react'
 
 type Props = Omit<JSX.IntrinsicElements['img'], 'ref'>

@@ -16,11 +16,15 @@ const DomainTemplates = ({ templates }: Props) => {
 
   return (
     <div className="mt-6 flex w-full flex-col gap-[15px]">
-      <DomainTemplateItem to={templates?.[0]?.id} variant="special" title={templates?.[0].title} />
+      <DomainTemplateItem
+        to={`order/${templates?.[0]?.id}`}
+        variant="special"
+        title={templates?.[0].title}
+      />
       {templates?.slice(1)?.map((template) => (
         <DomainTemplateItem
           key={template.id}
-          to={template?.id}
+          to={`order/${template?.id}`}
           variant="normal"
           title={template.title}
         />

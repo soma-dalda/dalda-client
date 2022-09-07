@@ -1,4 +1,4 @@
-import RightArrowIcon from '@/components/icons/RightArrowIcon'
+import RightArrowIcon from '@/components/molecules/icons/RightArrowIcon'
 import React, { useCallback, useContext } from 'react'
 import { MenuContextAPI } from '../../context/MenuContext'
 

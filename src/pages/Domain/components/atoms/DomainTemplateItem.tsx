@@ -1,5 +1,5 @@
 import { SliceCakeIcon } from '@/components'
-import CakeIcon from '@/components/icons/CakeIcon'
+import CakeIcon from '@/components/molecules/icons/CakeIcon'
 import clsx from 'clsx'
 import React from 'react'
 import { Link } from 'react-router-dom'

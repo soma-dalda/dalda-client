@@ -3,9 +3,8 @@ import { postOrder } from '@/apis/service'
 import { useMutation, UseMutationOptions } from 'react-query'
 
 type Variables = {
-  domain?: string
   templateId?: string
-  orderId: string | undefined
+  orderId?: string
   answers: string[]
 }
 

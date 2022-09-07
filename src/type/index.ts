@@ -15,11 +15,10 @@ export type User = {
   companyIntroduction: string | null
   businessHours:
     | {
-        [key in Days]: {
-          open: string
-          end: string
-        }
-      }
+        day: string
+        start: string
+        end: string
+      }[]
     | null
   companyPhone: string | null
   // profileImage

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { MenuHamberger } from '../compounds/Menu/components'
-import TitleLogoIcon from '../icons/TitleLogoIcon'
+import TitleLogoIcon from '../molecules/icons/TitleLogoIcon'
 
 const Navigation = () => {
   return (

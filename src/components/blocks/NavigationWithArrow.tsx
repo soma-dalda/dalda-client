@@ -1,4 +1,4 @@
-import LeftArrowTailIcon from '@/components/icons/LeftArrowTailIcon'
+import LeftArrowTailIcon from '@/components/molecules/icons/LeftArrowTailIcon'
 import React, { PropsWithChildren } from 'react'
 import { useNavigate } from 'react-router-dom'
 
