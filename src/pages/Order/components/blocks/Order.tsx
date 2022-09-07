@@ -26,6 +26,7 @@ const Order = () => {
     onSuccess: (data) => {
       setOrder((prev) => ({
         ...prev,
+        companyId: data.companyId,
         templateId: id,
         answers: Array(data?.content.length).fill(''),
       }))

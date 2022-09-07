@@ -22,7 +22,7 @@ const OrderSendMessage = () => {
           type="submit"
           className="mt-4 w-full rounded-xl bg-point-700 p-3 text-white hover:bg-point-500"
         >
-          {status}x
+          {status}
         </button>
       </section>
     </Layout>

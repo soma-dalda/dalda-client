@@ -14,6 +14,7 @@ import {
   putTemplateById,
   patchCompany,
   patchUser,
+  getOrders,
 } from './requests'
 
 export const handlers = [
@@ -24,7 +25,7 @@ export const handlers = [
   rest.get('/api/company', getCompanies),
   rest.get('/api/:companyDomain', getCompany),
 
-  rest.get('/api/templates/all/:companyId', getTemplates),
+  rest.get('/api/templates/:companyId/list', getTemplates),
 
   rest.get('/api/templates/:templateId', getTemplate),
   rest.post('/api/templates', postTemplate),
@@ -36,4 +37,5 @@ export const handlers = [
   rest.get('/api/orders/:orderId', getOrderByOrderId),
 
   rest.post('/api/orders', postOrders),
+  rest.get('/api/orders/length', getOrders),
 ]

@@ -2,9 +2,16 @@ import React from 'react'
 import { Layout } from '@/components'
 import { NavigationWithArrow } from '@/components/blocks'
 import { Link } from 'react-router-dom'
+import useGetOrderByOrderId from '@/hooks/useGetOrderByOrderId'
+import useGetTemplate from '@/hooks/useGetTemplate'
 import Question from '../molecules/Question'
 
 const OrderConfirm = () => {
+  const { data: order } = useGetOrderByOrderId()
+  const { data: template } = useGetTemplate(order?.templateId ?? '', {
+    enabled: Boolean(order?.templateId),
+  })
+
   return (
     <Layout
       navigtaion={
@@ -23,13 +30,11 @@ const OrderConfirm = () => {
       }
     >
       <section className="mt-3 w-full">
-        <h2 className="mb-7 text-lg font-semibold">2295님의 주문요청</h2>
+        <h2 className="mb-7 text-lg font-semibold">{order?.id}님의 주문요청</h2>
         <section className="flex flex-col gap-7">
-          <Question question="케이크 호수" answer="1호" />
-          <Question
-            question="어떤 케이크 디자인을 원하시는지 작성해주세요 :)"
-            answer="Can we take this offline we need to think big start small and scale fast to energize our clients or the last person we talked to said this would be ready nor get buy-in.Can we take this offline we need to think big start small and scale fast to energize our clients or the last person we talked to said this would be ready nor get buy-in.Can we take this offline we need to think big start small and scale fast to energize our clients or the last pe"
-          />
+          {template?.content.map((question, index) => (
+            <Question question={question.question} answer={order?.answers[index] ?? ''} />
+          ))}
           <Link
             to="승인"
             className="flex w-full items-center justify-center rounded-xl bg-point-700 py-3 text-white hover:bg-point-500"

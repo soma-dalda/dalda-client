@@ -24,7 +24,7 @@ export const PATH = {
   getCompany: ({ companyDomain }: GetCompanyParams) => `/api/${companyDomain}`,
   getCompanies: () => `/api/company`,
 
-  getTemplates: ({ companyId }: { companyId?: string }) => `/api/templates/all/${companyId}`,
+  getTemplates: ({ companyId }: { companyId?: string }) => `/api/templates/${companyId}/list`,
   getTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
   postTemplate: () => `/api/templates`,
 
@@ -34,6 +34,7 @@ export const PATH = {
   getCompanyOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/company/${userId}`,
   getOrderByOrderId: ({ orderId }: OrderByOrderIdParmas) => `/api/orders/${orderId}`,
 
+  getOrders: () => `/api/orders/length`,
   postOrders: () => `/api/orders`,
   getLogin: ({ registrationId }: GetLoginParams) => `/oauth2/authorization/${registrationId}`,
   getUser: () => `/api/user`,

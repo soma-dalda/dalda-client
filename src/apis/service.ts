@@ -1,4 +1,4 @@
-import { Template, Company, Templates, User } from '@/type'
+import { Template, Company, Templates, User, Order } from '@/type'
 import { http } from './https'
 import { PATH } from './paths'
 
@@ -92,6 +92,24 @@ export const getLogin = async ({
   registrationId?: 'kakao' | 'naver' | 'google'
 }) => {
   const data = await http.get<User>(PATH.getLogin({ registrationId }))
+
+  return data.data
+}
+
+export const getConsumerOrdersByUserId = async ({ userId }: { userId?: string }) => {
+  const data = await http.get<Order[]>(PATH.getComsumerOrdersByUserId({ userId }))
+
+  return data.data
+}
+
+export const getCompanyOrdersByUserId = async ({ userId }: { userId?: string }) => {
+  const data = await http.get<Order[]>(PATH.getCompanyOrdersByUserId({ userId }))
+
+  return data.data
+}
+
+export const getOrderByOrderId = async ({ orderId }: { orderId?: string }) => {
+  const data = await http.get<Order>(PATH.getOrderByOrderId({ orderId }))
 
   return data.data
 }

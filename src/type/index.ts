@@ -90,6 +90,7 @@ export type Order = {
   templateResponse?: {
     [key: string]: string[]
   }
+  answers: []
   orderDate?: string
   pickupDate?: string
   pickupNoticePhone?: string
