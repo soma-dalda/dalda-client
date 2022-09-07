@@ -8,6 +8,7 @@ import ErrorPage from './pages/404'
 import TemplatesRoute from './pages/Templates'
 import Login from './pages/Login'
 import OrderRoute from './pages/Order'
+import OrdersRoute from './pages/Orders'
 import Configuration from './pages/Configuration'
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Route element={<Edit />} path=":domain/edit/*" />
         <Route element={<Edit />} path="/edit/*" />
       </Route>
+      <Route element={<OrdersRoute />} path="/orders/*" />
       <Route element={<Configuration />} path="/configuration" />
       <Route element={<Login />} path="/login" />
       <Route element={<ErrorPage />} path="/error" />

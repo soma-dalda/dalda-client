@@ -1,6 +1,7 @@
 import { Label } from '@/components/atoms'
 import useFormContext from '@/components/compounds/Form/hooks/useFormContext'
 import { getStyleByProps } from '@/components/compounds/Form/utils'
+import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
 const FormLabel = forwardRef<
@@ -12,7 +13,7 @@ const FormLabel = forwardRef<
   return (
     <Label
       isRequired={isRequired}
-      className={getStyleByProps({ isInvalid, isDisabled })}
+      className={clsx(getStyleByProps({ isInvalid, isDisabled }), className)}
       htmlFor={htmlFor}
       {...props}
       ref={ref}
