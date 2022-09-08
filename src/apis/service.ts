@@ -31,10 +31,7 @@ export const getTemplate = async ({ templateId }: GetTemplateAPIParmas) => {
   return data
 }
 
-type PostOrderAPIParmas = {
-  templateId?: string
-  answers: string[]
-}
+type PostOrderAPIParmas = Order
 
 export const postOrder = async (order: PostOrderAPIParmas) => {
   const data = await http.post(PATH.postOrders(), { ...order })
@@ -97,7 +94,7 @@ export const getLogin = async ({
 }
 
 export const getConsumerOrdersByUserId = async ({ userId }: { userId?: string }) => {
-  const data = await http.get<Order[]>(PATH.getComsumerOrdersByUserId({ userId }))
+  const data = await http.get<Order[]>(PATH.getConsumerOrdersByUserId({ userId }))
 
   return data.data
 }
@@ -110,6 +107,16 @@ export const getCompanyOrdersByUserId = async ({ userId }: { userId?: string }) 
 
 export const getOrderByOrderId = async ({ orderId }: { orderId?: string }) => {
   const data = await http.get<Order>(PATH.getOrderByOrderId({ orderId }))
+
+  return data.data
+}
+
+export const postImage = async (formData: FormData) => {
+  const data = await http.post<{ url: string }>(PATH.postImage(), formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
 
   return data.data
 }
