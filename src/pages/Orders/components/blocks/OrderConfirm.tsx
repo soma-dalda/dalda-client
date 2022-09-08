@@ -32,8 +32,11 @@ const OrderConfirm = () => {
       <section className="mt-3 w-full">
         <h2 className="mb-7 text-lg font-semibold">{order?.id}님의 주문요청</h2>
         <section className="flex flex-col gap-7">
-          {template?.content.map((question, index) => (
-            <Question question={question.question} answer={order?.answers[index] ?? ''} />
+          {template?.content.map((question) => (
+            <Question
+              question={question.question}
+              answer={order?.templateResponse?.[question.question] ?? ''}
+            />
           ))}
           <Link
             to="승인"

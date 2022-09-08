@@ -34,7 +34,6 @@ export const PATH = {
   getCompanyOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/company/${userId}`,
   getOrderByOrderId: ({ orderId }: OrderByOrderIdParmas) => `/api/orders/${orderId}`,
 
-  getOrders: () => `/api/orders/length`,
   postOrders: () => `/api/orders`,
   getLogin: ({ registrationId }: GetLoginParams) => `/oauth2/authorization/${registrationId}`,
   getUser: () => `/api/user`,
