@@ -31,8 +31,8 @@ export const handlers = [
   rest.post('/api/templates', postTemplate),
   rest.put('/api/templates/:templateId', putTemplateById),
 
-  rest.get('/api/orders/list/consumer/:userId', getCompanyOrdersByUserId),
-  rest.get('/api/orders/list/company/:userId', getConsumerOrdersByUserId),
+  rest.get('/api/orders/list/consumer/:userId', getConsumerOrdersByUserId),
+  rest.get('/api/orders/list/company/:userId', getCompanyOrdersByUserId),
 
   rest.get('/api/orders/:orderId', getOrderByOrderId),
 

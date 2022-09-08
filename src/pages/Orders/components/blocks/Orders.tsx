@@ -1,24 +1,40 @@
 import { Layout } from '@/components'
+import { ActiveLink } from '@/components/atoms'
 import { NavigationWithArrow } from '@/components/blocks'
-import useGetOrders from '@/hooks/useGetOrders'
+import useGetUser from '@/hooks/useGetUser'
 import React from 'react'
-import Message from '../molecules/Message'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import NavigationWithDivider from '../molecules/NavigationWithDivider'
 
 const Orders = () => {
-  const { data: orders } = useGetOrders('company')
+  const navigate = useNavigate()
+  const { data: user } = useGetUser({
+    onSuccess: (data) => {
+      if (data.role === 'company') {
+        navigate('company')
+      }
+      if (data.role === 'consumer') {
+        navigate('consumer')
+      }
+    },
+  })
+  const params = useParams()
 
   return (
-    <Layout navigtaion={<NavigationWithArrow>주문 요청</NavigationWithArrow>}>
-      <ul className="w-[calc(100%+2rem)]">
-        {orders?.map((order) => (
-          <Message
-            orderStatus={order.orderStatus ?? '주문 요청'}
-            orderTitle={`${order.consumerId}님의 주문 요청 입니다`}
-            date={order.orderDate ?? '오늘'}
-            id={order.id ?? '0'}
-          />
-        ))}
-      </ul>
+    <Layout navigtaion={<NavigationWithArrow to="/">주문 요청</NavigationWithArrow>}>
+      {user?.role === 'company' && (
+        <NavigationWithDivider
+          buttons={[
+            <ActiveLink active={params['*'] === 'company'} type="button" to="company">
+              요청
+            </ActiveLink>,
+            <ActiveLink active={params['*'] === 'consumer'} type="button" to="consumer">
+              응답
+            </ActiveLink>,
+          ]}
+        />
+      )}
+      <Outlet />
     </Layout>
   )
 }

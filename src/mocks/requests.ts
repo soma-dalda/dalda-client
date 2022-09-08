@@ -233,9 +233,14 @@ export const postOrders: API = async (req, res, ctx) => {
   const id = req.headers.get('authorization')?.split('Bearer')[1].trim()
 
   const userIndex = db.users.findIndex((u) => u.id === id)
-
+  const template = db.templates.findIndex((t) => t.id === newOrder?.templateId)
   if (newOrder) {
-    db.orders.push({ ...newOrder, id: generatorUId(), consumerId: db.users[userIndex].id })
+    db.orders.push({
+      ...newOrder,
+      id: generatorUId(),
+      companyId: db.templates[template].companyId,
+      consumerId: db.users[userIndex].id,
+    })
     return res(ctx.status(200))
   }
 
