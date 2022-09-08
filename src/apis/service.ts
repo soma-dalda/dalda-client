@@ -112,7 +112,10 @@ export const getOrderByOrderId = async ({ orderId }: { orderId?: string }) => {
 }
 
 export const postImage = async (formData: FormData) => {
-  const data = await http.post<{ url: string }>(PATH.postImage(), formData, {
+  const data = await http({
+    url: PATH.postImage(),
+    method: 'POST',
+    data: formData,
     headers: {
       'Content-Type': 'multipart/form-data',
     },

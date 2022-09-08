@@ -287,3 +287,11 @@ export const getOrders: API = async (req, res, ctx) => {
   }
   return res(ctx.status(403), ctx.json({ error: { message: '존재하지 유저' } }))
 }
+
+export const postImage: API = async (req, res, ctx) => {
+  const data = await req.json()
+  if (data) {
+    return res(ctx.status(200), ctx.json(data))
+  }
+  return res(ctx.status(403), ctx.json({ error: { message: '존재하지 않는 데이터' } }))
+}
