@@ -17,6 +17,7 @@ import useGetTemplates from './hooks/useGetTemplates'
 import DomainTemplates from './components/molecules/DomainTemplates'
 import BusinessHourMessage from './components/molecules/BusinessHourMessage'
 import DomainProfileImageUpload from './components/blocks/DomainProfileImageUpload'
+import DomainProfileImage from './components/molecules/DomainProfileImage'
 
 const Domain = () => {
   const { data: user } = useGetUser()
@@ -69,7 +70,8 @@ const Domain = () => {
         )
       }
     >
-      <DomainProfileImageUpload src={company?.profileImage ?? ''} />
+      {company?.id === user?.id && <DomainProfileImageUpload src={company?.profileImage ?? ''} />}
+      {company?.id !== user?.id && <DomainProfileImage src={company?.profileImage ?? ''} />}
       <DomainProfileTitle>{company?.companyName}</DomainProfileTitle>
       <DomainProfileDescription>{company?.companyIntroduction}</DomainProfileDescription>
       <DomainProfileLocation>{company?.companyLocation}</DomainProfileLocation>

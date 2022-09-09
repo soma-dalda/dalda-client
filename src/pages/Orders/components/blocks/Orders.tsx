@@ -8,17 +8,20 @@ import NavigationWithDivider from '../molecules/NavigationWithDivider'
 
 const Orders = () => {
   const navigate = useNavigate()
+  const params = useParams()
+
   const { data: user } = useGetUser({
     onSuccess: (data) => {
-      if (data.role === 'company') {
-        navigate('company')
-      }
-      if (data.role === 'consumer') {
-        navigate('consumer')
+      if (params['*'] === '') {
+        if (data.role === 'company') {
+          navigate('company')
+        }
+        if (data.role === 'consumer') {
+          navigate('consumer')
+        }
       }
     },
   })
-  const params = useParams()
 
   return (
     <Layout navigtaion={<NavigationWithArrow to="/">주문 요청</NavigationWithArrow>}>

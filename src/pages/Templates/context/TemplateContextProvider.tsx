@@ -17,14 +17,14 @@ export const defaultOptionQuestion: OptionQuestion = {
   question: '',
   detailType: 'multiObjective',
   options: [],
-  images: [],
+  img: '',
 }
 export const defaultDescriptionQuestion: DescriptionQuestion = {
   type: 'description',
   detailType: 'longSubjective',
   question: '',
   options: null,
-  images: [],
+  img: '',
 }
 
 const TemplateContextProvider = ({ children }: PropsWithChildren) => {
@@ -40,6 +40,15 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       dispatchUpdateError('존재하지 않는 업체 입니다')
     },
   })
+
+  const handleUpdateImage = useCallback(
+    (index: number) => (imageUrl: string) => {
+      setTemplate((draft) => {
+        draft.content[index].img = imageUrl
+      })
+    },
+    []
+  )
 
   const handleResetTemplate = useCallback(() => {
     setTemplate(defaultValue)
@@ -139,8 +148,21 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       handleUpdateDetailType,
       handleUpdateTemplate,
       handleResetTemplate,
+      handleUpdateImage,
     }),
-    []
+    [
+      handleUpdateTitle,
+      handleAddQuestion,
+      handleDeleteQuestion,
+      handleUpdateQuestionTitle,
+      handleAddOption,
+      handleUpdateOption,
+      handleDeleteOption,
+      handleUpdateDetailType,
+      handleUpdateTemplate,
+      handleResetTemplate,
+      handleUpdateImage,
+    ]
   )
 
   return (

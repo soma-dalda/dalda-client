@@ -7,8 +7,11 @@ type UseQueryOption = Omit<
   'queryKey' | 'queryFn'
 >
 
-const useLogin = (options: UseQueryOption) => {
-  return useQuery<User, RequestError>('login', () => getLogin({ registrationId: 'kakao' }), {
+const useLogin = <T extends 'google' | 'naver' | 'kakao'>(
+  registrationId: T | undefined,
+  options: UseQueryOption
+) => {
+  return useQuery<User, RequestError>('login', () => getLogin({ registrationId }), {
     ...options,
   })
 }

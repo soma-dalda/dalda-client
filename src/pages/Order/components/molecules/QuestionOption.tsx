@@ -9,18 +9,21 @@ type Props = {
   handleChangeOption: React.ChangeEventHandler<HTMLInputElement>
   detailType: OptionQuestionDetailType
   checked: number[]
+  img?: string
 }
 
 const QuestionOption = ({
   questionTitle,
   options,
   answer,
+  img,
   detailType,
   handleChangeOption,
   checked,
 }: Props) => {
   return (
     <QuestionLayout title={questionTitle}>
+      <img src={img} alt={`${questionTitle}이미지`} />
       {options?.map((option, index) => (
         <label
           key={`option-${+index}`}

@@ -3,6 +3,7 @@ import React from 'react'
 import useTemplateActionContext from '../../hooks/useTemplateActionContext'
 import useTemplateValueContext from '../../hooks/useTemplateValueContext'
 import CheckBox from '../atoms/CheckBox'
+import QuestionImageUpload from './QuestionImageUpload'
 
 type Props = {
   index: number
@@ -10,8 +11,12 @@ type Props = {
 
 const TemplateDescriptionQuestion = ({ index }: Props) => {
   const { content } = useTemplateValueContext()
-  const { handleDeleteQuestion, handleUpdateQuestionTitle, handleUpdateDetailType } =
-    useTemplateActionContext()
+  const {
+    handleDeleteQuestion,
+    handleUpdateQuestionTitle,
+    handleUpdateDetailType,
+    handleUpdateImage,
+  } = useTemplateActionContext()
 
   const handleChangeDetailType = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -23,7 +28,13 @@ const TemplateDescriptionQuestion = ({ index }: Props) => {
 
   return (
     <section className="mt-8 flex w-full flex-col">
-      <span className="px-2.5 py-1 text-[0.9rem] text-gray-700">입력 사항</span>
+      <span className="flex justify-between px-2.5 py-1 text-[0.9rem] text-gray-700">
+        <p>입력 사항</p>
+        <QuestionImageUpload
+          id={`Description-${index}-image`}
+          handleContentImageUpdate={handleUpdateImage(index)}
+        />
+      </span>
       <div className="relative flex w-full flex-col gap-6 rounded-xl border bg-white p-3">
         {/* 질문 삭제 버튼 */}
         <CancleButton className="-top-3" onClick={() => handleDeleteQuestion(index)} />
