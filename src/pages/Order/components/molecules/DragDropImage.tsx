@@ -1,10 +1,31 @@
-import React from 'react'
+import React, { DragEventHandler } from 'react'
 
-const DragDropImage = ({ ...props }: JSX.IntrinsicElements['input']) => {
+type Props = {
+  onDragEnter: DragEventHandler<HTMLLabelElement>
+  onDragLeave: DragEventHandler<HTMLLabelElement>
+  onDragOver: DragEventHandler<HTMLLabelElement>
+  onDrop: DragEventHandler<HTMLLabelElement>
+}
+
+const DragDropImage = ({
+  onDragEnter,
+  onDragLeave,
+  onDragOver,
+  onDrop,
+  ...props
+}: Props &
+  Omit<
+    JSX.IntrinsicElements['input'],
+    'onDragEnter' | 'onDragLeave' | 'onDragOver' | 'onDrop'
+  >) => {
   return (
     <label
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
       htmlFor="image-dragdrop"
-      className="my-10 flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none"
+      className="mb-10 flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none"
     >
       <span className="flex w-full items-center justify-center space-x-2">
         <svg

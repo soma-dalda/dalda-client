@@ -28,7 +28,7 @@ const App = () => {
             path=":domain"
           />
           <Route element={<TemplatesRoute />} path=":domain/templates/*" />
-          <Route element={<OrderRoute />} path=":domain/order/*" />
+          <Route element={<OrderRoute />} path=":domain/order/:id/*" />
           <Route element={<Edit />} path=":domain/edit/*" />
           <Route element={<Edit />} path="/edit/*" />
         </Route>
