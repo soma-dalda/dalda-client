@@ -1,7 +1,17 @@
 import useGetUser from '@/hooks/useGetUser'
+import { useToast } from '@jaewoong2/toast'
+import { useNavigate } from 'react-router-dom'
 import useCompanyEditAction from './useCompanyEditAction'
 
 const useEditMount = () => {
+  const navigate = useNavigate()
+  const { show } = useToast('로그인 후 이용하세요', {
+    type: 'warn',
+    position: 'top',
+    subPosition: 'right',
+    color: 'white',
+  })
+
   const { setCompany } = useCompanyEditAction()
 
   return useGetUser({
@@ -11,6 +21,10 @@ const useEditMount = () => {
     refetchIntervalInBackground: false,
     onSuccess: (data) => {
       setCompany(data)
+    },
+    onError: () => {
+      show()
+      navigate(-1)
     },
   })
 }

@@ -88,7 +88,7 @@ export type Order = {
 
   imgUrl?: string
   templateResponse?: {
-    [key: string]: string[]
+    [key: string]: string
   }
   orderDate?: string
   pickupDate?: string

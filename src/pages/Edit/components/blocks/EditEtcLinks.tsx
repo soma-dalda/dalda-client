@@ -36,9 +36,8 @@ const FormEtcLinks = () => {
           </FormControl>
         ))}
       <button
-        form="profile"
         onClick={addEtcLinks}
-        type="submit"
+        type="button"
         className="mx-auto w-full rounded-xl bg-point-700 p-3 text-white hover:bg-point-500"
       >
         링크 추가

@@ -16,7 +16,9 @@ const Order = () => {
     setOrder,
     current,
     order,
-    handleChangeValue,
+    handleChangeCheckbox,
+    handleChangeRadio,
+    handleChangeTextArea,
     checked,
     handleClickStep,
     handleClickBottomButton,
@@ -26,6 +28,7 @@ const Order = () => {
     onSuccess: (data) => {
       setOrder((prev) => ({
         ...prev,
+        companyId: data.companyId,
         templateId: id,
         answers: Array(data?.content.length).fill(''),
       }))
@@ -61,13 +64,17 @@ const Order = () => {
             answer={order.answers[current]}
             questionTitle={content.question}
             options={content.options}
-            handleChangeOption={handleChangeValue(current)}
+            handleChangeOption={
+              content.detailType === 'multiObjective'
+                ? handleChangeCheckbox(current)
+                : handleChangeRadio(current)
+            }
           />
         )}
         {content?.type === 'description' && (
           <QuestionDescription
             questionTitle={content?.question}
-            handleChangeDescription={handleChangeValue(current)}
+            handleChangeDescription={handleChangeTextArea(current)}
             description={order.answers[current]}
           />
         )}

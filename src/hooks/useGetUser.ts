@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions, QueryKey } from 'react-query'
 import { getUser } from '@/apis/service'
 import { RequestError, User } from '@/type'
+import { getCookie } from '@/utils'
 
 type UseQueryOption = Omit<
   UseQueryOptions<User, RequestError, User, QueryKey>,
@@ -8,7 +9,12 @@ type UseQueryOption = Omit<
 >
 
 const useGetUser = (options?: UseQueryOption) => {
-  return useQuery<User, RequestError>('getUser', getUser, { ...options })
+  const token = getCookie('access-token')
+
+  return useQuery<User, RequestError>('getUser', getUser, {
+    ...options,
+    enabled: Boolean(token) && options?.enabled,
+  })
 }
 
 export default useGetUser

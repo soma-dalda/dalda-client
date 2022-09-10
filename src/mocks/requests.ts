@@ -218,7 +218,6 @@ export const getOrderByOrderId: API = async (req, res, ctx) => {
 
   if (typeof orderId === 'string') {
     const order = db.orders.find((v) => v.id === orderId)
-
     if (order) {
       return res(ctx.status(200), ctx.json(order))
     }
@@ -231,9 +230,17 @@ export const getOrderByOrderId: API = async (req, res, ctx) => {
 
 export const postOrders: API = async (req, res, ctx) => {
   const newOrder = await req.json<Order | null>()
+  const id = req.headers.get('authorization')?.split('Bearer')[1].trim()
 
+  const userIndex = db.users.findIndex((u) => u.id === id)
+  const template = db.templates.findIndex((t) => t.id === newOrder?.templateId)
   if (newOrder) {
-    db.orders.push({ ...newOrder, id: generatorUId() })
+    db.orders.push({
+      ...newOrder,
+      id: generatorUId(),
+      companyId: db.templates[template].companyId,
+      consumerId: db.users[userIndex].id,
+    })
     return res(ctx.status(200))
   }
 
@@ -258,6 +265,23 @@ export const patchUser: API = async (req, res, ctx) => {
         userPhone: data.userPhone,
       }
       return res(ctx.status(200), ctx.delay(2000))
+    }
+    return res(ctx.status(404), ctx.json({ error: { message: '존재하지 데이터' } }))
+  }
+  return res(ctx.status(403), ctx.json({ error: { message: '존재하지 유저' } }))
+}
+
+export const getOrders: API = async (req, res, ctx) => {
+  const id = req.headers.get('authorization')?.split('Bearer')[1].trim()
+
+  const userIndex = db.users.findIndex((u) => u.id === id)
+  const data = db.orders.filter((order) => {
+    return order.companyId === id || order.consumerId === id
+  })
+
+  if (userIndex > -1) {
+    if (data) {
+      return res(ctx.status(200), ctx.delay(2000), ctx.json({ length: data.length }))
     }
     return res(ctx.status(404), ctx.json({ error: { message: '존재하지 데이터' } }))
   }

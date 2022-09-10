@@ -38,12 +38,17 @@ const Home = () => {
         <LogoColorIcon className="h-[80px] w-[70px] translate-y-[-25px]" />
       </div>
       <h2 className="text-lg font-[500]">특별한 날 달달한 기억 달다</h2>
-      <Link to={user?.companyDomain ? `${user?.companyDomain}/edit` : '/edit'} className={editLink}>
-        <span className="rounded-full bg-blue-900 p-3 group-hover:bg-point-500">
-          <StoreIcon />
-        </span>
-        <span className={buttonText}>내 가게 등록하기</span>
-      </Link>
+      {user?.id && (
+        <Link
+          to={user?.companyDomain ? `${user?.companyDomain}/edit` : '/edit'}
+          className={editLink}
+        >
+          <span className="rounded-full bg-blue-900 p-3 group-hover:bg-point-500">
+            <StoreIcon />
+          </span>
+          <span className={buttonText}>내 가게 등록하기</span>
+        </Link>
+      )}
       <RecommandCards title="오늘의 추천 가게" />
     </Layout>
   )

@@ -24,7 +24,7 @@ export const PATH = {
   getCompany: ({ companyDomain }: GetCompanyParams) => `/api/${companyDomain}`,
   getCompanies: () => `/api/company`,
 
-  getTemplates: ({ companyId }: { companyId?: string }) => `/api/templates/all/${companyId}`,
+  getTemplates: ({ companyId }: { companyId?: string }) => `/api/templates/${companyId}/list`,
   getTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
   postTemplate: () => `/api/templates`,
 

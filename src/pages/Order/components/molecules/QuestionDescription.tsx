@@ -13,7 +13,7 @@ const QuestionDescription = ({ questionTitle, handleChangeDescription, descripti
       <div className="flex gap-3">
         <textarea
           className="w-full resize-none rounded-xl border border-grayScale-500 bg-gray-100 p-3 text-gray-800"
-          name="form"
+          name={questionTitle}
           rows={10}
           id="description"
           value={description}

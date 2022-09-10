@@ -311,7 +311,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.8.0.tgz#f580f9beb67176fa57aae70b08ed510e1b18980f"
   integrity sha512-G/YwXTkv7Den9mXDO7AhLWkE3q+I92B+VqAE+dYG4NGPaHZGvt3G8Q0p9vmE+sq7rTGphUbAvmQ9YpbfMQGGlA==
 
-"@emotion/react@^11.9.3":
+"@emotion/react@^11.7.1", "@emotion/react@^11.9.3":
   version "11.10.4"
   resolved "https://registry.yarnpkg.com/@emotion/react/-/react-11.10.4.tgz#9dc6bccbda5d70ff68fdb204746c0e8b13a79199"
   integrity sha512-j0AkMpr6BL8gldJZ6XQsQ8DnS9TxEQu1R+OGmDZiWjBAJtCcbt0tS3I/YffoqHXxH6MjgI7KdMbYKw3MEiU9eA==
@@ -341,7 +341,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/sheet/-/sheet-1.2.0.tgz#771b1987855839e214fc1741bde43089397f7be5"
   integrity sha512-OiTkRgpxescko+M51tZsMq7Puu/KP55wMT8BgpcXVG2hqXc0Vo0mfymJ/Uj24Hp0i083ji/o0aLddh08UEjq8w==
 
-"@emotion/styled@^11.9.3":
+"@emotion/styled@^11.6.0", "@emotion/styled@^11.9.3":
   version "11.10.4"
   resolved "https://registry.yarnpkg.com/@emotion/styled/-/styled-11.10.4.tgz#e93f84a4d54003c2acbde178c3f97b421fce1cd4"
   integrity sha512-pRl4R8Ez3UXvOPfc2bzIoV8u9P97UedgHS4FPX594ntwEuAMA114wlaHvOK24HB48uqfXiGlYIZYCxVJ1R1ttQ==
@@ -419,6 +419,17 @@
   dependencies:
     "@emotion/react" "^11.9.3"
     "@emotion/styled" "^11.9.3"
+    "@testing-library/jest-dom" "^5.16.4"
+    "@testing-library/react" "^12.1.2"
+    "@testing-library/user-event" "^13.5.0"
+
+"@jaewoong2/toast@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@jaewoong2/toast/-/toast-0.1.8.tgz#30a7e49bf8355e097ec778cbfc4a69e288609dd4"
+  integrity sha512-pE43jTBEH9nezGUad//7X39W1w1bhlqhkNLsTusyEPmeYtdzFmdn4M03Ta4+7PbstvVuO47tFru7MeOIJCxJgg==
+  dependencies:
+    "@emotion/react" "^11.7.1"
+    "@emotion/styled" "^11.6.0"
     "@testing-library/jest-dom" "^5.16.4"
     "@testing-library/react" "^12.1.2"
     "@testing-library/user-event" "^13.5.0"

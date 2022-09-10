@@ -1,3 +1,4 @@
+import LoadingPage from '@/components/molecules/LoadingPage'
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import useHandleEdit from '../../hooks/useHandleEdit'
@@ -7,6 +8,10 @@ import EditProfile from './EditProfile'
 
 const EditRoutes = () => {
   const { handleSaveButtonClick, isLoading } = useHandleEdit()
+
+  if (isLoading) {
+    return <LoadingPage />
+  }
 
   return (
     <EditLayout isLoading={isLoading}>
