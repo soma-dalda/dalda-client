@@ -2,7 +2,7 @@ import React from 'react'
 import { Layout } from '@/components'
 import { Navigation } from '@/components/blocks'
 
-import useError from '@/hooks/useError'
+import useError from '@/hooks/useStatus'
 import { useModal } from '@jaewoong2/modal'
 import { Link } from 'react-router-dom'
 import useGetUser from '@/hooks/useGetUser'
@@ -25,7 +25,7 @@ const Domain = () => {
 
   const { data: company, isLoading: companyLoading } = useGetCompanyRequest({
     onError: (err) => {
-      dispatchUpdateError(err.response?.data.error.message)
+      dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
     },
   })
 
@@ -33,7 +33,7 @@ const Domain = () => {
     { companyId: company?.id },
     {
       onError: (err) => {
-        dispatchUpdateError(err.response?.data.error.message)
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
       },
     }
   )
