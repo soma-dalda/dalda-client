@@ -7,7 +7,7 @@ export type User = {
   id: string
   oAuthId: string
   role: 'company' | 'consumer'
-  userName: string
+  username: string
   userPhone: string
   companyName: string | null
   companyDomain: string | null

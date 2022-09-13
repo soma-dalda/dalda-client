@@ -19,7 +19,7 @@ const editLink = clsx(
 )
 
 const Home = () => {
-  const { data: user } = useGetUser()
+  const { data: user } = useGetUser({ retry: 1 })
 
   return (
     <Layout

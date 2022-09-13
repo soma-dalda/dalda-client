@@ -9,7 +9,7 @@ const useConfiguration = () => {
   const [userPhone, setUserPhone, onChangeUserPhone] = useInput()
   const { isLoading: userLoading } = useGetUser({
     onSuccess: (user) => {
-      setUsername(user.userName)
+      setUsername(user.username)
       setUserPhone(user.userPhone)
     },
   })

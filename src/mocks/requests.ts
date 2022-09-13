@@ -277,7 +277,7 @@ export const patchUser: API = async (req, res, ctx) => {
     if (data) {
       db.users[userIndex] = {
         ...db.users[userIndex],
-        userName: data.username,
+        username: data.username,
         userPhone: data.userPhone,
       }
       return res(ctx.status(200), ctx.delay(2000))
