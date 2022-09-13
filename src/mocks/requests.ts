@@ -231,9 +231,25 @@ export const getOrderByOrderId: API = async (req, res, ctx) => {
 export const postOrders: API = async (req, res, ctx) => {
   const newOrder = await req.json<Order | null>()
   const id = req.headers.get('authorization')?.split('Bearer')[1].trim()
+  if (!id) {
+    return res(
+      ctx.status(403),
+      ctx.delay(2000),
+      ctx.json({ error: { message: '로그인이 필수 입니다' } })
+    )
+  }
 
   const userIndex = db.users.findIndex((u) => u.id === id)
   const template = db.templates.findIndex((t) => t.id === newOrder?.templateId)
+
+  if (!db.users[userIndex]) {
+    return res(
+      ctx.status(403),
+      ctx.delay(2000),
+      ctx.json({ error: { message: '존재하지 않는 유저 입니다' } })
+    )
+  }
+
   if (newOrder) {
     db.orders.push({
       ...newOrder,
