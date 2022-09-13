@@ -39,6 +39,7 @@ const Order = () => {
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,
     retry: false,
+    refetchOnMount: false,
   })
 
   const content = template?.content[current]

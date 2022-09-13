@@ -1,3 +1,4 @@
+import useError from '@/hooks/useStatus'
 import { Order } from '@/type'
 import { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -13,7 +14,7 @@ const defaultOrder: Order & { answers: string[] } = {
 const useHandleOrder = () => {
   const { id, domain } = useParams()
   const navigate = useNavigate()
-
+  const { dispatchUpdateError } = useError()
   const [checked, setChecked] = useState<number[]>([])
   const [current, setCurrent] = useState(0)
   const [order, setOrder] = useImmer({ ...defaultOrder, templateId: id })
@@ -24,12 +25,27 @@ const useHandleOrder = () => {
       setOrder({ ...defaultOrder, templateId: id })
       navigate(`/${domain}`)
     },
+    onError: (err) => {
+      dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+    },
   })
 
-  const setTemplateResponse = (key: string, value: string) => {
+  const setTemplateResponse = ({
+    question,
+    answer,
+    index,
+  }: {
+    question: string
+    answer: string
+    index: number
+  }) => {
     setOrder((draft) => {
       if (draft.templateResponse) {
-        draft.templateResponse.push({ question: key, answer: value })
+        if (draft.templateResponse[index]) {
+          draft.templateResponse[index] = { question, answer }
+        } else {
+          draft.templateResponse.push({ question, answer })
+        }
       }
     })
   }
@@ -47,7 +63,7 @@ const useHandleOrder = () => {
       (index) => (e) => {
         setOrder((draft) => {
           draft.answers[index] = e.target.value
-          setTemplateResponse(e.target.name, draft.answers[index])
+          setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
         })
       },
       []
@@ -71,7 +87,7 @@ const useHandleOrder = () => {
             } else {
               draft.answers[index] = JSON.stringify([e.target.value])
             }
-            setTemplateResponse(e.target.name, draft.answers[index])
+            setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
           })
         }
 
@@ -82,7 +98,7 @@ const useHandleOrder = () => {
             draft.answers[index] = JSON.stringify(
               options.filter((option) => option !== e.target.value)
             )
-            setTemplateResponse(e.target.name, draft.answers[index])
+            setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
           })
         }
       },
@@ -93,7 +109,7 @@ const useHandleOrder = () => {
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setOrder((draft) => {
         draft.answers[index] = e.target.value
-        setTemplateResponse(e.target.name, draft.answers[index])
+        setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
       })
     },
     []
