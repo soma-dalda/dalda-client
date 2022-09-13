@@ -5,12 +5,22 @@ type Props = {
   questionTitle?: string
   handleChangeDescription: React.ChangeEventHandler
   description: string
+  img?: string
 }
 
-const QuestionDescription = ({ questionTitle, handleChangeDescription, description }: Props) => {
+const QuestionDescription = ({
+  questionTitle,
+  handleChangeDescription,
+  description,
+  img,
+}: Props) => {
   return (
     <QuestionLayout title={questionTitle}>
-      <div className="flex gap-3">
+      <figure className="h-auto w-[200px]">
+        {img && <img className="h-auto w-full" src={img} alt={`${questionTitle}이미지`} />}
+        {!img && <div className="mt-20" />}
+      </figure>
+      <div className="flex w-full flex-col gap-3">
         <textarea
           className="w-full resize-none rounded-xl border border-grayScale-500 bg-gray-100 p-3 text-gray-800"
           name={questionTitle}

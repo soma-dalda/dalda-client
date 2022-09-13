@@ -4,6 +4,7 @@ import useTemplateActionContext from '../../hooks/useTemplateActionContext'
 import useTemplateValueContext from '../../hooks/useTemplateValueContext'
 import CheckBox from '../atoms/CheckBox'
 import QuestionOption from '../molecules/QuestionOption'
+import QuestionImageUpload from './QuestionImageUpload'
 
 type Props = {
   index: number
@@ -17,6 +18,7 @@ const TemplateOptionQuestion = ({ index }: Props) => {
     handleUpdateOption,
     handleDeleteOption,
     handleAddOption,
+    handleUpdateImage,
     handleUpdateDetailType,
   } = useTemplateActionContext()
 
@@ -30,7 +32,13 @@ const TemplateOptionQuestion = ({ index }: Props) => {
 
   return (
     <section className="mt-8 flex w-full flex-col">
-      <span className="px-2.5 py-1 text-[0.9rem] text-gray-700">선택 사항</span>
+      <span className="flex justify-between px-2.5 py-1 text-[0.9rem] text-gray-700">
+        <p>선택 사항</p>
+        <QuestionImageUpload
+          id={`Option-${index}-image`}
+          handleContentImageUpdate={handleUpdateImage(index)}
+        />
+      </span>
       <div className="relative flex w-full flex-col gap-6 rounded-xl border bg-white p-3">
         {/* 질문 삭제 버튼 */}
         <CancleButton className="-top-3" onClick={() => handleDeleteQuestion(index)} />

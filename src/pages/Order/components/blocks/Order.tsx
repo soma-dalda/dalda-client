@@ -59,6 +59,7 @@ const Order = () => {
       <form className="w-full">
         {content && content.type === 'option' && (
           <QuestionOption
+            img={content.img}
             checked={checked}
             detailType={content.detailType}
             answer={order.answers[current]}
@@ -73,6 +74,7 @@ const Order = () => {
         )}
         {content?.type === 'description' && (
           <QuestionDescription
+            img={content.img}
             questionTitle={content?.question}
             handleChangeDescription={handleChangeTextArea(current)}
             description={order.answers[current]}

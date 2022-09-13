@@ -7,7 +7,7 @@ import usePostOrder from './usePostOrder'
 const defaultOrder: Order & { answers: string[] } = {
   templateId: '',
   answers: [''],
-  templateResponse: {},
+  templateResponse: [],
 }
 
 const useHandleOrder = () => {
@@ -29,7 +29,7 @@ const useHandleOrder = () => {
   const setTemplateResponse = (key: string, value: string) => {
     setOrder((draft) => {
       if (draft.templateResponse) {
-        draft.templateResponse[key] = value
+        draft.templateResponse.push({ question: key, answer: value })
       }
     })
   }

@@ -11,6 +11,7 @@ import Login from './pages/Login'
 import OrderRoute from './pages/Order'
 import OrdersRoute from './pages/Orders'
 import Configuration from './pages/Configuration'
+import Logout from './pages/logout'
 
 const App = () => {
   return (
@@ -27,13 +28,14 @@ const App = () => {
             path=":domain"
           />
           <Route element={<TemplatesRoute />} path=":domain/templates/*" />
-          <Route element={<OrderRoute />} path=":domain/order/*" />
+          <Route element={<OrderRoute />} path=":domain/order/:id/*" />
           <Route element={<Edit />} path=":domain/edit/*" />
           <Route element={<Edit />} path="/edit/*" />
         </Route>
         <Route element={<OrdersRoute />} path="/orders/*" />
         <Route element={<Configuration />} path="/configuration" />
-        <Route element={<Login />} path="/login" />
+        <Route element={<Login />} path="/login/:sso" />
+        <Route element={<Logout />} path="/logout" />
         <Route element={<ErrorPage />} path="/error" />
       </Routes>
     </ToastProvider>
