@@ -1,85 +1,86 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Layout } from '@/components'
+import { Navigation } from '@/components/blocks'
 
-import {
-  ChatIcon,
-  InfoContainer,
-  InstagramIcon,
-  ProfileDescription,
-  ProfileImage,
-  ProfileTitle,
-  ReviewItem,
-  TitleMessage,
-  YoutubeIcon,
-} from '@/components'
+import useError from '@/hooks/useError'
+import { useModal } from '@jaewoong2/modal'
+import { Link } from 'react-router-dom'
+import useGetUser from '@/hooks/useGetUser'
+import LoadingPage from '@/components/molecules/LoadingPage'
+import useGetCompanyRequest from './hooks/useGetCompanyRequest'
+import DomainProfileImage from './components/atoms/DomainProfileImage'
+import DomainProfileTitle from './components/atoms/DomainProfileTitle'
+import DomainProfileDescription from './components/atoms/DomainProfileDescription'
+import DomainProfileLocation from './components/atoms/DomainProfileLocation'
+import DomainProfileIcons from './components/atoms/DomainProfileIcons'
+import DomainProfileHours from './components/atoms/DomainProfileHours'
+import useGetTemplates from './hooks/useGetTemplates'
+import DomainTemplates from './components/atoms/DomainTemplates'
+import BusinessHourMessage from './components/atoms/BusinessHourMessage'
 
 const Domain = () => {
-  const { domain } = useParams()
+  const { data: user } = useGetUser()
+  const { dispatchUpdateError } = useError()
+
+  const { data: company, isLoading: companyLoading } = useGetCompanyRequest({
+    onError: (err) => {
+      dispatchUpdateError(err.response?.data.error.message)
+    },
+  })
+
+  const { data: templates, isLoading: templateLoading } = useGetTemplates(
+    { companyId: company?.id },
+    {
+      onError: (err) => {
+        dispatchUpdateError(err.response?.data.error.message)
+      },
+    }
+  )
+
+  const { show, hide } = useModal('text', {
+    header: null,
+    description: null,
+    modalWidth: '300px',
+    message: <BusinessHourMessage businessHours={company?.businessHours} />,
+    buttonText: '확인',
+    buttonType: 'normal',
+    onClickButton: () => {
+      hide()
+    },
+  })
+
+  if (companyLoading || templateLoading) {
+    return <LoadingPage />
+  }
 
   return (
-    <>
-      <ProfileImage
-        src="https://picsum.photos/seed/picsum/200/300"
-        alt="로고"
-        className="max-x-full"
+    <Layout
+      navigtaion={<Navigation />}
+      bottom={
+        user?.id === company?.id && (
+          <div className="flex w-full items-center justify-center px-4">
+            <Link
+              to="templates"
+              className="w-full rounded-xl bg-point-700 p-4 text-white hover:bg-point-500"
+            >
+              주문서 수정하기
+            </Link>
+          </div>
+        )
+      }
+    >
+      <DomainProfileImage src={company?.profileImage ?? ''} />
+      <DomainProfileTitle>{company?.companyName}</DomainProfileTitle>
+      <DomainProfileDescription>{company?.companyIntroduction}</DomainProfileDescription>
+      <DomainProfileLocation>{company?.companyLocation}</DomainProfileLocation>
+      <DomainProfileIcons
+        etcLinks={company?.etcLinks}
+        instagramLink={company?.instagramLink}
+        qnaLink={company?.qnaLink}
       />
-      <div className="flex flex-col items-center">
-        {/* Title */}
-        <ProfileTitle>{domain}</ProfileTitle>
-        {/* Description */}
-        <ProfileDescription className="break-all">
-          Make Cake For Family, Friends, Importatnt Peron
-          <b className="px-2 text-red-400">{domain}</b>
-          Provide.
-        </ProfileDescription>
-        {/* Icons */}
-        <div className="mt-4 flex w-full justify-center gap-3">
-          <InstagramIcon />
-          <ChatIcon />
-          <YoutubeIcon />
-        </div>
-        {/* 운영시간 */}
-        <InfoContainer
-          infos={['Days: 월요일 ~ 금요일', 'Time: 12:00 ~ 09:00', '서울 강남구 압구정동 124-5']}
-        />
-        {/* 사장님 등록 */}
-        <TitleMessage
-          title="주문제작 케이크를 제작 하고 싶으세요?"
-          messages={[
-            <div className="w-full max-w-sm cursor-pointer rounded-lg border py-4 px-3 text-sm font-thin hover:bg-gray-300">
-              기본 주문제작 폼📝
-            </div>,
-            <div className="mt-2 w-full max-w-sm cursor-pointer rounded-lg border py-4 px-3 text-sm font-thin hover:bg-gray-300">
-              특별 주문제작 폼📝
-            </div>,
-          ]}
-        />
-        {/* 리뷰 */}
-        <TitleMessage
-          className="mt-2 mb-4"
-          title="리뷰 확인"
-          messages={[
-            <div className="flex max-h-[250px] min-h-[100px] w-full flex-col gap-y-3 overflow-y-scroll rounded-lg border p-5">
-              <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
-              <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
-              <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
-              <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
-              <ReviewItem nickname="🍡">친절한 케이크 집이였어요! 초코맛 짱</ReviewItem>
-            </div>,
-          ]}
-        />
-
-        {/* 문의 하기 */}
-        <div className="w-full">
-          <button
-            type="button"
-            className="w-full rounded-xl bg-blue-500 py-3 font-light text-white hover:bg-blue-400"
-          >
-            주문 폼 관리 하기
-          </button>
-        </div>
-      </div>
-    </>
+      <DomainProfileHours onClick={show}>영업시간 확인하기</DomainProfileHours>
+      <DomainTemplates templates={templates} />
+    </Layout>
   )
 }
 

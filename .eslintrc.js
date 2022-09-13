@@ -4,7 +4,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['airbnb', 'airbnb-typescript', 'plugin:prettier/recommended'],
+  extends: ['airbnb', 'airbnb-typescript', 'prettier/prettier', 'plugin:prettier/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -16,6 +16,10 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'import'],
   rules: {
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: true, optionalDependencies: false, peerDependencies: false },
+    ],
     'import/no-unresolved': 'error',
     'consistent-return': [0],
     'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
@@ -26,13 +30,13 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
-    indent: ['error', 2],
     'prettier/prettier': [
       'error',
       {
         endOfLine: 'auto',
       },
     ],
+    'no-param-reassign': 0,
     'react/jsx-props-no-spreading': [0],
     'import/extensions': [
       'error',
