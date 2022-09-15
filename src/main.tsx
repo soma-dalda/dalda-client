@@ -14,9 +14,9 @@ import { worker } from './mocks/browser'
 
 const queryClient = new QueryClient()
 
-// eslint-disable-next-line global-require
-worker.start({ onUnhandledRequest: 'bypass' })
-// worker.stop()
+if (import.meta.env.DEV) {
+  worker.start({ onUnhandledRequest: 'bypass' })
+}
 
 axios.defaults.withCredentials = true
 
