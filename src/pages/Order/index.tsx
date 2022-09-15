@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { Route, Routes } from 'react-router-dom'
-import Order from './components/blocks/Order'
-import OrderInit from './components/blocks/OrderInit'
 import OrderContextProvider from './context/OrderContextProvider'
+
+const Order = React.lazy(() => import('./components/blocks/Order'))
+const OrderInit = React.lazy(() => import('./components/blocks/OrderInit'))
 
 const OrderRoute = () => {
   return (
