@@ -1,3 +1,4 @@
+import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
 import { Order } from '@/type'
 import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
@@ -15,6 +16,23 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const [order, setOrder] = useImmer<Order & { answers: string[] }>({
     ...defaultOrder,
     templateId: id,
+  })
+
+  useGetTemplate(id ?? '', {
+    onSuccess: (data) => {
+      setOrder((prev) => ({
+        ...prev,
+        companyId: data.companyId,
+        templateId: id,
+        answers: Array(data?.content.length).fill(''),
+      }))
+    },
+    enabled: Boolean(id),
+    refetchInterval: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    retry: false,
   })
 
   const { mutate } = usePostOrder({

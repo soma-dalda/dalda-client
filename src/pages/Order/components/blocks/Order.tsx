@@ -1,7 +1,9 @@
 import React from 'react'
 import { NavigationWithArrow } from '@/components/blocks'
 import { Layout } from '@/components'
-import { Template } from '@/type'
+import useGetTemplate from '@/hooks/useGetTemplate'
+import { useParams } from 'react-router-dom'
+import LoadingPage from '@/components/molecules/LoadingPage'
 import QuestionDescription from '../molecules/QuestionDescription'
 import QuestionOption from '../molecules/QuestionOption'
 import Stepper from '../molecules/Stepper'
@@ -9,11 +11,8 @@ import OrderBottom from '../molecules/OrderBottom'
 import useOrderValueContext from '../../hooks/useOrderValueContext'
 import useOrderActionContext from '../../hooks/useOrderActionContext'
 
-type Props = {
-  template?: Template
-}
-
-const Order = ({ template }: Props) => {
+const Order = () => {
+  const { id } = useParams()
   const { order, current, checked } = useOrderValueContext()
   const {
     handleChangeCheckbox,
@@ -23,8 +22,15 @@ const Order = ({ template }: Props) => {
     handleClickBottomButton,
   } = useOrderActionContext()
 
-  const content = template?.content[current]
+  const { data: template, isLoading } = useGetTemplate(id ?? '', {
+    enabled: false,
+  })
 
+  if (isLoading) {
+    return <LoadingPage />
+  }
+
+  const content = template?.content[current]
   return (
     <Layout navigtaion={<NavigationWithArrow>{template?.title}</NavigationWithArrow>}>
       {template?.content && (
