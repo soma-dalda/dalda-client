@@ -51,9 +51,10 @@
         - 목업서버를 만드는데 시간이 들었지만, db 및 서버 통신에 대한 이해도가 높아져 프론트엔드 로직을 탄탄하게 작성 하였습니다.
     - 동일한 코드로 목업 서버와 실제 서버 에 대한 서버통신 을 하기 때문에 높은 생산성을 가졌습니다
 
-1. UI/UX 를 고려한 개발을 하였습니다.
+4. UI/UX 를 고려한 개발을 하였습니다.
     1. 모바일 브라우저 어플리케이션 (사파리, 크롬) 등이 각자 브라우저에 대한 `상단바, 하단바` 가 존재하고 사파리의 경우 하단바가 브라우저 스크롤에 따라 사라지거나, 생기기 때문에 서버 통신 및 화면 전환에 대한 View 는 UI 의 상단에 위치 하도록 구현 하였습니다. 
-2. **React.lazy 를 통한 코드스플리팅**
+
+5. **React.lazy 를 통한 코드스플리팅**
     - 사용자가 페이지를 렌더링하는 동안 다른 요소와 상호작용하지 않도록 한다
     - 해당 페이지에서 필요하지 않은 것을 로드 하지 않도록 하여 앱 크기를 줄이지 않더라도 큰 초기 로딩 속도 개선을 할 수 있다
     
@@ -64,10 +65,11 @@
     
     약 `10초의 로드 속도를 개선` 하였음
     
+    
     전)
-    
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e0d4bf09-ae25-4ce7-8fbb-4c50106a5f4b/Untitled.png)
-    
+    ![image](https://user-images.githubusercontent.com/63512217/190386216-bbfd11ae-6892-4584-ad69-758a18db91b6.png)
+
     후)
-    
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1e6f5f98-b0a4-4099-b480-d42b15ff2f54/Untitled.png)
+    ![image](https://user-images.githubusercontent.com/63512217/190386244-ff338194-98fe-4bc4-bdf5-accc688b9ddf.png)
+
+
