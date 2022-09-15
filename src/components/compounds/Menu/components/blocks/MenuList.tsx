@@ -28,6 +28,9 @@ const getBellStyle = (length: string | number) =>
     `after:content-['${length.toString()}']`
   )
 
+const BASE_URI =
+  import.meta.env.MODE === 'development' ? '/login' : 'https://api.dalda.shop/oauth2/authorization'
+
 const MenuList = () => {
   const { data: user } = useGetUser()
   const { data: companyOrder } = useGetOrders('company')
@@ -78,7 +81,7 @@ const MenuList = () => {
       ) : (
         <ul>
           <MenuListItem
-            to="/login/kakao"
+            to={`${BASE_URI}/kakao`}
             icon={
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-400 p-1">
                 <KakaoIcon />
@@ -88,7 +91,7 @@ const MenuList = () => {
             카카오 계정으로 로그인
           </MenuListItem>
           <MenuListItem
-            to="/login/google"
+            to={`${BASE_URI}/google`}
             icon={
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 p-1">
                 <GoogleIcon />
@@ -98,7 +101,7 @@ const MenuList = () => {
             구글 계정으로 로그인
           </MenuListItem>
           <MenuListItem
-            to="/login/naver"
+            to={`${BASE_URI}/naver`}
             icon={
               <span className="h-6 w-6 rounded-full bg-green-400 p-1">
                 <NaverIcon />
