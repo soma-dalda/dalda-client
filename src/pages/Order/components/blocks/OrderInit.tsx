@@ -3,16 +3,18 @@ import { NavigationWithArrow } from '@/components/blocks'
 import useHandleImage from '@/hooks/useHandleImage'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import useOrderActionContext from '../../hooks/useOrderActionContext'
 import DragDropImage from '../molecules/DragDropImage'
 import OrderBottom from '../molecules/OrderBottom'
 import QuestionLayout from '../molecules/QuestionLayout'
 
 const OrderInit = () => {
   const navigate = useNavigate()
+  const { handleAddImage } = useOrderActionContext()
   const { handleDragIn, handleDragOut, handleDragOver, handleDrop, handleChangeImage, name } =
     useHandleImage({
       onSuccess: (data) => {
-        console.log(data.url)
+        handleAddImage(data.url)
       },
     })
 

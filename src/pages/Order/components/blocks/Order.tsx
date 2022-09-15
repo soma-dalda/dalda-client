@@ -1,52 +1,29 @@
 import React from 'react'
 import { NavigationWithArrow } from '@/components/blocks'
-import useGetTemplate from '@/hooks/useGetTemplate'
-import { useParams } from 'react-router-dom'
 import { Layout } from '@/components'
-import LoadingPage from '@/components/molecules/LoadingPage'
-import useHandleOrder from '../../hooks/useHandleOrder'
+import { Template } from '@/type'
 import QuestionDescription from '../molecules/QuestionDescription'
 import QuestionOption from '../molecules/QuestionOption'
 import Stepper from '../molecules/Stepper'
 import OrderBottom from '../molecules/OrderBottom'
+import useOrderValueContext from '../../hooks/useOrderValueContext'
+import useOrderActionContext from '../../hooks/useOrderActionContext'
 
-const Order = () => {
-  const { id } = useParams()
+type Props = {
+  template?: Template
+}
+
+const Order = ({ template }: Props) => {
+  const { order, current, checked } = useOrderValueContext()
   const {
-    setOrder,
-    current,
-    order,
     handleChangeCheckbox,
     handleChangeRadio,
     handleChangeTextArea,
-    checked,
     handleClickStep,
     handleClickBottomButton,
-  } = useHandleOrder()
-
-  const { data: template, isLoading } = useGetTemplate(id ?? '', {
-    onSuccess: (data) => {
-      setOrder((prev) => ({
-        ...prev,
-        companyId: data.companyId,
-        templateId: id,
-        answers: Array(data?.content.length).fill(''),
-      }))
-    },
-    enabled: Boolean(id),
-    refetchInterval: false,
-    refetchOnReconnect: false,
-    refetchIntervalInBackground: false,
-    refetchOnWindowFocus: false,
-    retry: false,
-    refetchOnMount: false,
-  })
+  } = useOrderActionContext()
 
   const content = template?.content[current]
-
-  if (isLoading) {
-    return <LoadingPage />
-  }
 
   return (
     <Layout navigtaion={<NavigationWithArrow>{template?.title}</NavigationWithArrow>}>

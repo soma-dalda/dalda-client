@@ -311,5 +311,5 @@ export const postImage: API = async (_, res, ctx) => {
   // if (data) {
   //   return res(ctx.status(200), ctx.json(data))
   // }
-  return res(ctx.status(200), ctx.delay(2400))
+  return res(ctx.status(200), ctx.delay(2400), ctx.json({ url: '성공' }))
 }

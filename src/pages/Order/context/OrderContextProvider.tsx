@@ -1,23 +1,21 @@
-import useError from '@/hooks/useStatus'
+import useStatus from '@/hooks/useStatus'
 import { Order } from '@/type'
-import { useCallback, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
-import usePostOrder from './usePostOrder'
+import usePostOrder from '../hooks/usePostOrder'
+import { defaultOrder, OrderAction, OrderActionContext, OrderValueContext } from './OrderContext'
 
-const defaultOrder: Order & { answers: string[] } = {
-  templateId: '',
-  answers: [''],
-  templateResponse: [],
-}
-
-const useHandleOrder = () => {
+const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const { id, domain } = useParams()
   const navigate = useNavigate()
-  const { dispatchUpdateError } = useError()
+  const { dispatchUpdateError } = useStatus()
   const [checked, setChecked] = useState<number[]>([])
   const [current, setCurrent] = useState(0)
-  const [order, setOrder] = useImmer({ ...defaultOrder, templateId: id })
+  const [order, setOrder] = useImmer<Order & { answers: string[] }>({
+    ...defaultOrder,
+    templateId: id,
+  })
 
   const { mutate } = usePostOrder({
     onSuccess: () => {
@@ -29,7 +27,6 @@ const useHandleOrder = () => {
       dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
     },
   })
-
   const setTemplateResponse = ({
     question,
     answer,
@@ -57,6 +54,12 @@ const useHandleOrder = () => {
     },
     []
   )
+
+  const handleAddImage = useCallback((url: string) => {
+    setOrder((draft) => {
+      draft.imgUrl = url
+    })
+  }, [])
 
   const handleChangeTextArea: (index: number) => React.ChangeEventHandler<HTMLTextAreaElement> =
     useCallback(
@@ -124,17 +127,32 @@ const useHandleOrder = () => {
     }
   }, [current, order])
 
-  return {
-    handleClickStep,
-    handleChangeCheckbox,
-    handleClickBottomButton,
-    handleChangeRadio,
-    handleChangeTextArea,
-    setOrder,
-    current,
-    order,
-    checked,
-  }
+  const value = useMemo(() => ({ current, order, checked }), [current, order, checked])
+  const action: OrderAction = useMemo(
+    () => ({
+      handleClickStep,
+      handleChangeCheckbox,
+      handleAddImage,
+      handleClickBottomButton,
+      handleChangeRadio,
+      handleChangeTextArea,
+      setOrder,
+    }),
+    [
+      handleClickStep,
+      handleAddImage,
+      handleChangeCheckbox,
+      handleClickBottomButton,
+      handleChangeRadio,
+      handleChangeTextArea,
+      setOrder,
+    ]
+  )
+  return (
+    <OrderValueContext.Provider value={value}>
+      <OrderActionContext.Provider value={action}>{children}</OrderActionContext.Provider>
+    </OrderValueContext.Provider>
+  )
 }
 
-export default useHandleOrder
+export default OrderContextProvider
