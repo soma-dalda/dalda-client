@@ -10,11 +10,12 @@ import './index.css'
 import axios from 'axios'
 import App from './App'
 import store from './store/config'
-import { worker } from './mocks/browser'
 
 const queryClient = new QueryClient()
 
 if (import.meta.env.DEV) {
+  // eslint-disable-next-line global-require
+  const { worker } = await import('./mocks/browser')
   worker.start({ onUnhandledRequest: 'bypass' })
 }
 
