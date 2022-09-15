@@ -1,15 +1,15 @@
-import useError from '@/hooks/useError'
+import useStatus from '@/hooks/useStatus'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
 import useGetTemplates from '@/pages/Domain/hooks/useGetTemplates'
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const useTemplates = () => {
-  const { dispatchUpdateError } = useError()
+  const { dispatchUpdateError } = useStatus()
 
   const { data: company } = useGetCompanyRequest({
     onError: (err) => {
-      dispatchUpdateError(err.response?.data.error.message)
+      dispatchUpdateError({ message: err.response?.data.error.message, code: err.code })
     },
   })
 
@@ -17,7 +17,7 @@ const useTemplates = () => {
     { companyId: company?.id },
     {
       onError: (err) => {
-        dispatchUpdateError(err.response?.data.error.message)
+        dispatchUpdateError({ message: err.response?.data.error.message, code: err.code })
       },
     }
   )

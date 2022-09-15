@@ -1,8 +1,9 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Templates from './components/pages/Templates'
-import Template from './components/pages/Template'
 import TemplateContextProvider from './context/TemplateContextProvider'
+
+const Template = React.lazy(() => import('./components/pages/Templates'))
+const Templates = React.lazy(() => import('./components/pages/Template'))
 
 /** 유저 조회 -> 각 주문서에 대한 ID 값을 받아오기 */
 const TemplatesRoute = () => {

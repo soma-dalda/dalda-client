@@ -9,13 +9,18 @@ import { Navigation } from '@/components/blocks'
 
 const ErrorPage = () => {
   const navigate = useNavigate()
-  const { error } = useAppSelector((state) => state.error)
+  const { message, name } = useAppSelector((state) => state.status)
+
+  if (name === 'success') {
+    navigate('/')
+    return null
+  }
 
   return (
     <Layout navigtaion={<Navigation />}>
       <div className="flex h-[calc(100vh-152px)] w-full flex-col items-center justify-center">
         <IllustErrorIcon />
-        <span className="mt-6 text-lg font-bold">{error.message}</span>
+        <span className="mt-6 text-lg font-bold">{message}</span>
         <button
           type="button"
           className="mt-12 rounded-3xl border p-3 px-6"

@@ -1,11 +1,12 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import OrderConfirm from './components/blocks/OrderConfirm'
-import OrdersCompanyList from './components/blocks/OrdersCompanyList'
-import OrdersConsumerList from './components/blocks/OrdersConsumerList'
-import OrderSendMessage from './components/blocks/OrderSendMessage'
-import Orders from './components/blocks/Orders'
-import OrderResponse from './components/blocks/OrderResponse'
+
+const OrderConfirm = React.lazy(() => import('./components/blocks/OrderConfirm'))
+const OrdersCompanyList = React.lazy(() => import('./components/blocks/OrdersCompanyList'))
+const OrdersConsumerList = React.lazy(() => import('./components/blocks/OrdersConsumerList'))
+const OrderSendMessage = React.lazy(() => import('./components/blocks/OrderSendMessage'))
+const Orders = React.lazy(() => import('./components/blocks/Orders'))
+const OrderResponse = React.lazy(() => import('./components/blocks/OrderResponse'))
 
 const OrdersRoute = () => {
   return (

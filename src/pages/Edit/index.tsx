@@ -2,7 +2,7 @@ import React from 'react'
 import CompanyEditContextProvider from './context/CompanyEditContextProvider'
 import EditRoutes from './components/blocks/EditRoutes'
 
-const Edit = () => {
+const EditRoute = () => {
   return (
     <CompanyEditContextProvider>
       <EditRoutes />
@@ -10,4 +10,4 @@ const Edit = () => {
   )
 }
 
-export default Edit
+export default EditRoute

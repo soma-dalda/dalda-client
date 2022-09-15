@@ -1,4 +1,4 @@
-import useError from '@/hooks/useError'
+import useStatus from '@/hooks/useStatus'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useGetTemplate from '../../../hooks/useGetTemplate'
@@ -10,7 +10,7 @@ import useTemplateValueContext from './useTemplateValueContext'
 const useTemplate = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { dispatchUpdateError } = useError()
+  const { dispatchUpdateError } = useStatus()
   const template = useTemplateValueContext()
   const { handleUpdateTitle, handleAddQuestion, handleUpdateTemplate, handleResetTemplate } =
     useTemplateActionContext()
@@ -20,8 +20,8 @@ const useTemplate = () => {
       handleResetTemplate()
       navigate(-1)
     },
-    onError: () => {
-      dispatchUpdateError('주문서 폼 수정을 실패 하였습니다')
+    onError: (err) => {
+      dispatchUpdateError({ message: '주문서 폼 수정을 실패 하였습니다', code: err.code })
     },
   })
 
@@ -30,8 +30,8 @@ const useTemplate = () => {
       handleResetTemplate()
       navigate(-1)
     },
-    onError() {
-      dispatchUpdateError('주문서 폼 등록을 실패 하였습니다')
+    onError: (err) => {
+      dispatchUpdateError({ message: '주문서 폼 등록을 실패 하였습니다', code: err.code })
     },
   })
 
@@ -42,8 +42,8 @@ const useTemplate = () => {
       }
     },
     retry: false,
-    onError() {
-      dispatchUpdateError('존재 하지 않는 주문서 입니다')
+    onError: (err) => {
+      dispatchUpdateError({ message: '존재 하지 않는 주문서', code: err.code })
     },
     enabled: Boolean(id !== 'post') && Boolean(id),
   })

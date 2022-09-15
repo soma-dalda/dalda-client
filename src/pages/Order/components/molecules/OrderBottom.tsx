@@ -13,6 +13,7 @@ const OrderBottom = ({ onClick, active, children }: PropsWithChildren<Props>) =>
   return (
     <button
       onClick={onClick}
+      disabled={!active}
       className={`${getActiveStyle(
         active
       )} mt-5 w-full rounded-xl p-4 text-white hover:bg-brand-300`}
