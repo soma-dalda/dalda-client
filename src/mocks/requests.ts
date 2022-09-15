@@ -18,7 +18,13 @@ type API = (
 ) => Promise<MockedResponse<DefaultBodyType> | void>
 
 export const login: API = async (req, res, ctx) => {
+  const { registrationId } = req.params
   const token = req.headers.get('Authorization')?.split('Bearer')[1].trim()
+  if (typeof registrationId === 'string') {
+    if (registrationId === 'naver') {
+      return res(ctx.status(401))
+    }
+  }
   if (token) {
     const user = db.users.find((u) => u.id === token)
 
@@ -48,10 +54,10 @@ export const getUser: API = async (req, res, ctx) => {
       return res(ctx.status(200), ctx.cookie('access-token', token), ctx.json(user))
     }
 
-    return res(ctx.status(403), ctx.json({ error: { message: '잘못된 Id' } }))
+    return res(ctx.status(401), ctx.json({ error: { message: '잘못된 Id' } }))
   }
 
-  return res(ctx.status(403), ctx.json({ error: { message: 'Error From Un Authorization Token' } }))
+  return res(ctx.status(401), ctx.json({ error: { message: 'Error From Un Authorization Token' } }))
 }
 
 export const getCompanies: API = async (_, res, ctx) => {
@@ -78,7 +84,7 @@ export const patchCompany: API = async (req, res, ctx) => {
 
       return res(ctx.status(200), ctx.delay(1200), ctx.json(db.users[index]))
     }
-    return res(ctx.status(403), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
+    return res(ctx.status(401), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
   }
 
   return res(ctx.status(403), ctx.json({ error: { message: '잘못된 요청' } }))

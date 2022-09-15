@@ -1,5 +1,5 @@
 import { getCookie } from '@/utils'
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios'
 
 export const StatusCode = {
   Unauthorized: 401,
@@ -43,10 +43,15 @@ class Http {
 
     http.interceptors.request.use(injectJWToken, (error) => Promise.reject(error))
 
-    // http.interceptors.response.use(
-    //   (response) => response,
-    //   (error) => error
-    // )
+    http.interceptors.response.use(
+      (response) => response,
+      async (error: AxiosError) => {
+        if (error.response?.status === 401) {
+          await axios.post('/api/user-auth/refresh')
+        }
+        return Promise.reject(error)
+      }
+    )
 
     this.instance = http
     return http
