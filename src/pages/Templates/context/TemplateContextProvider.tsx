@@ -9,7 +9,7 @@ import {
   Template,
 } from '@/type'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
-import useError from '@/hooks/useError'
+import useStatus from '@/hooks/useStatus'
 import { TemplateValueContext, defaultValue, TemplateActionContext } from './TemplateContext'
 
 export const defaultOptionQuestion: OptionQuestion = {
@@ -17,29 +17,38 @@ export const defaultOptionQuestion: OptionQuestion = {
   question: '',
   detailType: 'multiObjective',
   options: [],
-  images: [],
+  img: '',
 }
 export const defaultDescriptionQuestion: DescriptionQuestion = {
   type: 'description',
   detailType: 'longSubjective',
   question: '',
   options: null,
-  images: [],
+  img: '',
 }
 
 const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const [template, setTemplate] = useImmer(defaultValue)
-  const { dispatchUpdateError } = useError()
+  const { dispatchUpdateError } = useStatus()
   const { refetch } = useGetCompanyRequest({
     onSuccess: (data) => {
       setTemplate((draft) => {
         draft.companyId = data.id
       })
     },
-    onError: () => {
-      dispatchUpdateError('존재하지 않는 업체 입니다')
+    onError: (err) => {
+      dispatchUpdateError({ message: '존재하지 않는 업체 입니다', code: err.code })
     },
   })
+
+  const handleUpdateImage = useCallback(
+    (index: number) => (imageUrl: string) => {
+      setTemplate((draft) => {
+        draft.content[index].img = imageUrl
+      })
+    },
+    []
+  )
 
   const handleResetTemplate = useCallback(() => {
     setTemplate(defaultValue)
@@ -139,8 +148,21 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       handleUpdateDetailType,
       handleUpdateTemplate,
       handleResetTemplate,
+      handleUpdateImage,
     }),
-    []
+    [
+      handleUpdateTitle,
+      handleAddQuestion,
+      handleDeleteQuestion,
+      handleUpdateQuestionTitle,
+      handleAddOption,
+      handleUpdateOption,
+      handleDeleteOption,
+      handleUpdateDetailType,
+      handleUpdateTemplate,
+      handleResetTemplate,
+      handleUpdateImage,
+    ]
   )
 
   return (

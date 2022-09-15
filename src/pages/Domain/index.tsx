@@ -2,21 +2,22 @@ import React from 'react'
 import { Layout } from '@/components'
 import { Navigation } from '@/components/blocks'
 
-import useError from '@/hooks/useError'
+import useError from '@/hooks/useStatus'
 import { useModal } from '@jaewoong2/modal'
 import { Link } from 'react-router-dom'
 import useGetUser from '@/hooks/useGetUser'
 import LoadingPage from '@/components/molecules/LoadingPage'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
-import DomainProfileImage from './components/atoms/DomainProfileImage'
-import DomainProfileTitle from './components/atoms/DomainProfileTitle'
-import DomainProfileDescription from './components/atoms/DomainProfileDescription'
-import DomainProfileLocation from './components/atoms/DomainProfileLocation'
-import DomainProfileIcons from './components/atoms/DomainProfileIcons'
-import DomainProfileHours from './components/atoms/DomainProfileHours'
+import DomainProfileTitle from './components/molecules/DomainProfileTitle'
+import DomainProfileDescription from './components/molecules/DomainProfileDescription'
+import DomainProfileLocation from './components/molecules/DomainProfileLocation'
+import DomainProfileIcons from './components/molecules/DomainProfileIcons'
+import DomainProfileHours from './components/molecules/DomainProfileHours'
 import useGetTemplates from './hooks/useGetTemplates'
-import DomainTemplates from './components/atoms/DomainTemplates'
-import BusinessHourMessage from './components/atoms/BusinessHourMessage'
+import DomainTemplates from './components/molecules/DomainTemplates'
+import BusinessHourMessage from './components/molecules/BusinessHourMessage'
+import DomainProfileImageUpload from './components/blocks/DomainProfileImageUpload'
+import DomainProfileImage from './components/molecules/DomainProfileImage'
 
 const Domain = () => {
   const { data: user } = useGetUser()
@@ -24,7 +25,7 @@ const Domain = () => {
 
   const { data: company, isLoading: companyLoading } = useGetCompanyRequest({
     onError: (err) => {
-      dispatchUpdateError(err.response?.data.error.message)
+      dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
     },
   })
 
@@ -32,7 +33,7 @@ const Domain = () => {
     { companyId: company?.id },
     {
       onError: (err) => {
-        dispatchUpdateError(err.response?.data.error.message)
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
       },
     }
   )
@@ -69,7 +70,8 @@ const Domain = () => {
         )
       }
     >
-      <DomainProfileImage src={company?.profileImage ?? ''} />
+      {company?.id === user?.id && <DomainProfileImageUpload src={company?.profileImage ?? ''} />}
+      {company?.id !== user?.id && <DomainProfileImage src={company?.profileImage ?? ''} />}
       <DomainProfileTitle>{company?.companyName}</DomainProfileTitle>
       <DomainProfileDescription>{company?.companyIntroduction}</DomainProfileDescription>
       <DomainProfileLocation>{company?.companyLocation}</DomainProfileLocation>

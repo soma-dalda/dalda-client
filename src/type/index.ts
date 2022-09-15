@@ -7,7 +7,7 @@ export type User = {
   id: string
   oAuthId: string
   role: 'company' | 'consumer'
-  userName: string
+  username: string
   userPhone: string
   companyName: string | null
   companyDomain: string | null
@@ -53,7 +53,7 @@ export type OptionQuestion = {
   type: OptionQuestionType
   detailType: OptionQuestionDetailType
   question: string
-  images?: string[]
+  img?: string
   options: string[]
 }
 
@@ -61,7 +61,7 @@ export type DescriptionQuestion = {
   type: DescriptionQuestionType
   detailType: DescriptionQuestionDetailType
   question: string
-  images?: string[]
+  img?: string
   options: null
 }
 
@@ -87,9 +87,8 @@ export type Order = {
   companyId?: string
 
   imgUrl?: string
-  templateResponse?: {
-    [key: string]: string
-  }
+  templateResponse?: { question: string; answer: string }[]
+
   orderDate?: string
   pickupDate?: string
   pickupNoticePhone?: string

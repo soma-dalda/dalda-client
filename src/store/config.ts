@@ -1,12 +1,12 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { createLogger } from 'redux-logger'
-import errorSlice from '@/pages/slice/errorSlice'
+import statusSlice from '@/slice/statusSlice'
 
 const logger = createLogger()
 
 const rootReducer = combineReducers({
-  error: errorSlice.reducer,
+  status: statusSlice.reducer,
 })
 
 const initialState = {}

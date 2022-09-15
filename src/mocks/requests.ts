@@ -18,7 +18,13 @@ type API = (
 ) => Promise<MockedResponse<DefaultBodyType> | void>
 
 export const login: API = async (req, res, ctx) => {
+  const { registrationId } = req.params
   const token = req.headers.get('Authorization')?.split('Bearer')[1].trim()
+  if (typeof registrationId === 'string') {
+    if (registrationId === 'naver') {
+      return res(ctx.status(401))
+    }
+  }
   if (token) {
     const user = db.users.find((u) => u.id === token)
 
@@ -48,10 +54,10 @@ export const getUser: API = async (req, res, ctx) => {
       return res(ctx.status(200), ctx.cookie('access-token', token), ctx.json(user))
     }
 
-    return res(ctx.status(403), ctx.json({ error: { message: '잘못된 Id' } }))
+    return res(ctx.status(401), ctx.json({ error: { message: '잘못된 Id' } }))
   }
 
-  return res(ctx.status(403), ctx.json({ error: { message: 'Error From Un Authorization Token' } }))
+  return res(ctx.status(401), ctx.json({ error: { message: 'Error From Un Authorization Token' } }))
 }
 
 export const getCompanies: API = async (_, res, ctx) => {
@@ -78,7 +84,7 @@ export const patchCompany: API = async (req, res, ctx) => {
 
       return res(ctx.status(200), ctx.delay(1200), ctx.json(db.users[index]))
     }
-    return res(ctx.status(403), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
+    return res(ctx.status(401), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
   }
 
   return res(ctx.status(403), ctx.json({ error: { message: '잘못된 요청' } }))
@@ -231,9 +237,25 @@ export const getOrderByOrderId: API = async (req, res, ctx) => {
 export const postOrders: API = async (req, res, ctx) => {
   const newOrder = await req.json<Order | null>()
   const id = req.headers.get('authorization')?.split('Bearer')[1].trim()
+  if (!id) {
+    return res(
+      ctx.status(403),
+      ctx.delay(2000),
+      ctx.json({ error: { message: '로그인이 필수 입니다' } })
+    )
+  }
 
   const userIndex = db.users.findIndex((u) => u.id === id)
   const template = db.templates.findIndex((t) => t.id === newOrder?.templateId)
+
+  if (!db.users[userIndex]) {
+    return res(
+      ctx.status(403),
+      ctx.delay(2000),
+      ctx.json({ error: { message: '존재하지 않는 유저 입니다' } })
+    )
+  }
+
   if (newOrder) {
     db.orders.push({
       ...newOrder,
@@ -261,7 +283,7 @@ export const patchUser: API = async (req, res, ctx) => {
     if (data) {
       db.users[userIndex] = {
         ...db.users[userIndex],
-        userName: data.username,
+        username: data.username,
         userPhone: data.userPhone,
       }
       return res(ctx.status(200), ctx.delay(2000))
@@ -286,4 +308,14 @@ export const getOrders: API = async (req, res, ctx) => {
     return res(ctx.status(404), ctx.json({ error: { message: '존재하지 데이터' } }))
   }
   return res(ctx.status(403), ctx.json({ error: { message: '존재하지 유저' } }))
+}
+
+export const postImage: API = async (_, res, ctx) => {
+  // const data = await req.arrayBuffer()
+  // const reader = new FileReader()
+
+  // if (data) {
+  //   return res(ctx.status(200), ctx.json(data))
+  // }
+  return res(ctx.status(200), ctx.delay(2400), ctx.json({ url: '성공' }))
 }

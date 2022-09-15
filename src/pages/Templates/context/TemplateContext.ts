@@ -39,6 +39,7 @@ type TemplateAction = {
   }) => void
   handleUpdateTemplate: (template: Template) => void
   handleResetTemplate: () => void
+  handleUpdateImage: (index: number) => (imageUrl: string) => void
 }
 
 const defaultAction: TemplateAction = {
@@ -52,6 +53,7 @@ const defaultAction: TemplateAction = {
   handleUpdateDetailType: () => {},
   handleUpdateTemplate: () => {},
   handleResetTemplate: () => {},
+  handleUpdateImage: () => () => {},
 }
 
 export const TemplateValueContext = createContext(defaultValue)

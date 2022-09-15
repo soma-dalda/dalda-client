@@ -9,6 +9,9 @@ import PersonalTermIcon from '@/components/molecules/icons/PersonalTermIcon'
 import useGetUser from '@/hooks/useGetUser'
 import BellIcon from '@/components/molecules/icons/BellIcon'
 import useGetOrders from '@/hooks/useGetOrders'
+import KakaoIcon from '@/components/molecules/icons/KakaoIcon'
+import NaverIcon from '@/components/molecules/icons/NaverIcon'
+import GoogleIcon from '@/components/molecules/icons/GoogleIcon'
 import RightArrowIcon from '../../../../molecules/icons/RightArrowIcon'
 import MenuCloseButton from './MenuCloseButton'
 import MenuListItem from '../molecules/MenuListItem'
@@ -24,6 +27,9 @@ const getBellStyle = (length: string | number) =>
     'after:bg-brand-300 after:flex after:items-center after:justify-center after:text-xs after:font-thin after:rounded-full after:text-grayScale-700',
     `after:content-['${length.toString()}']`
   )
+
+const BASE_URI =
+  import.meta.env.MODE === 'development' ? '/login' : 'https://api.dalda.shop/oauth2/authorization'
 
 const MenuList = () => {
   const { data: user } = useGetUser()
@@ -68,17 +74,41 @@ const MenuList = () => {
           <MenuListItem to="/#" icon={<PersonalTermIcon />}>
             개인정보처리방침
           </MenuListItem>
-          <MenuListItem to="/#" icon={<LogoutIcon />}>
+          <MenuListItem to="/logout" icon={<LogoutIcon />}>
             로그아웃
           </MenuListItem>
         </ul>
       ) : (
         <ul>
           <MenuListItem
-            to="/login"
-            icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
+            to={`${BASE_URI}/kakao`}
+            icon={
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-400 p-1">
+                <KakaoIcon />
+              </span>
+            }
           >
-            로그인
+            카카오 계정으로 로그인
+          </MenuListItem>
+          <MenuListItem
+            to={`${BASE_URI}/google`}
+            icon={
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 p-1">
+                <GoogleIcon />
+              </span>
+            }
+          >
+            구글 계정으로 로그인
+          </MenuListItem>
+          <MenuListItem
+            to={`${BASE_URI}/naver`}
+            icon={
+              <span className="h-6 w-6 rounded-full bg-green-400 p-1">
+                <NaverIcon />
+              </span>
+            }
+          >
+            네이버 계정으로 로그인
           </MenuListItem>
         </ul>
       )}

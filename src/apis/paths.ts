@@ -30,11 +30,12 @@ export const PATH = {
 
   putTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
 
-  getComsumerOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/consumer/${userId}`,
+  getConsumerOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/consumer/${userId}`,
   getCompanyOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/company/${userId}`,
   getOrderByOrderId: ({ orderId }: OrderByOrderIdParmas) => `/api/orders/${orderId}`,
 
   postOrders: () => `/api/orders`,
   getLogin: ({ registrationId }: GetLoginParams) => `/oauth2/authorization/${registrationId}`,
   getUser: () => `/api/user`,
+  postImage: () => `/api/image/upload`,
 }

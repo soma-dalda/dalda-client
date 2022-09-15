@@ -19,15 +19,15 @@ export const MOCK_TEMPLATE: Template = {
       type: 'option',
       detailType: 'singleObjective',
       question: '케이크 호수를 정해주세요.',
-      images: [''],
-      options: ['1호', '2호', 'e3호', '4호'],
+      img: 'https://i.ytimg.com/vi/g2sSCktflX8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCsx_IEUNclI10YLIagy0rEXhQQHg',
+      options: ['1호', '2호', '3호', '4호'],
     },
     {
       type: 'description',
       options: null,
       detailType: 'shortSubjective',
       question: '케이크 문구를 작성 해주세요.',
-      images: [''],
+      img: '',
     },
   ],
 }
@@ -36,7 +36,7 @@ export const MOCK_USER: User = {
   id: '0',
   oAuthId: `0-kakao`,
   role: 'consumer',
-  userName: 'dalda_offical',
+  username: 'dalda_offical',
   userPhone: '',
   companyName: '',
   companyDomain: '',
@@ -76,21 +76,26 @@ export const MOCK_COMPANY: Company = {
   modifiedAt: new Date().toJSON(),
   oAuthId: 'kakao',
   role: 'company',
-  userName: 'cake-dalda',
+  username: 'cake-dalda',
   userPhone: '010-0000-1234',
   withdraw: false,
   withdrawAt: new Date().toJSON(),
 }
 
 export const MOCK_ORDER: Order = {
-  id: '',
+  id: '0',
 
-  templateId: '',
-  consumerId: '',
-  companyId: '',
+  templateId: '0',
+  consumerId: '2',
+  companyId: '1',
 
-  imgUrl: '',
-  templateResponse: {},
+  imgUrl:
+    'https://i.ytimg.com/vi/g2sSCktflX8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCsx_IEUNclI10YLIagy0rEXhQQHg',
+  templateResponse: [
+    { answer: '2호', question: '케이크 호수를 정해주세요.' },
+    { answer: '123456789', question: '케이크 문구를 작성 해주세요.' },
+  ],
+
   orderDate: '',
   pickupDate: '',
   pickupNoticePhone: '',

@@ -2,9 +2,10 @@ import LoadingPage from '@/components/molecules/LoadingPage'
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import useHandleEdit from '../../hooks/useHandleEdit'
-import EditDays from './EditDays'
 import EditLayout from './EditLayout'
-import EditProfile from './EditProfile'
+
+const EditProfile = React.lazy(() => import('./EditProfile'))
+const EditDays = React.lazy(() => import('./EditDays'))
 
 const EditRoutes = () => {
   const { handleSaveButtonClick, isLoading } = useHandleEdit()

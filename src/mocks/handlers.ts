@@ -14,6 +14,7 @@ import {
   putTemplateById,
   patchCompany,
   patchUser,
+  postImage,
   getOrders,
 } from './requests'
 
@@ -38,4 +39,5 @@ export const handlers = [
 
   rest.post('/api/orders', postOrders),
   rest.get('/api/orders/length', getOrders),
+  rest.post('/api/image/upload', postImage),
 ]
