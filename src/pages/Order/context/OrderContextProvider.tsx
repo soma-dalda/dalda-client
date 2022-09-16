@@ -1,8 +1,8 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
 import { Order } from '@/type'
-import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import usePostOrder from '../hooks/usePostOrder'
 import { defaultOrder, OrderAction, OrderActionContext, OrderValueContext } from './OrderContext'
@@ -10,9 +10,11 @@ import { defaultOrder, OrderAction, OrderActionContext, OrderValueContext } from
 const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const { id, domain } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+
   const { dispatchUpdateError } = useStatus()
   const [checked, setChecked] = useState<number[]>([])
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState(+location.hash.replace(/#/g, '0'))
   const [order, setOrder] = useImmer<Order & { answers: string[] }>({
     ...defaultOrder,
     templateId: id,
@@ -45,6 +47,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
     },
   })
+
   const setTemplateResponse = ({
     question,
     answer,
@@ -64,6 +67,18 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       }
     })
   }
+
+  const handlePickupdate = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setOrder((draft) => {
+      draft.pickupDate = e.target.value
+    })
+  }, [])
+
+  const handlePickupPhoneNumber = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setOrder((draft) => {
+      draft.pickupNoticePhone = e.target.value
+    })
+  }, [])
 
   const handleClickStep = useCallback(
     (step: number) => () => {
@@ -136,33 +151,36 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
     []
   )
 
-  const handleClickBottomButton = useCallback(() => {
-    if (current + 1 < order.answers.length) {
-      setCurrent((prev) => prev + 1)
-      navigate(`#${current}`)
-    } else {
-      mutate({ templateId: order.templateId, templateResponse: order.templateResponse })
-    }
-  }, [current, order])
+  const handleSubmit = useCallback(() => {
+    mutate(order)
+  }, [order])
+
+  useEffect(() => {
+    setCurrent(+location.hash.slice(1))
+  }, [location.hash])
 
   const value = useMemo(() => ({ current, order, checked }), [current, order, checked])
   const action: OrderAction = useMemo(
     () => ({
       handleClickStep,
+      handleSubmit,
       handleChangeCheckbox,
       handleAddImage,
-      handleClickBottomButton,
       handleChangeRadio,
+      handlePickupPhoneNumber,
       handleChangeTextArea,
+      handlePickupdate,
       setOrder,
     }),
     [
       handleClickStep,
+      handlePickupdate,
       handleAddImage,
+      handleSubmit,
       handleChangeCheckbox,
-      handleClickBottomButton,
       handleChangeRadio,
       handleChangeTextArea,
+      handlePickupPhoneNumber,
       setOrder,
     ]
   )
