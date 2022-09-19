@@ -7,7 +7,14 @@ type Props = {
 }
 
 const RecommandCards = ({ title }: Props) => {
-  const { data: companies } = useGetCompanies()
+  const { data: companies } = useGetCompanies({
+    select: (datas) => {
+      return datas.map((data) => ({
+        ...data,
+        companyDomain: encodeURIComponent(data.companyDomain ?? ''),
+      }))
+    },
+  })
 
   return (
     <div className="mt-7 flex w-full flex-col gap-5 p-3 text-xl font-semibold">
