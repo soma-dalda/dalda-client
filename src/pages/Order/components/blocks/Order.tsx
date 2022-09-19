@@ -7,20 +7,15 @@ import LoadingPage from '@/components/molecules/LoadingPage'
 import QuestionDescription from '../molecules/QuestionDescription'
 import QuestionOption from '../molecules/QuestionOption'
 import Stepper from '../molecules/Stepper'
-import OrderBottom from '../molecules/OrderBottom'
 import useOrderValueContext from '../../hooks/useOrderValueContext'
 import useOrderActionContext from '../../hooks/useOrderActionContext'
+import OrderBottomLink from '../molecules/OrderBottomLink'
 
 const Order = () => {
   const { id } = useParams()
-  const { order, current, checked } = useOrderValueContext()
-  const {
-    handleChangeCheckbox,
-    handleChangeRadio,
-    handleChangeTextArea,
-    handleClickStep,
-    handleClickBottomButton,
-  } = useOrderActionContext()
+  const { order, current } = useOrderValueContext()
+  const { handleChangeCheckbox, handleChangeRadio, handleChangeTextArea, handleClickStep } =
+    useOrderActionContext()
 
   const { data: template, isLoading } = useGetTemplate(id ?? '', {
     enabled: false,
@@ -44,7 +39,6 @@ const Order = () => {
         {content && content.type === 'option' && (
           <QuestionOption
             img={content.img}
-            checked={checked}
             detailType={content.detailType}
             answer={order.answers[current]}
             questionTitle={content.question}
@@ -65,9 +59,15 @@ const Order = () => {
           />
         )}
       </form>
-      <OrderBottom active={Boolean(order.answers[current])} onClick={handleClickBottomButton}>
-        {current + 1 === order.answers.length ? '제출하기' : '다음'}
-      </OrderBottom>
+      {current + 1 === order.answers.length ? (
+        <OrderBottomLink active={Boolean(order.answers[current])} to="../pickup">
+          픽업 날짜 설정하기
+        </OrderBottomLink>
+      ) : (
+        <OrderBottomLink active={Boolean(order.answers[current])} to={`#${current + 1}`}>
+          다음
+        </OrderBottomLink>
+      )}
     </Layout>
   )
 }

@@ -69,6 +69,7 @@ export const patchCompany: API = async (req, res, ctx) => {
 
   if (user) {
     const index = db.users.findIndex((u) => u.id === user.id)
+
     if (index > -1) {
       const indexByDomain = db.users.findIndex((u) => u.companyDomain === user.companyDomain)
       if (indexByDomain > -1) {

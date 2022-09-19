@@ -7,7 +7,7 @@ import LoadingPage from './components/molecules/LoadingPage'
 const Home = React.lazy(() => import('./pages/Home'))
 const EditRoute = React.lazy(() => import('./pages/Edit'))
 const Domain = React.lazy(() => import('./pages/Domain'))
-const TemplatesRoute = React.lazy(() => import('./pages/Domain'))
+const TemplatesRoute = React.lazy(() => import('./pages/Templates'))
 const Login = React.lazy(() => import('./pages/Login'))
 const OrderRoute = React.lazy(() => import('./pages/Order'))
 const OrdersRoute = React.lazy(() => import('./pages/Orders'))

@@ -2,14 +2,12 @@ import { Layout } from '@/components'
 import { NavigationWithArrow } from '@/components/blocks'
 import useHandleImage from '@/hooks/useHandleImage'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import useOrderActionContext from '../../hooks/useOrderActionContext'
 import DragDropImage from '../molecules/DragDropImage'
-import OrderBottom from '../molecules/OrderBottom'
+import OrderBottomLink from '../molecules/OrderBottomLink'
 import QuestionLayout from '../molecules/QuestionLayout'
 
 const OrderInit = () => {
-  const navigate = useNavigate()
   const { handleAddImage } = useOrderActionContext()
   const { handleDragIn, handleDragOut, handleDragOver, handleDrop, handleChangeImage, name } =
     useHandleImage({
@@ -29,9 +27,9 @@ const OrderInit = () => {
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         />
-        <OrderBottom active onClick={() => navigate(`answer`)}>
+        <OrderBottomLink active to="answer#0">
           다음
-        </OrderBottom>
+        </OrderBottomLink>
       </QuestionLayout>
     </Layout>
   )

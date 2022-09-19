@@ -12,7 +12,7 @@ const useHandleEdit = () => {
   const { mutate, isLoading: putIsLoading } = usePatchUser({
     onSuccess: () => {
       if (company.companyDomain) {
-        navigate(`/${company.companyDomain}`)
+        navigate(`/${encodeURIComponent(company.companyDomain)}`)
       }
     },
   })

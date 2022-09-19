@@ -1,8 +1,8 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
 import { Order } from '@/type'
-import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 import usePostOrder from '../hooks/usePostOrder'
 import { defaultOrder, OrderAction, OrderActionContext, OrderValueContext } from './OrderContext'
@@ -10,10 +10,11 @@ import { defaultOrder, OrderAction, OrderActionContext, OrderValueContext } from
 const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const { id, domain } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+
   const { dispatchUpdateError } = useStatus()
-  const [checked, setChecked] = useState<number[]>([])
-  const [current, setCurrent] = useState(0)
-  const [order, setOrder] = useImmer<Order & { answers: string[] }>({
+  const [current, setCurrent] = useState(+location.hash.replace(/#/g, '0'))
+  const [order, setOrder] = useImmer<Order & { answers: string[][] }>({
     ...defaultOrder,
     templateId: id,
   })
@@ -45,25 +46,38 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
     },
   })
+
   const setTemplateResponse = ({
     question,
     answer,
     index,
   }: {
     question: string
-    answer: string
+    answer: string[]
     index: number
   }) => {
     setOrder((draft) => {
-      if (draft.templateResponse) {
-        if (draft.templateResponse[index]) {
-          draft.templateResponse[index] = { question, answer }
+      if (draft.templateResponses) {
+        if (draft.templateResponses[index]) {
+          draft.templateResponses[index] = { question, answer }
         } else {
-          draft.templateResponse.push({ question, answer })
+          draft.templateResponses.push({ question, answer })
         }
       }
     })
   }
+
+  const handlePickupdate = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setOrder((draft) => {
+      draft.pickupDate = e.target.value
+    })
+  }, [])
+
+  const handlePickupPhoneNumber = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setOrder((draft) => {
+      draft.pickupNoticePhone = e.target.value
+    })
+  }, [])
 
   const handleClickStep = useCallback(
     (step: number) => () => {
@@ -75,7 +89,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
 
   const handleAddImage = useCallback((url: string) => {
     setOrder((draft) => {
-      draft.imgUrl = url
+      draft.image = url
     })
   }, [])
 
@@ -83,7 +97,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
     useCallback(
       (index) => (e) => {
         setOrder((draft) => {
-          draft.answers[index] = e.target.value
+          draft.answers[index] = [e.target.value]
           setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
         })
       },
@@ -99,26 +113,20 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
         }
         if (e.target.checked) {
           setOrder((draft) => {
-            setChecked((prev) => [...prev, +checkedIndex])
             if (draft.answers[index]) {
-              draft.answers[index] = JSON.stringify([
-                ...JSON.parse(draft?.answers?.[index]),
-                e.target.value,
-              ])
+              draft.answers[index] = [...draft.answers[index], e.target.value]
             } else {
-              draft.answers[index] = JSON.stringify([e.target.value])
+              draft.answers[index] = [e.target.value]
             }
             setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
           })
         }
 
         if (!e.target.checked) {
-          setChecked((prev) => prev.filter((v) => v !== +checkedIndex))
           setOrder((draft) => {
-            const options: string[] = JSON.parse(draft.answers[index])
-            draft.answers[index] = JSON.stringify(
-              options.filter((option) => option !== e.target.value)
-            )
+            const options: string[] = draft.answers[index]
+            draft.answers[index] = options.filter((option) => option !== e.target.value)
+
             setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
           })
         }
@@ -129,40 +137,44 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const handleChangeRadio = useCallback(
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setOrder((draft) => {
-        draft.answers[index] = e.target.value
+        draft.answers[index] = [e.target.value]
         setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
       })
     },
     []
   )
 
-  const handleClickBottomButton = useCallback(() => {
-    if (current + 1 < order.answers.length) {
-      setCurrent((prev) => prev + 1)
-      navigate(`#${current}`)
-    } else {
-      mutate({ templateId: order.templateId, templateResponse: order.templateResponse })
-    }
-  }, [current, order])
+  const handleSubmit = useCallback(() => {
+    const { companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone } = order
+    mutate({ companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone })
+  }, [order])
 
-  const value = useMemo(() => ({ current, order, checked }), [current, order, checked])
+  useEffect(() => {
+    setCurrent(+location.hash.slice(1))
+  }, [location.hash])
+
+  const value = useMemo(() => ({ current, order }), [current, order])
   const action: OrderAction = useMemo(
     () => ({
       handleClickStep,
+      handleSubmit,
       handleChangeCheckbox,
       handleAddImage,
-      handleClickBottomButton,
       handleChangeRadio,
+      handlePickupPhoneNumber,
       handleChangeTextArea,
+      handlePickupdate,
       setOrder,
     }),
     [
       handleClickStep,
+      handlePickupdate,
       handleAddImage,
+      handleSubmit,
       handleChangeCheckbox,
-      handleClickBottomButton,
       handleChangeRadio,
       handleChangeTextArea,
+      handlePickupPhoneNumber,
       setOrder,
     ]
   )

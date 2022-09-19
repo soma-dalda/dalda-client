@@ -35,7 +35,7 @@ const OrderConfirm = () => {
           {template?.content.map((question, index) => (
             <Question
               question={question.question}
-              answer={order?.templateResponse?.[index].answer ?? ''}
+              answer={order?.templateResponses?.[index].answer}
             />
           ))}
           <Link
