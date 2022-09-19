@@ -11,6 +11,7 @@ const LoadingIcon = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
         xmlns="http://www.w3.org/2000/svg"
         {...props}
         ref={ref}
+        className="animate-pulse"
       >
         <path
           fillRule="evenodd"

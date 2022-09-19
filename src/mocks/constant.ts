@@ -60,7 +60,7 @@ export const MOCK_COMPANY: Company = {
   companyName: '케이크-달다',
   companyIntroduction:
     'Make Your own Cake For Family, Friend, Co-workers Make Your own Cake For Family, Friend, Co-workers',
-  profileImage: '/src/assets/logo.png',
+  profileImage: '/logo.png',
   companyDomain: 'test',
   instagramLink: 'https://instagram.com',
   qnaLink: 'https://open.kakao.com/o/gSgY8Ove',

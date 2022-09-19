@@ -23,8 +23,8 @@ export const handlers = [
   rest.get('/api/user', getUser),
   rest.patch('/api/user', patchUser),
   rest.patch('/api/user-company', patchCompany),
-  rest.get('/api/company', getCompanies),
-  rest.get('/api/:companyDomain', getCompany),
+  rest.get('/api/user-company', getCompanies),
+  rest.get('/api/user-company/:companyDomain', getCompany),
 
   rest.get('/api/templates/:companyId/list', getTemplates),
 
