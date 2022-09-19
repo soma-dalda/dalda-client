@@ -13,7 +13,7 @@ import OrderBottomLink from '../molecules/OrderBottomLink'
 
 const Order = () => {
   const { id } = useParams()
-  const { order, current, checked } = useOrderValueContext()
+  const { order, current } = useOrderValueContext()
   const { handleChangeCheckbox, handleChangeRadio, handleChangeTextArea, handleClickStep } =
     useOrderActionContext()
 
@@ -39,7 +39,6 @@ const Order = () => {
         {content && content.type === 'option' && (
           <QuestionOption
             img={content.img}
-            checked={checked}
             detailType={content.detailType}
             answer={order.answers[current]}
             questionTitle={content.question}

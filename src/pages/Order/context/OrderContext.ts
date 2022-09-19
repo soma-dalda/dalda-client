@@ -7,17 +7,17 @@ export type OrderAction = {
   handleChangeCheckbox: (index: number) => React.ChangeEventHandler<HTMLInputElement>
   handleChangeRadio: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
   handleChangeTextArea: (index: number) => React.ChangeEventHandler<HTMLTextAreaElement>
-  setOrder: Updater<Order & { answers: string[] }>
+  setOrder: Updater<Order & { answers: string[][] }>
   handleAddImage: (url: string) => void
   handleSubmit: () => void
   handlePickupPhoneNumber: (e: React.ChangeEvent<HTMLInputElement>) => void
   handlePickupdate: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const defaultOrder: Order & { answers: string[] } = {
+export const defaultOrder: Order & { answers: string[][] } = {
   templateId: '',
-  answers: [''],
-  templateResponse: [],
+  answers: [['']],
+  templateResponses: [],
 }
 
 const defaultAction: OrderAction = {
@@ -32,7 +32,7 @@ const defaultAction: OrderAction = {
   handleSubmit: () => {},
 }
 
-const OrderValueContext = createContext({ order: defaultOrder, current: 0, checked: [-1] })
+const OrderValueContext = createContext({ order: defaultOrder, current: 0 })
 const OrderActionContext = createContext({ ...defaultAction })
 
 export { OrderValueContext, OrderActionContext }

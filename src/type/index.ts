@@ -86,8 +86,8 @@ export type Order = {
   consumerId?: string
   companyId?: string
 
-  imgUrl?: string
-  templateResponse?: { question: string; answer: string }[]
+  image?: string
+  templateResponses?: { question: string; answer: string[] }[]
 
   orderDate?: string
   pickupDate?: string
