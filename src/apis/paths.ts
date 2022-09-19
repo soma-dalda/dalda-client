@@ -21,8 +21,8 @@ type GetLoginParams = {
 export const PATH = {
   patchUser: () => `/api/user`,
   patchCompany: () => `/api/user-company`,
-  getCompany: ({ companyDomain }: GetCompanyParams) => `/api/${companyDomain}`,
-  getCompanies: () => `/api/company`,
+  getCompany: ({ companyDomain }: GetCompanyParams) => `/api/user-company/${companyDomain}`,
+  getCompanies: () => `/api/user-company`,
 
   getTemplates: ({ companyId }: { companyId?: string }) => `/api/templates/${companyId}/list`,
   getTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
