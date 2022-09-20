@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { ModalProvider } from '@jaewoong2/modal'
 import { ToastProvider } from '@jaewoong2/toast'
 import LoadingPage from './components/molecules/LoadingPage'
+import MetaTag from './components/blocks/MetaTag'
 
 const Home = React.lazy(() => import('./pages/Home'))
 const EditRoute = React.lazy(() => import('./pages/Edit'))
@@ -18,6 +19,7 @@ const ErrorPage = React.lazy(() => import('./pages/404'))
 const App = () => {
   return (
     <ToastProvider>
+      <MetaTag />
       <Suspense fallback={<LoadingPage />}>
         <Routes>
           <Route path="">

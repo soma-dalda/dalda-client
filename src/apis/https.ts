@@ -31,13 +31,15 @@ const injectJWToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
 class Http {
   private instance: AxiosInstance | null = null
 
+  public baseURL: string = import.meta.env.DEV ? '' : 'http://dev.dalda.shop'
+
   get http(): AxiosInstance {
     return this.instance ?? this.initHttp()
   }
 
   initHttp() {
     const http = axios.create({
-      baseURL: import.meta.env.DEV ? '' : 'https://api.dalda.shop',
+      baseURL: this.baseURL,
       withCredentials: true,
     })
 
@@ -58,4 +60,4 @@ class Http {
   }
 }
 
-export const { http } = new Http()
+export const { http, baseURL } = new Http()

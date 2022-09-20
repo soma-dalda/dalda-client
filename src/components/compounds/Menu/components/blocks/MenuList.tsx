@@ -12,6 +12,7 @@ import useGetOrders from '@/hooks/useGetOrders'
 import KakaoIcon from '@/components/molecules/icons/KakaoIcon'
 import NaverIcon from '@/components/molecules/icons/NaverIcon'
 import GoogleIcon from '@/components/molecules/icons/GoogleIcon'
+import { baseURL } from '@/apis/https'
 import RightArrowIcon from '../../../../molecules/icons/RightArrowIcon'
 import MenuCloseButton from './MenuCloseButton'
 import MenuListItem from '../molecules/MenuListItem'
@@ -28,8 +29,11 @@ const getBellStyle = (length: string | number) =>
     `after:content-['${length.toString()}']`
   )
 
-const BASE_URI =
-  import.meta.env.MODE === 'development' ? '/login' : 'https://api.dalda.shop/oauth2/authorization'
+const getLoginURL = (registerId: string) => {
+  return import.meta.env.MODE === 'development'
+    ? `/login/${registerId}`
+    : `${baseURL}/oauth2/authorization/${registerId}?redirect_uri=${window.location.href}`
+}
 
 const MenuList = () => {
   const { data: user } = useGetUser()
@@ -81,7 +85,7 @@ const MenuList = () => {
       ) : (
         <ul>
           <MenuListItem
-            to={`${BASE_URI}/kakao`}
+            to={getLoginURL('kakao')}
             icon={
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-400 p-1">
                 <KakaoIcon />
@@ -91,7 +95,7 @@ const MenuList = () => {
             카카오 계정으로 로그인
           </MenuListItem>
           <MenuListItem
-            to={`${BASE_URI}/google`}
+            to={getLoginURL('google')}
             icon={
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 p-1">
                 <GoogleIcon />
@@ -101,7 +105,7 @@ const MenuList = () => {
             구글 계정으로 로그인
           </MenuListItem>
           <MenuListItem
-            to={`${BASE_URI}/naver`}
+            to={getLoginURL('naver')}
             icon={
               <span className="h-6 w-6 rounded-full bg-green-400 p-1">
                 <NaverIcon />

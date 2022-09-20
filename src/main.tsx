@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 
 import axios from 'axios'
+import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import store from './store/config'
 
@@ -25,9 +26,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <HelmetProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </HelmetProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </Provider>
