@@ -1,4 +1,5 @@
 import useStatus from '@/hooks/useStatus'
+import { AxiosError } from 'axios'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useGetTemplate from '../../../hooks/useGetTemplate'
@@ -21,7 +22,11 @@ const useTemplate = () => {
       navigate(-1)
     },
     onError: (err) => {
-      dispatchUpdateError({ message: '주문서 폼 수정을 실패 하였습니다', code: err.code })
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
     },
   })
 
@@ -31,7 +36,11 @@ const useTemplate = () => {
       navigate(-1)
     },
     onError: (err) => {
-      dispatchUpdateError({ message: '주문서 폼 등록을 실패 하였습니다', code: err.code })
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
     },
   })
 
@@ -43,7 +52,11 @@ const useTemplate = () => {
     },
     retry: false,
     onError: (err) => {
-      dispatchUpdateError({ message: '존재 하지 않는 주문서', code: err.code })
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
     },
     enabled: Boolean(id !== 'post') && Boolean(id),
   })

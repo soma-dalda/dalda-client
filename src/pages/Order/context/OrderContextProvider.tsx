@@ -1,6 +1,7 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
 import { Order } from '@/type'
+import { AxiosError } from 'axios'
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useImmer } from 'use-immer'
@@ -43,7 +44,11 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       navigate(`/${domain}`)
     },
     onError: (err) => {
-      dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
     },
   })
 

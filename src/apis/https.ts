@@ -41,6 +41,8 @@ class Http {
     const http = axios.create({
       baseURL: this.baseURL,
       withCredentials: true,
+      timeout: 4000,
+      timeoutErrorMessage: '네트워크 상황을 확인 해주세요 :)',
     })
 
     http.interceptors.request.use(injectJWToken, (error) => Promise.reject(error))
@@ -54,7 +56,6 @@ class Http {
         return Promise.reject(error)
       }
     )
-
     this.instance = http
     return http
   }
