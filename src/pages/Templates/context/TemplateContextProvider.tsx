@@ -10,6 +10,7 @@ import {
 } from '@/type'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
 import useStatus from '@/hooks/useStatus'
+import { AxiosError } from 'axios'
 import { TemplateValueContext, defaultValue, TemplateActionContext } from './TemplateContext'
 
 export const defaultOptionQuestion: OptionQuestion = {
@@ -37,7 +38,11 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       })
     },
     onError: (err) => {
-      dispatchUpdateError({ message: '존재하지 않는 업체 입니다', code: err.code })
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
     },
   })
 

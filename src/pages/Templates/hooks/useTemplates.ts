@@ -1,6 +1,7 @@
 import useStatus from '@/hooks/useStatus'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
 import useGetTemplates from '@/pages/Domain/hooks/useGetTemplates'
+import { AxiosError } from 'axios'
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,7 +10,11 @@ const useTemplates = () => {
 
   const { data: company } = useGetCompanyRequest({
     onError: (err) => {
-      dispatchUpdateError({ message: err.response?.data.error.message, code: err.code })
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
     },
   })
 
@@ -17,7 +22,11 @@ const useTemplates = () => {
     { companyId: company?.id },
     {
       onError: (err) => {
-        dispatchUpdateError({ message: err.response?.data.error.message, code: err.code })
+        if (err.status === AxiosError.ECONNABORTED) {
+          dispatchUpdateError({ code: 400, message: err.message })
+        } else {
+          dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        }
       },
     }
   )

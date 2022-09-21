@@ -2,11 +2,12 @@ import React from 'react'
 import { Layout } from '@/components'
 import { Navigation } from '@/components/blocks'
 
-import useError from '@/hooks/useStatus'
 import { useModal } from '@jaewoong2/modal'
 import { Link } from 'react-router-dom'
 import useGetUser from '@/hooks/useGetUser'
 import LoadingPage from '@/components/molecules/LoadingPage'
+import useStatus from '@/hooks/useStatus'
+import { AxiosError } from 'axios'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
 import DomainProfileTitle from './components/molecules/DomainProfileTitle'
 import DomainProfileDescription from './components/molecules/DomainProfileDescription'
@@ -21,11 +22,15 @@ import DomainProfileImage from './components/molecules/DomainProfileImage'
 
 const Domain = () => {
   const { data: user } = useGetUser()
-  const { dispatchUpdateError } = useError()
+  const { dispatchUpdateError } = useStatus()
 
   const { data: company, isLoading: companyLoading } = useGetCompanyRequest({
     onError: (err) => {
-      dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
     },
   })
 
@@ -33,8 +38,13 @@ const Domain = () => {
     { companyId: company?.id },
     {
       onError: (err) => {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        if (err.status === AxiosError.ECONNABORTED) {
+          dispatchUpdateError({ code: 400, message: err.message })
+        } else {
+          dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        }
       },
+      enabled: Boolean(company?.id),
     }
   )
 
@@ -58,7 +68,9 @@ const Domain = () => {
     <Layout
       navigtaion={<Navigation />}
       bottom={
-        user?.id === company?.id && (
+        user?.id &&
+        company?.id &&
+        user.id === company?.id && (
           <div className="flex w-full items-center justify-center px-4">
             <Link
               to="templates"

@@ -13,7 +13,12 @@ const MenuListItem = ({ icon, to, children }: PropsWithChildren<Props>) => {
 
   return (
     <li className="w-full border-b py-4">
-      <Anchor href={to} className="flex w-fit items-center gap-4">
+      <Anchor
+        referrerPolicy="unsafe-url"
+        rel="unsafe-url"
+        href={to}
+        className="flex w-fit items-center gap-4"
+      >
         {icon}
         <span className="flex items-center text-sm text-grayScale-800 ">{children}</span>
       </Anchor>
