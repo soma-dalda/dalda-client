@@ -3,6 +3,7 @@ import { Layout } from '@/components'
 import { NavigationWithArrow } from '@/components/blocks'
 import useGetOrderByOrderId from '@/hooks/useGetOrderByOrderId'
 import { Link } from 'react-router-dom'
+import { Label } from '@/components/atoms'
 
 const OrderResponse = () => {
   const { data: order } = useGetOrderByOrderId()
@@ -11,7 +12,12 @@ const OrderResponse = () => {
     <Layout navigtaion={<NavigationWithArrow>주문 요청</NavigationWithArrow>}>
       <section className="mt-3 w-full">
         <h2 className="mb-7 text-lg font-semibold">{order?.orderStatus ?? '확인 진행 중'}</h2>
-        <div className="rounded-xl border bg-white p-3">메시지 메시지 메시지</div>
+        {order?.templateResponses?.map(({ answer, question }) => (
+          <div className="py-2">
+            <Label>{question}</Label>
+            <div className="rounded-xl border bg-white p-3">{answer}</div>
+          </div>
+        ))}
       </section>
       <Link
         to="/"

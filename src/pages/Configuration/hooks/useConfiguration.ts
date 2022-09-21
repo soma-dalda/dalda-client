@@ -12,6 +12,11 @@ const useConfiguration = () => {
       setUsername(user.username)
       setUserPhone(user.userPhone)
     },
+    refetchInterval: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    retry: false,
   })
   const { mutate, isLoading } = usePatchUser()
   const navigate = useNavigate()

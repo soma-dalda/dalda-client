@@ -69,6 +69,7 @@ export const patchCompany: API = async (req, res, ctx) => {
 
   if (user) {
     const index = db.users.findIndex((u) => u.id === user.id)
+
     if (index > -1) {
       const indexByDomain = db.users.findIndex((u) => u.companyDomain === user.companyDomain)
       if (indexByDomain > -1) {
@@ -82,7 +83,7 @@ export const patchCompany: API = async (req, res, ctx) => {
         ...user,
       }
 
-      return res(ctx.status(200), ctx.delay(1200), ctx.json(db.users[index]))
+      return res(ctx.status(200), ctx.delay(5200), ctx.json(db.users[index]))
     }
     return res(ctx.status(401), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
   }

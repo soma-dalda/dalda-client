@@ -4,7 +4,7 @@ import QuestionLayout from './QuestionLayout'
 type Props = {
   questionTitle?: string
   handleChangeDescription: React.ChangeEventHandler
-  description: string
+  description: string[]
   img?: string
 }
 
@@ -26,7 +26,7 @@ const QuestionDescription = ({
           name={questionTitle}
           rows={10}
           id="description"
-          value={description}
+          value={description[0]}
           onChange={handleChangeDescription}
         />
       </div>

@@ -36,7 +36,7 @@ export const MOCK_USER: User = {
   id: '0',
   oAuthId: `0-kakao`,
   role: 'consumer',
-  username: 'dalda_offical',
+  username: '',
   userPhone: '',
   companyName: '',
   companyDomain: '',
@@ -60,7 +60,7 @@ export const MOCK_COMPANY: Company = {
   companyName: '케이크-달다',
   companyIntroduction:
     'Make Your own Cake For Family, Friend, Co-workers Make Your own Cake For Family, Friend, Co-workers',
-  profileImage: '/src/assets/logo.png',
+  profileImage: '/logo.png',
   companyDomain: 'test',
   instagramLink: 'https://instagram.com',
   qnaLink: 'https://open.kakao.com/o/gSgY8Ove',
@@ -89,11 +89,11 @@ export const MOCK_ORDER: Order = {
   consumerId: '2',
   companyId: '1',
 
-  imgUrl:
+  image:
     'https://i.ytimg.com/vi/g2sSCktflX8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCsx_IEUNclI10YLIagy0rEXhQQHg',
-  templateResponse: [
-    { answer: '2호', question: '케이크 호수를 정해주세요.' },
-    { answer: '123456789', question: '케이크 문구를 작성 해주세요.' },
+  templateResponses: [
+    { answer: ['2호'], question: '케이크 호수를 정해주세요.' },
+    { answer: ['123456789'], question: '케이크 문구를 작성 해주세요.' },
   ],
 
   orderDate: '',

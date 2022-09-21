@@ -8,13 +8,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 
 import axios from 'axios'
+import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import store from './store/config'
-import { worker } from './mocks/browser'
 
 const queryClient = new QueryClient()
 
 if (import.meta.env.DEV) {
+  // eslint-disable-next-line global-require
+  const { worker } = await import('./mocks/browser')
   worker.start({ onUnhandledRequest: 'bypass' })
 }
 
@@ -24,9 +26,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <HelmetProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </HelmetProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </Provider>
