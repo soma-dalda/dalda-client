@@ -9,7 +9,7 @@ type UseQueryOption = Omit<
 >
 
 const useGetUser = (options?: UseQueryOption) => {
-  const token = getCookie('access-token')
+  const token = getCookie('accessToken')
 
   return useQuery<User, RequestError>('getUser', getUser, {
     ...options,
