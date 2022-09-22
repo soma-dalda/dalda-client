@@ -6,8 +6,8 @@ import TitleLogoIcon from '../molecules/icons/TitleLogoIcon'
 const Navigation = () => {
   return (
     <nav className="flex w-full justify-between">
-      <Link to="/">
-        <TitleLogoIcon className="h-[20px] w-fit cursor-pointer" />
+      <Link to="/" className="flex justify-start">
+        <TitleLogoIcon className="h-[20px] w-auto cursor-pointer" />
       </Link>
       <MenuHamberger />
     </nav>
