@@ -15,7 +15,6 @@ import store from './store/config'
 const queryClient = new QueryClient()
 
 if (import.meta.env.DEV) {
-  // eslint-disable-next-line global-require
   const { worker } = await import('./mocks/browser')
   worker.start({ onUnhandledRequest: 'bypass' })
 }
