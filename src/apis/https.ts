@@ -10,7 +10,7 @@ export const StatusCode = {
 
 const injectJWToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
   try {
-    const token = getCookie('access-token')
+    const token = getCookie('accessToken')
 
     if (token != null && config) {
       config.headers = {
