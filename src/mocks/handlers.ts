@@ -26,7 +26,7 @@ export const handlers = [
   rest.get('/api/user-company', getCompanies),
   rest.get('/api/user-company/:companyDomain', getCompany),
 
-  rest.get('/api/templates/:companyId/list', getTemplates),
+  rest.get('/api/templates/list/:companyId', getTemplates),
 
   rest.get('/api/templates/:templateId', getTemplate),
   rest.post('/api/templates', postTemplate),

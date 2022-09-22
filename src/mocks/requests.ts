@@ -29,7 +29,7 @@ export const login: API = async (req, res, ctx) => {
     const user = db.users.find((u) => u.id === token)
 
     if (user) {
-      return res(ctx.status(200), ctx.cookie('access-token', token), ctx.json(user))
+      return res(ctx.status(200), ctx.cookie('accessToken', token), ctx.json(user))
     }
   }
 
@@ -39,7 +39,7 @@ export const login: API = async (req, res, ctx) => {
     const newUser = { ...MOCK_USER, id: uid, oAuthId: '', userName: '' }
     db.users.push(newUser)
 
-    return res(ctx.status(200), ctx.cookie('access-token', uid), ctx.json(newUser))
+    return res(ctx.status(200), ctx.cookie('accessToken', uid), ctx.json(newUser))
   }
 
   return res(ctx.status(403), ctx.json({ error: { message: 'Error! From Login' } }))
@@ -51,7 +51,7 @@ export const getUser: API = async (req, res, ctx) => {
     const user = db.users.find((u) => u.id === token)
 
     if (user) {
-      return res(ctx.status(200), ctx.cookie('access-token', token), ctx.json(user))
+      return res(ctx.status(200), ctx.cookie('accessToken', token), ctx.json(user))
     }
 
     return res(ctx.status(401), ctx.json({ error: { message: '잘못된 Id' } }))
