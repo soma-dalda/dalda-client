@@ -31,7 +31,8 @@ const injectJWToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
 class Http {
   private instance: AxiosInstance | null = null
 
-  public baseURL: string = import.meta.env.DEV ? '' : 'https://api.dalda.shop'
+  public baseURL: string = import.meta.env.DEV ? '' : 'https://dev.dalda.shop'
+  // public baseURL: string = 'https://api.dalda.shop'
 
   get http(): AxiosInstance {
     return this.instance ?? this.initHttp()
@@ -42,7 +43,7 @@ class Http {
       baseURL: this.baseURL,
       withCredentials: true,
       timeout: 4000,
-      timeoutErrorMessage: '네트워크 상황을 확인 해주세요 :)',
+      timeoutErrorMessage: '네트워크 상황을 확인 해주세요',
     })
 
     http.interceptors.request.use(injectJWToken, (error) => Promise.reject(error))

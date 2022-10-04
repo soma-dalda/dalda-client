@@ -32,7 +32,7 @@ const getBellStyle = (length: string | number) =>
 const getLoginURL = (registerId: string) => {
   return import.meta.env.MODE === 'development'
     ? `/login/${registerId}`
-    : `${baseURL}/oauth2/authorization/${registerId}?redirect_uri=${window.location.href}`
+    : `${baseURL}/oauth2/authorization/${registerId}`
 }
 
 const MenuList = () => {
