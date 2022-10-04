@@ -9,7 +9,8 @@ const Home = React.lazy(() => import('./pages/Home'))
 const EditRoute = React.lazy(() => import('./pages/Edit'))
 const Domain = React.lazy(() => import('./pages/Domain'))
 const TemplatesRoute = React.lazy(() => import('./pages/Templates'))
-const Login = React.lazy(() => import('./pages/Login'))
+const LoginRoute = React.lazy(() => import('./pages/Login'))
+const LoginSSO = React.lazy(() => import('./pages/Login/LoginSSO'))
 const OrderRoute = React.lazy(() => import('./pages/Order'))
 const OrdersRoute = React.lazy(() => import('./pages/Orders'))
 const Configuration = React.lazy(() => import('./pages/Configuration'))
@@ -39,7 +40,8 @@ const App = () => {
           </Route>
           <Route element={<OrdersRoute />} path="/orders/*" />
           <Route element={<Configuration />} path="/configuration" />
-          <Route element={<Login />} path="/login/:sso" />
+          <Route element={<LoginRoute />} path="/login" />
+          <Route element={<LoginSSO />} path="/login/:sso" />
           <Route element={<Logout />} path="/logout" />
           <Route element={<ErrorPage />} path="/error" />
         </Routes>

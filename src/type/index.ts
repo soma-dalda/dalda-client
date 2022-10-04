@@ -2,11 +2,12 @@ import { AxiosError } from 'axios'
 import { QuestionType } from '@/pages/Templates/constant'
 
 export type Days = '월' | '화' | '수' | '목' | '금' | '토' | '일'
+export type ROLE = 'MEMBER' | 'COMPANY'
 
 export type User = {
   id: string
   oAuthId: string
-  role: 'company' | 'consumer'
+  role: ROLE
   username: string
   userPhone: string
   companyName: string | null
