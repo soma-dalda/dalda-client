@@ -7,7 +7,7 @@ const Anchor = React.forwardRef<HTMLAnchorElement, JSX.IntrinsicElements['a']>(
   ({ children, href, ...props }, ref) => {
     if (href?.match(url)) {
       return (
-        <a target="_blank" rel="noreferrer" {...props} href={href} ref={ref}>
+        <a target="_self" rel="noreferrer" {...props} href={href} ref={ref}>
           {children}
         </a>
       )
