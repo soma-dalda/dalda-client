@@ -29,7 +29,7 @@ export const login: API = async (req, res, ctx) => {
     const user = db.users.find((u) => u.id === token)
 
     if (user) {
-      return res(ctx.status(200), ctx.cookie('accessToken', token), ctx.json(user))
+      return res(ctx.status(200), ctx.json(user))
     }
   }
 
@@ -38,8 +38,7 @@ export const login: API = async (req, res, ctx) => {
   if (uid) {
     const newUser = { ...MOCK_USER, id: uid, oAuthId: '', userName: '' }
     db.users.push(newUser)
-
-    return res(ctx.status(200), ctx.cookie('accessToken', uid), ctx.json(newUser))
+    return res(ctx.status(200), ctx.json(newUser))
   }
 
   return res(ctx.status(403), ctx.json({ error: { message: 'Error! From Login' } }))
@@ -51,7 +50,7 @@ export const getUser: API = async (req, res, ctx) => {
     const user = db.users.find((u) => u.id === token)
 
     if (user) {
-      return res(ctx.status(200), ctx.cookie('accessToken', token), ctx.json(user))
+      return res(ctx.status(200), ctx.json(user))
     }
 
     return res(ctx.status(401), ctx.json({ error: { message: '잘못된 Id' } }))
@@ -61,7 +60,7 @@ export const getUser: API = async (req, res, ctx) => {
 }
 
 export const getCompanies: API = async (_, res, ctx) => {
-  return res(ctx.status(200), ctx.json(db.users.filter((user) => user.role === 'company')))
+  return res(ctx.status(200), ctx.json(db.users.filter((user) => user.role === 'COMPANY')))
 }
 
 export const patchCompany: API = async (req, res, ctx) => {
@@ -77,7 +76,7 @@ export const patchCompany: API = async (req, res, ctx) => {
           return res(ctx.status(403), ctx.json({ error: { message: '동일 도메인' } }))
         }
       }
-      user.role = 'company'
+      user.role = 'COMPANY'
       db.users[index] = {
         ...db.users[index],
         ...user,

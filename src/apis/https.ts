@@ -1,4 +1,3 @@
-import { getCookie } from '@/utils'
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios'
 
 export const StatusCode = {
@@ -10,9 +9,9 @@ export const StatusCode = {
 
 const injectJWToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
   try {
-    const token = getCookie('accessToken')
+    const token = window.localStorage.getItem('accessToken')
 
-    if (token != null && config) {
+    if (token !== null && config) {
       config.headers = {
         ...config.headers,
         Authorization: `Bearer ${token}`,

@@ -35,7 +35,7 @@ export const MOCK_TEMPLATE: Template = {
 export const MOCK_USER: User = {
   id: '0',
   oAuthId: `0-kakao`,
-  role: 'consumer',
+  role: 'MEMBER',
   username: '',
   userPhone: '',
   companyName: '',
@@ -75,7 +75,7 @@ export const MOCK_COMPANY: Company = {
   latestAt: new Date().toJSON(),
   modifiedAt: new Date().toJSON(),
   oAuthId: 'kakao',
-  role: 'company',
+  role: 'COMPANY',
   username: 'cake-dalda',
   userPhone: '010-0000-1234',
   withdraw: false,

@@ -13,10 +13,10 @@ const Orders = () => {
   const { data: user } = useGetUser({
     onSuccess: (data) => {
       if (params['*'] === '') {
-        if (data.role === 'company') {
+        if (data.role === 'COMPANY') {
           navigate('company')
         }
-        if (data.role === 'consumer') {
+        if (data.role === 'MEMBER') {
           navigate('consumer')
         }
       }
@@ -25,7 +25,7 @@ const Orders = () => {
 
   return (
     <Layout navigtaion={<NavigationWithArrow to="/">주문 요청</NavigationWithArrow>}>
-      {user?.role === 'company' && (
+      {user?.role === 'COMPANY' && (
         <NavigationWithDivider
           buttons={[
             <ActiveLink active={params['*'] === 'company'} type="button" to="company">
