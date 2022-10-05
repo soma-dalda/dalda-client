@@ -1,17 +1,21 @@
+import React from 'react'
 import useGetUser from '@/hooks/useGetUser'
-import { deleteCookie } from '@/utils'
-import React, { useEffect } from 'react'
+import useLocalStorage from '@/hooks/useLocalStorage'
 import { useNavigate } from 'react-router-dom'
+import useGetLogout from './hooks/useGetLogout'
 
 const Logout = () => {
   const navigtae = useNavigate()
   const { remove } = useGetUser({ enabled: false })
+  const [, setToken] = useLocalStorage('accessToken')
 
-  useEffect(() => {
-    deleteCookie('access-token')
-    navigtae('/')
-    remove()
-  }, [])
+  useGetLogout({
+    onSuccess: () => {
+      setToken('')
+      navigtae('/')
+      remove()
+    },
+  })
 
   return <div>로그인 아웃 중...</div>
 }
