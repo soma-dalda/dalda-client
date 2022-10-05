@@ -1,4 +1,4 @@
-import { Order, Template, User } from '@/type'
+import { COMPANY, Order, Template, User } from '@/type'
 import {
   DefaultBodyType,
   MockedResponse,
@@ -60,7 +60,7 @@ export const getUser: API = async (req, res, ctx) => {
 }
 
 export const getCompanies: API = async (_, res, ctx) => {
-  return res(ctx.status(200), ctx.json(db.users.filter((user) => user.role === 'COMPANY')))
+  return res(ctx.status(200), ctx.json(db.users.filter((user) => user.role === COMPANY)))
 }
 
 export const patchCompany: API = async (req, res, ctx) => {
@@ -76,13 +76,13 @@ export const patchCompany: API = async (req, res, ctx) => {
           return res(ctx.status(403), ctx.json({ error: { message: '동일 도메인' } }))
         }
       }
-      user.role = 'COMPANY'
+      user.role = COMPANY
       db.users[index] = {
         ...db.users[index],
         ...user,
       }
 
-      return res(ctx.status(200), ctx.delay(5200), ctx.json(db.users[index]))
+      return res(ctx.status(200), ctx.delay(2000), ctx.json(db.users[index]))
     }
     return res(ctx.status(401), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
   }
@@ -318,4 +318,14 @@ export const postImage: API = async (_, res, ctx) => {
   //   return res(ctx.status(200), ctx.json(data))
   // }
   return res(ctx.status(200), ctx.delay(2400), ctx.json({ url: '성공' }))
+}
+
+export const getLogout: API = async (_, res, ctx) => {
+  // const data = await req.arrayBuffer()
+  // const reader = new FileReader()
+
+  // if (data) {
+  //   return res(ctx.status(200), ctx.json(data))
+  // }
+  return res(ctx.status(200), ctx.delay(2000))
 }

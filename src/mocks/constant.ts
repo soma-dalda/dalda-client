@@ -1,4 +1,4 @@
-import { Company, Order, Template, User } from '@/type'
+import { Company, Order, Template, User, COMPANY } from '@/type'
 
 export const MOCK_HOURS = [
   { day: '월', start: '', end: '' },
@@ -75,7 +75,7 @@ export const MOCK_COMPANY: Company = {
   latestAt: new Date().toJSON(),
   modifiedAt: new Date().toJSON(),
   oAuthId: 'kakao',
-  role: 'COMPANY',
+  role: COMPANY,
   username: 'cake-dalda',
   userPhone: '010-0000-1234',
   withdraw: false,

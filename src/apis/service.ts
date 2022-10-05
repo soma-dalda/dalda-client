@@ -123,3 +123,9 @@ export const postImage = async (formData: FormData) => {
 
   return data.data
 }
+
+export const getLogout = async () => {
+  const data = await http.get(PATH.getLogout())
+
+  return data.data
+}

@@ -20,7 +20,7 @@ const useEditMount = () => {
     refetchOnWindowFocus: false,
     refetchIntervalInBackground: false,
     onSuccess: (data) => {
-      setCompany(data)
+      setCompany({ ...data })
     },
     onError: () => {
       show()

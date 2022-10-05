@@ -1,8 +1,11 @@
 import { AxiosError } from 'axios'
 import { QuestionType } from '@/pages/Templates/constant'
 
+export const MEMBER = 'MEMBER' as const
+export const COMPANY = 'COMPANY' as const
+
 export type Days = '월' | '화' | '수' | '목' | '금' | '토' | '일'
-export type ROLE = 'MEMBER' | 'COMPANY'
+export type ROLE = typeof MEMBER | typeof COMPANY
 
 export type User = {
   id: string

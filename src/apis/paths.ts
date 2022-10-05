@@ -38,4 +38,6 @@ export const PATH = {
   getLogin: ({ registrationId }: GetLoginParams) => `/oauth2/authorization/${registrationId}`,
   getUser: () => `/api/user`,
   postImage: () => `/api/image/upload`,
+
+  getLogout: () => `/logout`,
 }
