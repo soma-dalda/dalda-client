@@ -16,6 +16,7 @@ import {
   patchUser,
   postImage,
   getOrders,
+  getLogout,
 } from './requests'
 
 export const handlers = [
@@ -39,5 +40,6 @@ export const handlers = [
 
   rest.post('/api/orders', postOrders),
   rest.get('/api/orders/length', getOrders),
+  rest.get('/logout', getLogout),
   rest.post('/api/image/upload', postImage),
 ]
