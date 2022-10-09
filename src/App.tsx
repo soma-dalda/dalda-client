@@ -14,7 +14,6 @@ const LoginSSO = React.lazy(() => import('./pages/Login/LoginSSO'))
 const OrderRoute = React.lazy(() => import('./pages/Order'))
 const OrdersRoute = React.lazy(() => import('./pages/Orders'))
 const Configuration = React.lazy(() => import('./pages/Configuration'))
-const Logout = React.lazy(() => import('./pages/logout'))
 const ErrorPage = React.lazy(() => import('./pages/404'))
 
 const App = () => {
@@ -42,7 +41,6 @@ const App = () => {
           <Route element={<Configuration />} path="/configuration" />
           <Route element={<LoginRoute />} path="/login" />
           <Route element={<LoginSSO />} path="/login/:sso" />
-          <Route element={<Logout />} path="/logout" />
           <Route element={<ErrorPage />} path="/error" />
         </Routes>
       </Suspense>

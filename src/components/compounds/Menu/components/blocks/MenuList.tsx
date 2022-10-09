@@ -13,6 +13,7 @@ import KakaoIcon from '@/components/molecules/icons/KakaoIcon'
 import NaverIcon from '@/components/molecules/icons/NaverIcon'
 import GoogleIcon from '@/components/molecules/icons/GoogleIcon'
 import { baseURL } from '@/apis/https'
+import useLogout from '@/hooks/useLogout'
 import RightArrowIcon from '../../../../molecules/icons/RightArrowIcon'
 import MenuCloseButton from './MenuCloseButton'
 import MenuListItem from '../molecules/MenuListItem'
@@ -35,10 +36,13 @@ const getLoginURL = (registerId: string) => {
     : `${baseURL}/oauth2/authorization/${registerId}`
 }
 
+const logoutURL = import.meta.env.MODE === 'development' ? `/logout` : `${baseURL}/logout`
+
 const MenuList = () => {
   const { data: user } = useGetUser()
   const { data: companyOrder } = useGetOrders('company')
   const { data: consumerOrder } = useGetOrders('consumer')
+  const logout = useLogout()
   const length = (companyOrder?.length ?? 0) + (consumerOrder?.length ?? 0)
 
   return (
@@ -78,7 +82,7 @@ const MenuList = () => {
           <MenuListItem to="/#" icon={<PersonalTermIcon />}>
             개인정보처리방침
           </MenuListItem>
-          <MenuListItem to="/logout" icon={<LogoutIcon />}>
+          <MenuListItem onClick={logout} to={logoutURL} icon={<LogoutIcon />}>
             로그아웃
           </MenuListItem>
         </ul>
