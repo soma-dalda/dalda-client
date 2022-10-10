@@ -84,7 +84,7 @@ const TemplateOptionQuestion = ({ index }: Props) => {
       </div>
       <CheckBox
         id={`옵션타입-${index}`}
-        checked={content[index]?.detailType === 'singleObjective'}
+        checked={content[index]?.type === 'singleObjective'}
         onChange={handleCheckboxChange}
       >
         단일선택
