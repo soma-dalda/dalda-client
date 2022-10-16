@@ -26,9 +26,9 @@ const DomainProfileIcons = ({ instagramLink, qnaLink, etcLinks }: Props) => {
         <InfoIcon className="cursor-pointer" />
         <div className="absolute left-[calc(100%+4px)] top-0 hidden w-[70px] animate-fade-in-down flex-col items-center justify-center gap-2 rounded-lg border bg-white p-3 text-xs opacity-95 group-hover:flex group-focus:flex group-active:flex">
           {etcLinks?.map(({ title, link }) => (
-            <span key={title}>
+            <span key={title ?? ''}>
               <Anchor className="w-fit" href={link ?? ''}>
-                {title}
+                {title ?? ''}
               </Anchor>
             </span>
           ))}
