@@ -35,10 +35,11 @@ type CompanyEditContextAction = {
   handleEndChange: (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => void
   addEtcLinks: () => void
   deleteEtcLink: (index: number) => () => void
+  hanldeComapny: Updater<Company>
   setCompany: Updater<Company>
 }
 
-const initialValue: CompanyEditContextValue = {
+export const initialValue: CompanyEditContextValue = {
   businessHours: [
     { day: '월', start: '0', end: '0' },
     { day: '화', start: '0', end: '0' },
@@ -73,10 +74,23 @@ export const CompanyEditActionContext = createContext<CompanyEditContextAction>(
   addEtcLinks: () => {},
   deleteEtcLink: () => () => {},
   setCompany: () => {},
+  hanldeComapny: () => {},
 })
 
 const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
   const [company, setCompany] = useImmer<CompanyEditContextValue>({ ...initialValue })
+
+  const hanldeComapny: Updater<CompanyEditContextValue> = useCallback((args) => {
+    if (typeof args !== 'function') {
+      Object.entries(args).forEach((arg) => {
+        const [key, value] = arg
+        if (value !== null) {
+          setCompany((prev) => ({ ...prev, [key]: value }))
+        }
+      })
+    }
+  }, [])
+
   const handleChangeDomain = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCompany((draft) => {
       draft.companyDomain = e.target.value
@@ -198,6 +212,7 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
       handleEndChange,
       addEtcLinks,
       deleteEtcLink,
+      hanldeComapny,
       setCompany,
     }),
     []
