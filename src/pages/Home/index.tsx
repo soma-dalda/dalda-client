@@ -20,7 +20,6 @@ const editLink = clsx(
 
 const Home = () => {
   const { data: user } = useGetUser({
-    retry: 1,
     select: (data) => {
       return { ...data, companyDomain: encodeURIComponent(data.companyDomain ?? '') }
     },
