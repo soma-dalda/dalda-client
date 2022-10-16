@@ -64,8 +64,6 @@ const Domain = () => {
     return <LoadingPage />
   }
 
-  console.log(templates)
-
   return (
     <Layout
       navigtaion={<Navigation />}

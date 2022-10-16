@@ -24,7 +24,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
     onSuccess: (data) => {
       setOrder((prev) => ({
         ...prev,
-        companyId: data.companyId,
+        companyId: data.userId,
         templateId: id,
         answers: Array(data?.content.length).fill(''),
       }))
