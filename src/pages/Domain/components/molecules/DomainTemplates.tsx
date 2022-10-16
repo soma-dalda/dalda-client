@@ -2,26 +2,26 @@ import React from 'react'
 import DomainTemplateItem from './DomainTemplateItem'
 
 type Props = {
-  templates?: { id: string; title: string }[]
+  templateList?: { id: string; title: string }[]
 }
 
-const DomainTemplates = ({ templates }: Props) => {
-  if (!templates) {
+const DomainTemplates = ({ templateList }: Props) => {
+  if (!templateList) {
     return null
   }
 
-  if (templates?.length === 0) {
+  if (templateList?.length === 0) {
     return null
   }
 
   return (
     <div className="mt-6 flex w-full flex-col gap-[15px]">
       <DomainTemplateItem
-        to={`order/${templates?.[0]?.id}`}
+        to={`order/${templateList?.[0]?.id}`}
         variant="special"
-        title={templates?.[0]?.title}
+        title={templateList?.[0]?.title}
       />
-      {templates?.slice(1)?.map((template) => (
+      {templateList?.slice(1)?.map((template) => (
         <DomainTemplateItem
           key={template?.id}
           to={`order/${template?.id}`}

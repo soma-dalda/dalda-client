@@ -64,6 +64,8 @@ const Domain = () => {
     return <LoadingPage />
   }
 
+  console.log(templates)
+
   return (
     <Layout
       navigtaion={<Navigation />}
@@ -93,7 +95,7 @@ const Domain = () => {
         qnaLink={company?.qnaLink}
       />
       <DomainProfileHours onClick={show}>영업시간 확인하기</DomainProfileHours>
-      <DomainTemplates templates={templates} />
+      <DomainTemplates templateList={templates?.templateList} />
     </Layout>
   )
 }

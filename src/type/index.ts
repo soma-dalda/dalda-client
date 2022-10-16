@@ -65,15 +65,16 @@ export type Question = OptionQuestion | DescriptionQuestion
 
 export type Template = {
   id: string
-  companyId?: string
+  userId: string
   title: string
   content: Question[]
-
-  createdAt?: string
-  modifiedAt?: string
+  required?: boolean
 }
 
-export type Templates = Template[]
+export type Templates = {
+  userId: string
+  templateList: { id: string; title: string }[]
+}
 
 export type Order = {
   id?: string

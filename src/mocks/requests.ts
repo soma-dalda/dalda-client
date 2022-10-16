@@ -82,6 +82,8 @@ export const patchCompany: API = async (req, res, ctx) => {
         ...user,
       }
 
+      db.templatesList.push({ userId: user.id, templateList: [] })
+
       return res(ctx.status(200), ctx.delay(2000), ctx.json(db.users[index]))
     }
     return res(ctx.status(401), ctx.json({ error: { message: '잘못된 유저 아이디' } }))
@@ -116,7 +118,7 @@ export const getTemplates: API = async (req, res, ctx) => {
   const { companyId } = req.params
 
   if (typeof companyId === 'string') {
-    const data = db.templates.filter((v) => v.companyId === companyId)
+    const data = db.templatesList.filter((v) => v.userId === companyId)[0]
 
     if (data) {
       return res(ctx.status(200), ctx.json(data))
@@ -154,7 +156,10 @@ export const postTemplate: API = async (req, res, ctx) => {
   const newTemplate = await req.json<Template | null>()
 
   if (newTemplate) {
-    db.templates.push({ ...newTemplate, id: generatorUId() })
+    const uid = generatorUId()
+    db.templates.push({ ...newTemplate, id: uid })
+    const index = db.templatesList.findIndex((v) => v.userId === newTemplate.userId)
+    db.templatesList[index].templateList.push({ id: uid, title: newTemplate.title })
     return res(ctx.status(200))
   }
 
@@ -167,8 +172,16 @@ export const putTemplateById: API = async (req, res, ctx) => {
 
   if (typeof templateId === 'string') {
     const index = db.templates.findIndex((template) => template.id === templateId)
+    const templateListIndex = db.templatesList.findIndex((v) => v.userId === newTemplate?.userId)
+    const templateListTemplateIndex = db.templatesList[templateListIndex].templateList.findIndex(
+      (v) => v.id === templateId
+    )
 
     if (newTemplate) {
+      if (db.templatesList[templateListIndex].templateList[templateListTemplateIndex]) {
+        db.templatesList[templateListIndex].templateList[templateListTemplateIndex].title =
+          newTemplate?.title
+      }
       db.templates[index] = newTemplate
       return res(ctx.status(200))
     }
@@ -260,7 +273,7 @@ export const postOrders: API = async (req, res, ctx) => {
     db.orders.push({
       ...newOrder,
       id: generatorUId(),
-      companyId: db.templates[template].companyId,
+      companyId: db.templates[template].userId,
       consumerId: db.users[userIndex].id,
     })
     return res(ctx.status(200))

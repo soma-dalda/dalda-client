@@ -25,7 +25,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const { refetch } = useGetCompanyRequest({
     onSuccess: (data) => {
       setTemplate((draft) => {
-        draft.companyId = data.id
+        draft.userId = data.id
       })
     },
     onError: (err) => {
