@@ -19,14 +19,14 @@ const DomainTemplates = ({ templates }: Props) => {
       <DomainTemplateItem
         to={`order/${templates?.[0]?.id}`}
         variant="special"
-        title={templates?.[0].title}
+        title={templates?.[0]?.title}
       />
       {templates?.slice(1)?.map((template) => (
         <DomainTemplateItem
-          key={template.id}
+          key={template?.id}
           to={`order/${template?.id}`}
           variant="normal"
-          title={template.title}
+          title={template?.title}
         />
       ))}
     </div>
