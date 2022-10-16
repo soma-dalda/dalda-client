@@ -29,6 +29,13 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
         answers: Array(data?.content.length).fill(''),
       }))
     },
+    onError: (err) => {
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+      }
+    },
     enabled: Boolean(id),
     refetchInterval: false,
     refetchOnReconnect: false,
