@@ -35,6 +35,7 @@ const App = () => {
             <Route element={<TemplatesRoute />} path=":domain/templates/*" />
             <Route element={<OrderRoute />} path=":domain/order/:id/*" />
             <Route element={<EditRoute />} path=":domain/edit/*" />
+            <Route element={<ErrorPage msg="존재하지 않는 페이지" />} path=":domain/*" />
             <Route element={<EditRoute />} path="/edit/*" />
           </Route>
           <Route element={<OrdersRoute />} path="/orders/*" />
