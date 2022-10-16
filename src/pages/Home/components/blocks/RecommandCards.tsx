@@ -7,14 +7,7 @@ type Props = {
 }
 
 const RecommandCards = ({ title }: Props) => {
-  const { data: companies } = useGetCompanies({
-    select: (datas) => {
-      return datas.map((data) => ({
-        ...data,
-        companyDomain: encodeURIComponent(data.companyDomain ?? ''),
-      }))
-    },
-  })
+  const { data: companies } = useGetCompanies()
 
   return (
     <div className="mt-7 flex w-full flex-col gap-5 p-3 text-xl font-semibold">
@@ -23,7 +16,7 @@ const RecommandCards = ({ title }: Props) => {
         {companies?.map((company) => (
           <Card
             key={company.id}
-            companyDomain={company.companyDomain}
+            companyDomain={encodeURIComponent(company.companyDomain ?? '')}
             companyName={company.companyName}
             profileImage={company.profileImage}
           />

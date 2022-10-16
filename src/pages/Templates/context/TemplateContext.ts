@@ -35,7 +35,7 @@ type TemplateAction = {
     detailType,
   }: {
     contentIndex: number
-    detailType: Question['detailType']
+    detailType: Question['type']
   }) => void
   handleUpdateTemplate: (template: Template) => void
   handleResetTemplate: () => void

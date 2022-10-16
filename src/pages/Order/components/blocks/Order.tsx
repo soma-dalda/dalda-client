@@ -36,21 +36,21 @@ const Order = () => {
         />
       )}
       <form className="w-full">
-        {content && content.type === 'option' && (
+        {content && content.type !== 'subjective' && (
           <QuestionOption
             img={content.img}
-            detailType={content.detailType}
+            detailType={content.type}
             answer={order.answers[current]}
             questionTitle={content.question}
             options={content.options}
             handleChangeOption={
-              content.detailType === 'multiObjective'
+              content.type === 'multiObjective'
                 ? handleChangeCheckbox(current)
                 : handleChangeRadio(current)
             }
           />
         )}
-        {content?.type === 'description' && (
+        {content?.type === 'subjective' && (
           <QuestionDescription
             img={content.img}
             questionTitle={content?.question}

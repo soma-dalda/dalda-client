@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios'
-import { QuestionType } from '@/pages/Templates/constant'
 
 export const MEMBER = 'MEMBER' as const
 export const COMPANY = 'COMPANY' as const
@@ -42,20 +41,14 @@ export type User = {
   withdrawAt: string
 }
 
-export type OptionQuestionType = typeof QuestionType.option
-export type DescriptionQuestionType = typeof QuestionType.description
+type QuestionType = 'singleObjective' | 'multiObjective'
+type DescriptionType = 'subjective'
 
-export type OptionQuestionDetailType =
-  | typeof QuestionType.detail.singleSubjective
-  | typeof QuestionType.detail.multiSubjectvie
-
-export type DescriptionQuestionDetailType =
-  | typeof QuestionType.detail.shortObjective
-  | typeof QuestionType.detail.longObjective
+export type OptionQuestionType = QuestionType
+export type DescriptionQuestionType = DescriptionType
 
 export type OptionQuestion = {
   type: OptionQuestionType
-  detailType: OptionQuestionDetailType
   question: string
   img?: string
   options: string[]
@@ -63,7 +56,6 @@ export type OptionQuestion = {
 
 export type DescriptionQuestion = {
   type: DescriptionQuestionType
-  detailType: DescriptionQuestionDetailType
   question: string
   img?: string
   options: null

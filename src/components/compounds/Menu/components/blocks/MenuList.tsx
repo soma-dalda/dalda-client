@@ -52,16 +52,18 @@ const MenuList = () => {
       </MenuCloseButton>
       {user?.id ? (
         <ul>
-          <MenuListItem
-            to={`/${user?.companyDomain}`}
-            icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
-          >
-            내 페이지
-          </MenuListItem>
+          {Boolean(user?.companyDomain) && (
+            <MenuListItem
+              to={`/${user?.companyDomain}`}
+              icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
+            >
+              내 페이지
+            </MenuListItem>
+          )}
           <MenuListItem to="/configuration" icon={<MyInformationIcon />}>
             내 정보 관리
           </MenuListItem>
-          {user.companyDomain && (
+          {Boolean(user.companyDomain) && (
             <MenuListItem to={`/${user.companyDomain}/edit`} icon={<ProfileIcon />}>
               프로필 관리
             </MenuListItem>

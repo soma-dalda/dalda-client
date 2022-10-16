@@ -16,16 +16,14 @@ export const MOCK_TEMPLATE: Template = {
   title: '기본 주문서',
   content: [
     {
-      type: 'option',
-      detailType: 'singleObjective',
+      type: 'singleObjective',
       question: '케이크 호수를 정해주세요.',
       img: 'https://i.ytimg.com/vi/g2sSCktflX8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCsx_IEUNclI10YLIagy0rEXhQQHg',
       options: ['1호', '2호', '3호', '4호'],
     },
     {
-      type: 'description',
+      type: 'subjective',
       options: null,
-      detailType: 'shortSubjective',
       question: '케이크 문구를 작성 해주세요.',
       img: '',
     },

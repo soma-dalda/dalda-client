@@ -27,9 +27,9 @@ const Domain = () => {
   const { data: company, isLoading: companyLoading } = useGetCompanyRequest({
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
-        dispatchUpdateError({ code: 400, message: err.message })
+        dispatchUpdateError({ code: 400, message: err?.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err?.code, message: err.response?.data?.error?.message })
       }
     },
   })
@@ -39,9 +39,9 @@ const Domain = () => {
     {
       onError: (err) => {
         if (err.status === AxiosError.ECONNABORTED) {
-          dispatchUpdateError({ code: 400, message: err.message })
+          dispatchUpdateError({ code: 400, message: err?.message })
         } else {
-          dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+          dispatchUpdateError({ code: err?.code, message: err.response?.data?.error?.message })
         }
       },
       enabled: Boolean(company?.id),

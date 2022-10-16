@@ -1,4 +1,4 @@
-import { OptionQuestionDetailType } from '@/type'
+import { Question } from '@/type'
 import React from 'react'
 import QuestionLayout from './QuestionLayout'
 
@@ -7,7 +7,7 @@ type Props = {
   answer: string[]
   options?: string[] | null
   handleChangeOption: React.ChangeEventHandler<HTMLInputElement>
-  detailType: OptionQuestionDetailType
+  detailType: Question['type']
   img?: string
 }
 

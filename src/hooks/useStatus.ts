@@ -10,10 +10,8 @@ const useStatus = () => {
 
   const dispatchUpdateError = useCallback(
     ({ message, code }: { message?: string; code?: string | number }) => {
-      if (message && code) {
-        dispatch(updateError({ message, code }))
-        navigate('/error')
-      }
+      dispatch(updateError({ message: message ?? '', code: code ?? '200' }))
+      navigate('/error')
     },
     []
   )

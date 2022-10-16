@@ -1,14 +1,16 @@
+import { Question } from '@/type'
 import React, { useCallback, useState } from 'react'
+import QuestionOption from '../atoms/Option'
 
 type Props = {
-  handleClickAddButton: <T extends 'description' | 'option'>(type: T) => void
+  handleClickAddButton: <T extends Question['type']>(type: T) => void
 }
 
 const QuestionAddForm = ({ handleClickAddButton }: Props) => {
-  const [type, setType] = useState<'description' | 'option'>('option')
+  const [type, setType] = useState<Question['type']>('singleObjective')
 
   const handleSelectChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement> & { target: { value: 'description' | 'option' } }) => {
+    (e: React.ChangeEvent<HTMLSelectElement> & { target: { value: Question['type'] } }) => {
       setType(e.target.value)
     },
     []
@@ -17,8 +19,8 @@ const QuestionAddForm = ({ handleClickAddButton }: Props) => {
   return (
     <section className="flex w-full gap-5 pt-4">
       <select value={type} onChange={handleSelectChange} className="w-full rounded-xl border">
-        <option value="option">선택형</option>
-        <option value="description">입력형</option>
+        <QuestionOption value="singleObjective">선택형</QuestionOption>
+        <QuestionOption value="subjective">입력형</QuestionOption>
       </select>
       <button
         onClick={() => handleClickAddButton(type)}

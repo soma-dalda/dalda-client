@@ -12,7 +12,7 @@ const useEditMount = () => {
     color: 'white',
   })
 
-  const { setCompany } = useCompanyEditAction()
+  const { hanldeComapny } = useCompanyEditAction()
 
   return useGetUser({
     refetchInterval: false,
@@ -20,7 +20,7 @@ const useEditMount = () => {
     refetchOnWindowFocus: false,
     refetchIntervalInBackground: false,
     onSuccess: (data) => {
-      setCompany({ ...data })
+      hanldeComapny({ ...data })
     },
     onError: () => {
       show()

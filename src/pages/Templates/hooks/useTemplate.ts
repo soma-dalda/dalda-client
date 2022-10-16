@@ -65,9 +65,9 @@ const useTemplate = () => {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (template.id) {
-        putMutate({ ...template })
+        putMutate(template)
       } else {
-        postMutate({ ...template })
+        postMutate(template)
       }
     },
     [template]

@@ -1,28 +1,19 @@
 import React, { PropsWithChildren, useCallback, useMemo } from 'react'
 import { useImmer } from 'use-immer'
-import {
-  OptionQuestion,
-  DescriptionQuestion,
-  Question,
-  OptionQuestionDetailType,
-  DescriptionQuestionDetailType,
-  Template,
-} from '@/type'
+import { OptionQuestion, DescriptionQuestion, Question, Template } from '@/type'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
 import useStatus from '@/hooks/useStatus'
 import { AxiosError } from 'axios'
 import { TemplateValueContext, defaultValue, TemplateActionContext } from './TemplateContext'
 
 export const defaultOptionQuestion: OptionQuestion = {
-  type: 'option',
+  type: 'singleObjective',
   question: '',
-  detailType: 'multiObjective',
   options: [],
   img: '',
 }
 export const defaultDescriptionQuestion: DescriptionQuestion = {
-  type: 'description',
-  detailType: 'longSubjective',
+  type: 'subjective',
   question: '',
   options: null,
   img: '',
@@ -72,10 +63,10 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
 
   const handleAddQuestion = useCallback((type: Question['type']) => {
     setTemplate((draft) => {
-      if (type === 'option') {
+      if (type === 'multiObjective' || type === 'singleObjective') {
         draft.content = [...draft.content, defaultOptionQuestion]
       }
-      if (type === 'description') {
+      if (type === 'subjective') {
         draft.content = [...draft.content, defaultDescriptionQuestion]
       }
     })
@@ -96,7 +87,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const handleAddOption = useCallback((index: number) => {
     setTemplate((draft) => {
       const content = draft.content[index]
-      if (content.type === 'option') {
+      if (content.type === 'multiObjective' || content.type === 'singleObjective') {
         content.options = [...content.options, '']
       }
     })
@@ -106,7 +97,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       (e: React.ChangeEvent<HTMLInputElement>) => {
         setTemplate((draft) => {
           const content = draft.content[contentIndex]
-          if (content.type === 'option') {
+          if (content.type === 'multiObjective' || content.type === 'singleObjective') {
             content.options[optionIndex] = e.target.value
           }
         })
@@ -118,7 +109,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       () => {
         setTemplate((draft) => {
           const content = draft.content[contentIndex]
-          if (content.type === 'option') {
+          if (content.type === 'multiObjective' || content.type === 'singleObjective') {
             content.options = content.options.filter((_, i) => i !== optionIndex)
           }
         })
@@ -126,16 +117,10 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
     []
   )
   const handleUpdateDetailType = useCallback(
-    ({
-      contentIndex,
-      detailType,
-    }: {
-      contentIndex: number
-      detailType: OptionQuestionDetailType | DescriptionQuestionDetailType
-    }) => {
+    ({ contentIndex, detailType }: { contentIndex: number; detailType: Question['type'] }) => {
       setTemplate((draft) => {
         const content = draft.content[contentIndex]
-        content.detailType = detailType
+        content.type = detailType
       })
     },
     []
