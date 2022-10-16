@@ -12,8 +12,9 @@ export const MOCK_HOURS = [
 
 export const MOCK_TEMPLATE: Template = {
   id: '0',
-  companyId: '1',
+  userId: '1',
   title: '기본 주문서',
+  required: true,
   content: [
     {
       type: 'singleObjective',

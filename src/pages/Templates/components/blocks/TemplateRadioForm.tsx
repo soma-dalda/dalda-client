@@ -8,7 +8,7 @@ const TemplateRadioForm = () => {
 
   return (
     <section className="mt-8 flex flex-col gap-4">
-      {templates?.map(
+      {templates?.templateList.map(
         ({ title, id }) =>
           id && (
             <TemplateRadio key={id} id={id} onChange={handleChangeTemplateId}>

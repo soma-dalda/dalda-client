@@ -5,9 +5,8 @@ export const defaultValue: Template = {
   id: '',
   content: [],
   title: '',
-  companyId: '',
-  createdAt: '',
-  modifiedAt: '',
+  userId: '',
+  required: true,
 }
 
 type TemplateAction = {
