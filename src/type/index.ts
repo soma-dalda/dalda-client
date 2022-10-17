@@ -67,7 +67,7 @@ export type Template = {
   id: string
   userId: string
   title: string
-  content: Question[]
+  contentList: Question[]
   required?: boolean
 }
 

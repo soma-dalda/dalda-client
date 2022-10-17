@@ -40,7 +40,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const handleUpdateImage = useCallback(
     (index: number) => (imageUrl: string) => {
       setTemplate((draft) => {
-        draft.content[index].img = imageUrl
+        draft.contentList[index].img = imageUrl
       })
     },
     []
@@ -64,31 +64,31 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const handleAddQuestion = useCallback((type: Question['type']) => {
     setTemplate((draft) => {
       if (type === 'multiObjective' || type === 'singleObjective') {
-        draft.content = [...draft.content, defaultOptionQuestion]
+        draft.contentList = [...draft.contentList, defaultOptionQuestion]
       }
       if (type === 'subjective') {
-        draft.content = [...draft.content, defaultDescriptionQuestion]
+        draft.contentList = [...draft.contentList, defaultDescriptionQuestion]
       }
     })
   }, [])
   const handleDeleteQuestion = useCallback((index: number) => {
     setTemplate((draft) => {
-      draft.content = draft.content.filter((_, i) => i !== index)
+      draft.contentList = draft.contentList.filter((_, i) => i !== index)
     })
   }, [])
   const handleUpdateQuestionTitle = useCallback(
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setTemplate((draft) => {
-        draft.content[index].question = e.target.value
+        draft.contentList[index].question = e.target.value
       })
     },
     []
   )
   const handleAddOption = useCallback((index: number) => {
     setTemplate((draft) => {
-      const content = draft.content[index]
-      if (content.type === 'multiObjective' || content.type === 'singleObjective') {
-        content.options = [...content.options, '']
+      const contentList = draft.contentList[index]
+      if (contentList.type === 'multiObjective' || contentList.type === 'singleObjective') {
+        contentList.options = [...contentList.options, '']
       }
     })
   }, [])
@@ -96,9 +96,9 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
     ({ contentIndex, optionIndex }: { contentIndex: number; optionIndex: number }) =>
       (e: React.ChangeEvent<HTMLInputElement>) => {
         setTemplate((draft) => {
-          const content = draft.content[contentIndex]
-          if (content.type === 'multiObjective' || content.type === 'singleObjective') {
-            content.options[optionIndex] = e.target.value
+          const contentList = draft.contentList[contentIndex]
+          if (contentList.type === 'multiObjective' || contentList.type === 'singleObjective') {
+            contentList.options[optionIndex] = e.target.value
           }
         })
       },
@@ -108,9 +108,9 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
     ({ contentIndex, optionIndex }: { contentIndex: number; optionIndex: number }) =>
       () => {
         setTemplate((draft) => {
-          const content = draft.content[contentIndex]
-          if (content.type === 'multiObjective' || content.type === 'singleObjective') {
-            content.options = content.options.filter((_, i) => i !== optionIndex)
+          const contentList = draft.contentList[contentIndex]
+          if (contentList.type === 'multiObjective' || contentList.type === 'singleObjective') {
+            contentList.options = contentList.options.filter((_, i) => i !== optionIndex)
           }
         })
       },
@@ -119,8 +119,8 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const handleUpdateDetailType = useCallback(
     ({ contentIndex, detailType }: { contentIndex: number; detailType: Question['type'] }) => {
       setTemplate((draft) => {
-        const content = draft.content[contentIndex]
-        content.type = detailType
+        const contentList = draft.contentList[contentIndex]
+        contentList.type = detailType
       })
     },
     []

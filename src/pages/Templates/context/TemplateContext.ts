@@ -3,7 +3,7 @@ import { createContext } from 'react'
 
 export const defaultValue: Template = {
   id: '',
-  content: [],
+  contentList: [],
   title: '',
   userId: '',
   required: true,

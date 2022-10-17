@@ -25,12 +25,12 @@ const Order = () => {
     return <LoadingPage />
   }
 
-  const content = template?.content[current]
+  const content = template?.contentList[current]
   return (
     <Layout navigtaion={<NavigationWithArrow>{template?.title}</NavigationWithArrow>}>
-      {template?.content && (
+      {template?.contentList && (
         <Stepper
-          steps={template?.content?.length}
+          steps={template?.contentList?.length}
           current={current}
           handleClickStep={handleClickStep}
         />

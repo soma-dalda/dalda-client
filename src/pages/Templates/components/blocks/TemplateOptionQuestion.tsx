@@ -11,7 +11,7 @@ type Props = {
 }
 
 const TemplateOptionQuestion = ({ index }: Props) => {
-  const { content } = useTemplateValueContext()
+  const { contentList: content } = useTemplateValueContext()
   const {
     handleUpdateQuestionTitle,
     handleDeleteQuestion,

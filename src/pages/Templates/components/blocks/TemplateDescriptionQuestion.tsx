@@ -9,7 +9,7 @@ type Props = {
 }
 
 const TemplateDescriptionQuestion = ({ index }: Props) => {
-  const { content } = useTemplateValueContext()
+  const { contentList: content } = useTemplateValueContext()
   const { handleDeleteQuestion, handleUpdateQuestionTitle, handleUpdateImage } =
     useTemplateActionContext()
 
