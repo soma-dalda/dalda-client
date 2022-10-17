@@ -6,7 +6,6 @@ export const defaultValue: Template = {
   contentList: [],
   title: '',
   userId: '',
-  required: true,
 }
 
 type TemplateAction = {
@@ -39,6 +38,7 @@ type TemplateAction = {
   handleUpdateTemplate: (template: Template) => void
   handleResetTemplate: () => void
   handleUpdateImage: (index: number) => (imageUrl: string) => void
+  handleUpdateRequired: (index: number) => () => void
 }
 
 const defaultAction: TemplateAction = {
@@ -53,6 +53,7 @@ const defaultAction: TemplateAction = {
   handleUpdateTemplate: () => {},
   handleResetTemplate: () => {},
   handleUpdateImage: () => () => {},
+  handleUpdateRequired: () => () => {},
 }
 
 export const TemplateValueContext = createContext(defaultValue)

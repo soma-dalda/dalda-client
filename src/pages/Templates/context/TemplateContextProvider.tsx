@@ -46,6 +46,15 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
     []
   )
 
+  const handleUpdateRequired = useCallback(
+    (index: number) => () => {
+      setTemplate((draft) => {
+        draft.contentList[index].required = !draft.contentList[index].required
+      })
+    },
+    []
+  )
+
   const handleResetTemplate = useCallback(() => {
     setTemplate(defaultValue)
     refetch()
@@ -136,6 +145,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       handleUpdateOption,
       handleDeleteOption,
       handleUpdateDetailType,
+      handleUpdateRequired,
       handleUpdateTemplate,
       handleResetTemplate,
       handleUpdateImage,
@@ -152,6 +162,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       handleUpdateTemplate,
       handleResetTemplate,
       handleUpdateImage,
+      handleUpdateRequired,
     ]
   )
 

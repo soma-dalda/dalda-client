@@ -26,6 +26,7 @@ const Order = () => {
   }
 
   const content = template?.contentList[current]
+
   return (
     <Layout navigtaion={<NavigationWithArrow>{template?.title}</NavigationWithArrow>}>
       {template?.contentList && (
@@ -41,7 +42,7 @@ const Order = () => {
             img={content.img}
             detailType={content.type}
             answer={order.answers[current]}
-            questionTitle={content.question}
+            questionTitle={`${content?.required && '(*)'} ${content.question}`}
             options={content.options}
             handleChangeOption={
               content.type === 'multiObjective'
@@ -53,18 +54,24 @@ const Order = () => {
         {content?.type === 'subjective' && (
           <QuestionDescription
             img={content.img}
-            questionTitle={content?.question}
+            questionTitle={`${content?.required && '(*)'} ${content.question}`}
             handleChangeDescription={handleChangeTextArea(current)}
             description={order.answers[current]}
           />
         )}
       </form>
       {current + 1 === order.answers.length ? (
-        <OrderBottomLink active={Boolean(order.answers[current])} to="../pickup">
+        <OrderBottomLink
+          active={content?.required === false ? true : Boolean(order.answers[current])}
+          to="../pickup"
+        >
           픽업 날짜 설정하기
         </OrderBottomLink>
       ) : (
-        <OrderBottomLink active={Boolean(order.answers[current])} to={`#${current + 1}`}>
+        <OrderBottomLink
+          active={content?.required === false ? true : Boolean(order.answers[current])}
+          to={`#${current + 1}`}
+        >
           다음
         </OrderBottomLink>
       )}
