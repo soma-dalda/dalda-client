@@ -2,6 +2,7 @@ import { CancleButton } from '@/components/atoms'
 import React from 'react'
 import useTemplateActionContext from '../../hooks/useTemplateActionContext'
 import useTemplateValueContext from '../../hooks/useTemplateValueContext'
+import CheckBox from '../atoms/CheckBox'
 import QuestionImageUpload from './QuestionImageUpload'
 
 type Props = {
@@ -9,9 +10,13 @@ type Props = {
 }
 
 const TemplateDescriptionQuestion = ({ index }: Props) => {
-  const { content } = useTemplateValueContext()
-  const { handleDeleteQuestion, handleUpdateQuestionTitle, handleUpdateImage } =
-    useTemplateActionContext()
+  const { contentList: content } = useTemplateValueContext()
+  const {
+    handleDeleteQuestion,
+    handleUpdateRequired,
+    handleUpdateQuestionTitle,
+    handleUpdateImage,
+  } = useTemplateActionContext()
 
   return (
     <section className="mt-8 flex w-full flex-col">
@@ -34,6 +39,13 @@ const TemplateDescriptionQuestion = ({ index }: Props) => {
           onChange={handleUpdateQuestionTitle(index)}
         />
       </div>
+      <CheckBox
+        id={`필수값-${index}`}
+        checked={content[index]?.required}
+        onChange={handleUpdateRequired(index)}
+      >
+        필수 질문
+      </CheckBox>
     </section>
   )
 }

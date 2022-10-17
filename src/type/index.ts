@@ -52,6 +52,7 @@ export type OptionQuestion = {
   question: string
   img?: string
   options: string[]
+  required?: boolean
 }
 
 export type DescriptionQuestion = {
@@ -59,6 +60,7 @@ export type DescriptionQuestion = {
   question: string
   img?: string
   options: null
+  required?: boolean
 }
 
 export type Question = OptionQuestion | DescriptionQuestion
@@ -67,8 +69,7 @@ export type Template = {
   id: string
   userId: string
   title: string
-  content: Question[]
-  required?: boolean
+  contentList: Question[]
 }
 
 export type Templates = {

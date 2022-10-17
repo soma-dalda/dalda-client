@@ -26,7 +26,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
         ...prev,
         companyId: data.userId,
         templateId: id,
-        answers: Array(data?.content.length).fill(''),
+        answers: Array(data?.contentList.length).fill(''),
       }))
     },
     onError: (err) => {

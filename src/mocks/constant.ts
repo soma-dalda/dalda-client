@@ -15,7 +15,7 @@ export const MOCK_TEMPLATE: Template = {
   userId: '1',
   title: '기본 주문서',
   required: true,
-  content: [
+  contentList: [
     {
       type: 'singleObjective',
       question: '케이크 호수를 정해주세요.',

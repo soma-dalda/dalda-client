@@ -11,7 +11,7 @@ type Props = {
 }
 
 const TemplateOptionQuestion = ({ index }: Props) => {
-  const { content } = useTemplateValueContext()
+  const { contentList: content } = useTemplateValueContext()
   const {
     handleUpdateQuestionTitle,
     handleDeleteQuestion,
@@ -20,6 +20,7 @@ const TemplateOptionQuestion = ({ index }: Props) => {
     handleAddOption,
     handleUpdateImage,
     handleUpdateDetailType,
+    handleUpdateRequired,
   } = useTemplateActionContext()
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,13 +83,22 @@ const TemplateOptionQuestion = ({ index }: Props) => {
           옵션 추가
         </button>
       </div>
-      <CheckBox
-        id={`옵션타입-${index}`}
-        checked={content[index]?.type === 'singleObjective'}
-        onChange={handleCheckboxChange}
-      >
-        단일선택
-      </CheckBox>
+      <div className="flex w-full justify-end">
+        <CheckBox
+          id={`필수값-${index}`}
+          checked={content[index]?.required}
+          onChange={handleUpdateRequired(index)}
+        >
+          필수 질문
+        </CheckBox>
+        <CheckBox
+          id={`옵션타입-${index}`}
+          checked={content[index]?.type === 'singleObjective'}
+          onChange={handleCheckboxChange}
+        >
+          단일선택
+        </CheckBox>
+      </div>
     </section>
   )
 }
