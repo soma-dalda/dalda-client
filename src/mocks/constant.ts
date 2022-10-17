@@ -14,17 +14,18 @@ export const MOCK_TEMPLATE: Template = {
   id: '0',
   userId: '1',
   title: '기본 주문서',
-  required: true,
   contentList: [
     {
       type: 'singleObjective',
       question: '케이크 호수를 정해주세요.',
       img: 'https://i.ytimg.com/vi/g2sSCktflX8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCsx_IEUNclI10YLIagy0rEXhQQHg',
+      required: false,
       options: ['1호', '2호', '3호', '4호'],
     },
     {
       type: 'subjective',
       options: null,
+      required: false,
       question: '케이크 문구를 작성 해주세요.',
       img: '',
     },
