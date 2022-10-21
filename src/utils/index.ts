@@ -24,3 +24,10 @@ export function useCurrentQueryString(url: string) {
     getCurrentQueryString: (key: string) => searchParams.get(key),
   }
 }
+
+export const getDateTime = (date: Date) => {
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .split('.')[0]
+    .substring(0, 16)
+}
