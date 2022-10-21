@@ -42,7 +42,7 @@ const Order = () => {
             img={content.img}
             detailType={content.type}
             answer={order.answers[current]}
-            questionTitle={`${content?.required && '(*)'} ${content.question}`}
+            questionTitle={`${content?.required ? '(*)' : ''} ${content.question}`}
             options={content.options}
             handleChangeOption={
               content.type === 'multiObjective'
@@ -54,7 +54,7 @@ const Order = () => {
         {content?.type === 'subjective' && (
           <QuestionDescription
             img={content.img}
-            questionTitle={`${content?.required && '(*)'} ${content.question}`}
+            questionTitle={`${content?.required ? '(*)' : ''} ${content.question}`}
             handleChangeDescription={handleChangeTextArea(current)}
             description={order.answers[current]}
           />

@@ -2,17 +2,11 @@ import React from 'react'
 import { Layout } from '@/components'
 import { NavigationWithArrow } from '@/components/blocks'
 import { FormControl, FormInput, FormLabel } from '@/components/compounds/Form/components'
+import { getDateTime } from '@/utils'
 import QuestionLayout from '../molecules/QuestionLayout'
 import SubmitButton from '../molecules/SubmitButton'
 import useOrderValueContext from '../../hooks/useOrderValueContext'
 import useOrderActionContext from '../../hooks/useOrderActionContext'
-
-const getDateTime = (date: Date) => {
-  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-    .toISOString()
-    .split('.')[0]
-    .substring(0, 16)
-}
 
 const Pickup = () => {
   const { order } = useOrderValueContext()
@@ -33,7 +27,7 @@ const Pickup = () => {
             <FormLabel className="p-1">픽업 날짜</FormLabel>
             <FormInput
               className="bordere flex w-full justify-between rounded-xl p-3"
-              value={order.pickupDate ?? getDateTime(new Date())}
+              value={order?.pickupDate ?? getDateTime(new Date())}
               type="datetime-local"
               onChange={handlePickupdate}
               min={getDateTime(new Date())}
