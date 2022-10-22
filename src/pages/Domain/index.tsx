@@ -89,7 +89,7 @@ const Domain = () => {
       <DomainProfileLocation>{company?.companyLocation}</DomainProfileLocation>
       <DomainProfileIcons
         etcLinks={company?.etcLinks}
-        instagramLink={company?.instagramLink}
+        instagramLink={company?.instaLink}
         qnaLink={company?.qnaLink}
       />
       <DomainProfileHours onClick={show}>영업시간 확인하기</DomainProfileHours>

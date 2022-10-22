@@ -1,4 +1,4 @@
-import { Company, Order, Template, User, COMPANY } from '@/type'
+import { Company, Order, Template, User, COMPANY, MEMBER } from '@/type'
 
 export const MOCK_HOURS = [
   { day: '월', start: '', end: '' },
@@ -35,7 +35,7 @@ export const MOCK_TEMPLATE: Template = {
 export const MOCK_USER: User = {
   id: '0',
   oAuthId: `0-kakao`,
-  role: 'MEMBER',
+  role: MEMBER,
   username: '',
   userPhone: '',
   companyName: '',
@@ -46,7 +46,7 @@ export const MOCK_USER: User = {
   companyPhone: '',
   profileImage: '',
   qnaLink: '',
-  instagramLink: '',
+  instaLink: '',
   etcLinks: [],
   createdAt: '',
   modifiedAt: '',
@@ -62,7 +62,7 @@ export const MOCK_COMPANY: Company = {
     'Make Your own Cake For Family, Friend, Co-workers Make Your own Cake For Family, Friend, Co-workers',
   profileImage: '/logo.png',
   companyDomain: 'test',
-  instagramLink: 'https://instagram.com',
+  instaLink: 'https://instagram.com',
   qnaLink: 'https://open.kakao.com/o/gSgY8Ove',
   etcLinks: [
     { title: '블로그', link: 'https://velog.io' },
