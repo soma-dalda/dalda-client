@@ -27,7 +27,7 @@ export const PATH = {
   putTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
 
   getConsumerOrdersByUserId: () => `/api/orders/list/consumer`,
-  getCompanyOrdersByUserId: () => `/api/orders/list/company/`,
+  getCompanyOrdersByUserId: () => `/api/orders/list/company`,
   getOrderByOrderId: ({ orderId }: OrderByOrderIdParmas) => `/api/orders/${orderId}`,
 
   postOrders: () => `/api/orders`,
