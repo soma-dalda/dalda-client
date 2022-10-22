@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useMemo } from 'react'
+import React, { PropsWithChildren, useCallback, useEffect, useMemo } from 'react'
 import { useImmer } from 'use-immer'
 import { OptionQuestion, DescriptionQuestion, Question, Template } from '@/type'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
@@ -35,12 +35,18 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
         dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
       }
     },
+    enabled: false,
   })
 
   const handleUpdateImage = useCallback(
     (index: number) => (imageUrl: string) => {
       setTemplate((draft) => {
-        draft.contentList[index].img = imageUrl
+        const content = draft.contentList[index]
+        if (content) {
+          if (content.img) {
+            content.img = imageUrl
+          }
+        }
       })
     },
     []
@@ -134,6 +140,10 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
     },
     []
   )
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   const action = useMemo(
     () => ({
