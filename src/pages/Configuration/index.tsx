@@ -38,10 +38,13 @@ const Configuration = () => {
         />
         <FormInputBase
           isRequired
+          type="number"
           isDisabled={isLoading}
+          minLength={11}
           label="사용자 전화번호"
           value={userPhone}
           onChange={onChangeUserPhone}
+          helper="01012345678 형식으로 작성해주세요 :)"
         />
       </form>
     </Layout>
