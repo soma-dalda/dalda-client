@@ -12,9 +12,11 @@ const injectJWToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const token = window.localStorage.getItem('accessToken')
 
     if (token !== null && config) {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
+      if (token?.trim() !== '') {
+        config.headers = {
+          ...config.headers,
+          Authorization: `Bearer ${token}`,
+        }
       }
     }
 
