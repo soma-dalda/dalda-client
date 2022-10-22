@@ -43,9 +43,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       setTemplate((draft) => {
         const content = draft.contentList[index]
         if (content) {
-          if (content.img) {
-            content.img = imageUrl
-          }
+          content.img = imageUrl
         }
       })
     },
