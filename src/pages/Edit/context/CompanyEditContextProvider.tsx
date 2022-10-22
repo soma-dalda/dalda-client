@@ -11,9 +11,11 @@ type ComapnyKeys =
   | 'companyIntroduction'
   | 'companyName'
   | 'companyLocation'
-  | 'instagramLink'
+  | 'instaLink'
   | 'etcLinks'
   | 'qnaLink'
+  | 'profileImage'
+  | 'userPhone'
 
 type CompanyPick = Pick<User, ComapnyKeys>
 
@@ -53,9 +55,11 @@ export const initialValue: CompanyEditContextValue = {
   companyIntroduction: '',
   companyLocation: '',
   companyName: '',
+  profileImage: '',
+  userPhone: '',
   etcLinks: [],
   id: '',
-  instagramLink: '',
+  instaLink: '',
   qnaLink: '',
 }
 
@@ -105,7 +109,7 @@ const CompanyEditContextProvider = ({ children }: PropsWithChildren) => {
 
   const handleChangeInstagram = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCompany((draft) => {
-      draft.instagramLink = e.target.value
+      draft.instaLink = e.target.value
     })
   }, [])
 

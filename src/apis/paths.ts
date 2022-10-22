@@ -1,7 +1,3 @@
-type UserParams = {
-  userId?: string
-}
-
 type GetCompanyParams = {
   companyDomain?: string
 }
@@ -30,8 +26,8 @@ export const PATH = {
 
   putTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
 
-  getConsumerOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/consumer/${userId}`,
-  getCompanyOrdersByUserId: ({ userId }: UserParams) => `/api/orders/list/company/${userId}`,
+  getConsumerOrdersByUserId: () => `/api/orders/list/consumer`,
+  getCompanyOrdersByUserId: () => `/api/orders/list/company/`,
   getOrderByOrderId: ({ orderId }: OrderByOrderIdParmas) => `/api/orders/${orderId}`,
 
   postOrders: () => `/api/orders`,

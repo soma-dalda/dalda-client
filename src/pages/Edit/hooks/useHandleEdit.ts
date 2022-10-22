@@ -21,8 +21,30 @@ const useHandleEdit = () => {
     (e: React.FormEvent<React.ElementType<any> | HTMLFormElement>) => {
       e.preventDefault()
       if (company) {
+        const {
+          companyName,
+          companyDomain,
+          companyLocation,
+          companyIntroduction,
+          businessHours,
+          userPhone: companyPhone,
+          profileImage,
+          qnaLink,
+          instaLink,
+          etcLinks,
+        } = company
+
         mutate({
-          ...company,
+          companyName,
+          companyDomain,
+          companyLocation,
+          companyIntroduction,
+          businessHours,
+          companyPhone,
+          profileImage,
+          qnaLink,
+          instaLink,
+          etcLinks,
         })
       }
     },

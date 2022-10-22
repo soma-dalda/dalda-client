@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 
-export const MEMBER = 'MEMBER' as const
-export const COMPANY = 'COMPANY' as const
+export const MEMBER = 'ROLE_MEMBER' as const
+export const COMPANY = 'ROLE_COMPANY' as const
 
 export type Days = '월' | '화' | '수' | '목' | '금' | '토' | '일'
 export type ROLE = typeof MEMBER | typeof COMPANY
@@ -24,10 +24,8 @@ export type User = {
       }[]
     | null
   companyPhone: string | null
-  // profileImage
   profileImage: string | null
   qnaLink: string | null
-  instagramLink: string | null
   etcLinks:
     | {
         title: string
@@ -39,6 +37,8 @@ export type User = {
   latestAt: string
   withdraw: boolean
   withdrawAt: string
+
+  instaLink: string
 }
 
 type QuestionType = 'singleObjective' | 'multiObjective'

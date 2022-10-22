@@ -93,14 +93,14 @@ export const getLogin = async ({
   return data.data
 }
 
-export const getConsumerOrdersByUserId = async ({ userId }: { userId?: string }) => {
-  const data = await http.get<Order[]>(PATH.getConsumerOrdersByUserId({ userId }))
+export const getConsumerOrdersByUserId = async () => {
+  const data = await http.get<Order[]>(PATH.getConsumerOrdersByUserId())
 
   return data.data
 }
 
-export const getCompanyOrdersByUserId = async ({ userId }: { userId?: string }) => {
-  const data = await http.get<Order[]>(PATH.getCompanyOrdersByUserId({ userId }))
+export const getCompanyOrdersByUserId = async () => {
+  const data = await http.get<Order[]>(PATH.getCompanyOrdersByUserId())
 
   return data.data
 }

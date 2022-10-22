@@ -13,7 +13,7 @@ const useGetOrders = (type: 'company' | 'consumer', options?: UseQueryOption) =>
   if (type === 'company') {
     return useQuery<Order[], RequestError>(
       ['getOrder', user?.id, 'company'],
-      () => getCompanyOrdersByUserId({ userId: user?.id }),
+      () => getCompanyOrdersByUserId(),
       {
         ...options,
         enabled: options?.enabled && Boolean(user?.id),
@@ -23,7 +23,7 @@ const useGetOrders = (type: 'company' | 'consumer', options?: UseQueryOption) =>
 
   return useQuery<Order[], RequestError>(
     ['getOrder', user?.id, 'consumer'],
-    () => getConsumerOrdersByUserId({ userId: user?.id }),
+    () => getConsumerOrdersByUserId(),
     {
       ...options,
       enabled: options?.enabled && Boolean(user?.id),
