@@ -34,8 +34,8 @@ const OrderConfirm = () => {
         <section className="flex flex-col gap-7">
           {template?.contentList.map((question, index) => (
             <Question
-              question={question.question}
-              answer={order?.templateResponses?.[index].answer}
+              question={question?.question}
+              answer={order?.templateResponses?.[index]?.answer}
             />
           ))}
           <Link

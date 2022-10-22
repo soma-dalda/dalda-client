@@ -19,6 +19,8 @@ export const PATH = {
   patchCompany: () => `/api/user-company`,
   getCompany: ({ companyDomain }: GetCompanyParams) => `/api/user-company/${companyDomain}`,
   getCompanies: () => `/api/user-company`,
+  // getCompany: ({ companyDomain }: GetCompanyParams) => `/api/home/user/company/${companyDomain}`,
+  // getCompanies: () => `/api/home/user/company/list`,
 
   getTemplates: ({ companyId }: { companyId?: string }) => `/api/templates/list/${companyId}`,
   getTemplateById: ({ templateId }: TemplateByIdParmas) => `/api/templates/${templateId}`,
