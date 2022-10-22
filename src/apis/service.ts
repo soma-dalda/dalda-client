@@ -53,8 +53,8 @@ export const patchUser = async (payload: PatchUserAPIParmas) => {
   return data.data
 }
 
-export const patchCompany = async (user: PutUserAPIParams) => {
-  const data = await http.patch(PATH.patchCompany(), { ...user })
+export const patchCompany = (prev: PutUserAPIParams) => async (user: PutUserAPIParams) => {
+  const data = await http.patch(PATH.patchCompany(), { ...prev, ...user })
 
   return data
 }

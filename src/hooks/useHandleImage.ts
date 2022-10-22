@@ -14,11 +14,15 @@ type UseMutationOption = Omit<
 const useHandleImage = (options?: UseMutationOption) => {
   const [name, setName] = useState<string>()
   const [isDragging, setIsDragging] = useState(false)
+
   const { mutate: patchCompany } = usePatchUser()
+
   const { mutate, reset, ...rest } = usePostImage({
     ...options,
     onSuccess: (data) => {
-      patchCompany({ profileImage: data.url })
+      patchCompany({
+        profileImage: data.url,
+      })
     },
     onSettled: () => {
       reset()

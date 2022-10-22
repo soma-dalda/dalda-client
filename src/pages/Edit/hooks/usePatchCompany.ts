@@ -1,4 +1,5 @@
 import { patchCompany } from '@/apis/service'
+import useGetUser from '@/hooks/useGetUser'
 import { User, RequestError } from '@/type'
 import { AxiosResponse } from 'axios'
 import { useMutation, UseMutationOptions } from 'react-query'
@@ -13,7 +14,11 @@ type UseMutationOption = Omit<
 >
 
 const usePatchUser = (option?: UseMutationOption) => {
-  return useMutation<AxiosResponse, RequestError, PutUserAPIParams>(patchCompany, { ...option })
+  const { data } = useGetUser()
+
+  return useMutation<AxiosResponse, RequestError, PutUserAPIParams>(patchCompany({ ...data }), {
+    ...option,
+  })
 }
 
 export default usePatchUser
