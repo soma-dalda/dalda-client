@@ -129,3 +129,9 @@ export const getLogout = async () => {
 
   return data.data
 }
+
+export const patchProfileImage = async ({ imageUrl }: { imageUrl: string }) => {
+  const data = await http.patch(PATH.patchProfileImage(), { imageUrl })
+
+  return data.data
+}

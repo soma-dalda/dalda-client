@@ -39,4 +39,6 @@ export const PATH = {
   postImage: () => `/api/image/upload`,
 
   getLogout: () => `/logout`,
+
+  patchProfileImage: () => `/api/user/profile`,
 }
