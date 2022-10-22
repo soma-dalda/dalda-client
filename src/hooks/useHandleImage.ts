@@ -1,3 +1,4 @@
+import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
 import usePatchUser from '@/pages/Edit/hooks/usePatchCompany'
 import { RequestError } from '@/type'
 import { ChangeEvent, DragEvent, useCallback, useState } from 'react'
@@ -16,6 +17,7 @@ const useHandleImage = (options?: UseMutationOption) => {
   const [isDragging, setIsDragging] = useState(false)
 
   const { mutate: patchCompany } = usePatchUser()
+  const { refetch } = useGetCompanyRequest({ enabled: false })
 
   const { mutate, reset, ...rest } = usePostImage({
     ...options,
@@ -23,6 +25,7 @@ const useHandleImage = (options?: UseMutationOption) => {
       patchCompany({
         profileImage: data.url,
       })
+      refetch()
     },
     onSettled: () => {
       reset()
