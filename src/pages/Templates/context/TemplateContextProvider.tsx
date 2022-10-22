@@ -35,7 +35,6 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
         dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
       }
     },
-    enabled: false,
   })
 
   const handleUpdateImage = useCallback(

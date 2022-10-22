@@ -44,13 +44,16 @@ const useTemplate = () => {
     },
   })
 
-  const { remove, isLoading: getLoading } = useGetTemplate(id ?? '', {
+  const {
+    remove,
+    isLoading: getLoading,
+    refetch,
+  } = useGetTemplate(id ?? '', {
     onSuccess: (data) => {
       if (data) {
         handleUpdateTemplate(data)
       }
     },
-    retry: false,
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
@@ -58,8 +61,14 @@ const useTemplate = () => {
         dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
       }
     },
-    enabled: Boolean(id !== 'post') && Boolean(id),
+    enabled: false,
   })
+
+  useEffect(() => {
+    if (id) {
+      refetch()
+    }
+  }, [id])
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
