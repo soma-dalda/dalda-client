@@ -40,10 +40,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const handleUpdateImage = useCallback(
     (index: number) => (imageUrl: string) => {
       setTemplate((draft) => {
-        const content = draft.contentList[index]
-        if (content) {
-          content.img = imageUrl
-        }
+        draft.contentList[index].img = imageUrl
       })
     },
     []
