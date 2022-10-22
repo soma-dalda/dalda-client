@@ -9,14 +9,17 @@ type Props = {
 }
 
 const DomainProfileImageUpload = ({ src }: Props) => {
-  const { mutate: patchProfileImage } = usePatchProfileImage()
   const { refetch } = useGetCompanyRequest({ enabled: false })
+  const { mutate: patchProfileImage } = usePatchProfileImage({
+    onSuccess: () => {
+      refetch()
+    },
+  })
   const { isLoading, handleChangeImage } = useHandleImage({
     onSuccess: (data) => {
       patchProfileImage({
         imageUrl: data.url,
       })
-      refetch()
     },
   })
 

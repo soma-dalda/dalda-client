@@ -43,7 +43,7 @@ const MenuList = () => {
   const { data: companyOrder } = useGetOrders('company')
   const { data: consumerOrder } = useGetOrders('consumer')
   const logout = useLogout()
-  const length = (companyOrder?.length ?? 0) + (consumerOrder?.length ?? 0)
+  const length = (companyOrder?.orderLists?.length ?? 0) + (consumerOrder?.orderLists.length ?? 0)
 
   return (
     <div className={getMenuStyle()}>

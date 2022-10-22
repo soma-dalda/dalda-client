@@ -3,13 +3,13 @@ import React from 'react'
 import Message from '../molecules/Message'
 
 const OrdersCompanyList = () => {
-  const { data: orders } = useGetOrders('company')
+  const { data } = useGetOrders('company')
 
   return (
     <ul className="w-[calc(100%+2rem)]">
-      {orders &&
-        orders.length > 0 &&
-        orders?.map((order) => (
+      {data?.orderLists &&
+        data?.orderLists?.length > 0 &&
+        data?.orderLists?.map((order) => (
           <Message
             orderStatus={order.orderStatus ?? '주문 요청'}
             orderTitle={`${order.consumerId}님의 주문 요청 입니다`}
