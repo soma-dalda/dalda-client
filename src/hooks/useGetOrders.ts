@@ -3,7 +3,7 @@ import { Order, RequestError } from '@/type'
 import { getCompanyOrdersByUserId, getConsumerOrdersByUserId } from '@/apis/service'
 import useGetUser from './useGetUser'
 
-type OrderListsResponse = { orderLists: Order[] }
+type OrderListsResponse = { orderList: Order[] }
 
 type UseQueryOption = Omit<
   UseQueryOptions<OrderListsResponse, RequestError, OrderListsResponse, QueryKey>,

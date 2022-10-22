@@ -93,7 +93,7 @@ export const getLogin = async ({
   return data.data
 }
 
-type OrderListsResponse = { orderLists: Order[] }
+type OrderListsResponse = { orderList: Order[] }
 
 export const getConsumerOrdersByUserId = async () => {
   const data = await http.get<OrderListsResponse>(PATH.getConsumerOrdersByUserId())

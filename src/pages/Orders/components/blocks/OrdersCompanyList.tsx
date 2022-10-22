@@ -7,9 +7,9 @@ const OrdersCompanyList = () => {
 
   return (
     <ul className="w-[calc(100%+2rem)]">
-      {data?.orderLists &&
-        data?.orderLists?.length > 0 &&
-        data?.orderLists?.map((order) => (
+      {data?.orderList &&
+        data?.orderList?.length > 0 &&
+        data?.orderList?.map((order) => (
           <Message
             orderStatus={order.orderStatus ?? '주문 요청'}
             orderTitle={`${order.consumerId}님의 주문 요청 입니다`}
