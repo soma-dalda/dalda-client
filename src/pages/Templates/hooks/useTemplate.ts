@@ -1,4 +1,5 @@
 import useStatus from '@/hooks/useStatus'
+import { useToast } from '@jaewoong2/toast'
 import { AxiosError } from 'axios'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -10,9 +11,14 @@ import useTemplateValueContext from './useTemplateValueContext'
 
 const useTemplate = () => {
   const { id } = useParams()
+
   const navigate = useNavigate()
   const { dispatchUpdateError } = useStatus()
+
   const template = useTemplateValueContext()
+
+  const { show } = useToast('성공')
+
   const { handleUpdateTitle, handleAddQuestion, handleUpdateTemplate, handleResetTemplate } =
     useTemplateActionContext()
 
@@ -20,6 +26,9 @@ const useTemplate = () => {
     onSettled: () => {
       handleResetTemplate()
       navigate(-1)
+    },
+    onSuccess: () => {
+      show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
@@ -34,6 +43,9 @@ const useTemplate = () => {
     onSettled: () => {
       handleResetTemplate()
       navigate(-1)
+    },
+    onSuccess: () => {
+      show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {

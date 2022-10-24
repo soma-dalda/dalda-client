@@ -24,8 +24,9 @@ export const handlers = [
   rest.get('/api/user', getUser),
   rest.patch('/api/user', patchUser),
   rest.patch('/api/user-company', patchCompany),
-  rest.get('/api/user-company', getCompanies),
-  rest.get('/api/user-company/:companyDomain', getCompany),
+
+  rest.get('/api/home/user/company/list', getCompanies),
+  rest.get('/api/home/user/company/:companyDomain', getCompany),
 
   rest.get('/api/templates/list/:companyId', getTemplates),
 
@@ -33,8 +34,8 @@ export const handlers = [
   rest.post('/api/templates', postTemplate),
   rest.put('/api/templates/:templateId', putTemplateById),
 
-  rest.get('/api/orders/list/consumer/:userId', getConsumerOrdersByUserId),
-  rest.get('/api/orders/list/company/:userId', getCompanyOrdersByUserId),
+  rest.get('/api/orders/list/consumer', getConsumerOrdersByUserId),
+  rest.get('/api/orders/list/company', getCompanyOrdersByUserId),
 
   rest.get('/api/orders/:orderId', getOrderByOrderId),
 

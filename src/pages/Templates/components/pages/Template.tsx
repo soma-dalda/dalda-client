@@ -9,6 +9,7 @@ import useTemplate from '../../hooks/useTemplate'
 
 const Template = () => {
   const { handleAddQuestion, handleSubmit, handleUpdateTitle, template, isLoading } = useTemplate()
+
   if (isLoading) {
     return <LoadingPage />
   }

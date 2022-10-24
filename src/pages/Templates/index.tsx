@@ -12,6 +12,7 @@ const TemplatesRoute = () => {
     <TemplateContextProvider>
       <Routes>
         <Route path=":id" element={<Template />} />
+        <Route path="post" element={<Template />} />
         <Route path="" element={<Templates />} />
       </Routes>
     </TemplateContextProvider>
