@@ -53,8 +53,10 @@ class Http {
       (response) => response,
       async (error: AxiosError) => {
         if (error.response?.status === 401) {
-          const { data } = await axios.post<string>('/api/user-auth/refresh')
-          window.localStorage.setItem('accessToken', data)
+          const response = await this.http.post<string>('/api/user-auth/refresh')
+          window.localStorage.setItem('accessToken', response.data)
+
+          return response.data
         }
         return Promise.reject(error)
       }

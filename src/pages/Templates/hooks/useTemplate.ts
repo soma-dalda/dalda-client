@@ -1,5 +1,5 @@
 import useStatus from '@/hooks/useStatus'
-import { useToast } from '@jaewoong2/toast'
+import { useModal } from '@jaewoong2/modal'
 import { AxiosError } from 'axios'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -17,8 +17,6 @@ const useTemplate = () => {
 
   const template = useTemplateValueContext()
 
-  const { show } = useToast('성공')
-
   const { handleUpdateTitle, handleAddQuestion, handleUpdateTemplate, handleResetTemplate } =
     useTemplateActionContext()
 
@@ -26,9 +24,6 @@ const useTemplate = () => {
     onSettled: () => {
       handleResetTemplate()
       navigate(-1)
-    },
-    onSuccess: () => {
-      show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
@@ -44,15 +39,29 @@ const useTemplate = () => {
       handleResetTemplate()
       navigate(-1)
     },
-    onSuccess: () => {
-      show()
-    },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
         dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
       }
+    },
+  })
+
+  const { show: modalShow, hide } = useModal('text', {
+    message: '저장 하시겠습니까?',
+    header: null,
+    description: null,
+    modalWidth: '300px',
+    buttonText: '확인',
+    buttonType: 'normal',
+    onClickButton: () => {
+      if (template.id) {
+        putMutate(template)
+      } else {
+        postMutate(template)
+      }
+      hide()
     },
   })
 
@@ -82,17 +91,10 @@ const useTemplate = () => {
     }
   }, [id])
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      if (template.id) {
-        putMutate(template)
-      } else {
-        postMutate(template)
-      }
-    },
-    [template]
-  )
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    modalShow()
+  }, [])
 
   useEffect(() => {
     handleResetTemplate()
