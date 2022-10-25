@@ -30,7 +30,6 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
         templateId: id,
         answers: Array(data?.contentList.length).fill(''),
       }))
-      show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
@@ -52,6 +51,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       setCurrent(0)
       setOrder({ ...defaultOrder, templateId: id })
       navigate(`/${domain}`)
+      show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {

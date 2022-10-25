@@ -1,4 +1,5 @@
 import useGetOrders from '@/hooks/useGetOrders'
+import { timeForToday } from '@/utils'
 import React from 'react'
 import Message from '../molecules/Message'
 
@@ -12,9 +13,9 @@ const OrdersCompanyList = () => {
         data?.orderList?.map((order) => (
           <Message
             orderStatus={order.orderStatus ?? '주문 요청'}
-            orderTitle={`${order.consumerId}님의 주문 요청 입니다`}
-            date={order.orderDate ?? '오늘'}
-            id={order.id ?? '0'}
+            orderTitle={`${order?.consumerName}님의 주문 요청 입니다`}
+            date={order.orderDate ? timeForToday(order.orderDate) : '오늘'}
+            id={`${order.id}` ?? '0'}
           />
         ))}
     </ul>
