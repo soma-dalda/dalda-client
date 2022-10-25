@@ -1,6 +1,7 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
 import { Order } from '@/type'
+import { useToast } from '@jaewoong2/toast'
 import { AxiosError } from 'axios'
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
@@ -12,6 +13,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const { id, domain } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
+  const { show } = useToast('주문 요청 되었습니다.', { backgroundColor: '#C6CDEB' })
 
   const { dispatchUpdateError } = useStatus()
   const [current, setCurrent] = useState(+location.hash.replace(/#/g, '0'))
@@ -28,6 +30,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
         templateId: id,
         answers: Array(data?.contentList.length).fill(''),
       }))
+      show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {

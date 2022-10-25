@@ -76,7 +76,7 @@ const Domain = () => {
               to="templates"
               className="w-full rounded-xl bg-point-700 p-4 text-white hover:bg-point-500"
             >
-              주문서 수정하기
+              주문서 관리하기
             </Link>
           </div>
         )
