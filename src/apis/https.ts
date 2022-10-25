@@ -53,14 +53,17 @@ class Http {
       (response) => response,
       async (error: AxiosError) => {
         if (error.response?.status === 401) {
+          if (error.config.url?.includes('/api/user-auth/refresh')) {
+            return Promise.resolve(error)
+          }
           this.http
             .post<string>('/api/user-auth/refresh')
             .then((res) => {
               window.localStorage.setItem('accessToken', res.data)
-              Promise.resolve(res.data)
+              return Promise.resolve(res.data)
             })
             .catch((err) => {
-              Promise.reject(err)
+              return Promise.reject(err)
             })
         }
         return Promise.reject(error)
