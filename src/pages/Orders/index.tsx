@@ -1,3 +1,4 @@
+import withPassword from '@/components/hoc/withPassword'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
@@ -22,4 +23,4 @@ const OrdersRoute = () => {
   )
 }
 
-export default OrdersRoute
+export default withPassword(OrdersRoute)
