@@ -1,9 +1,9 @@
+import React from 'react'
 import { Layout } from '@/components'
 import { ActiveLink } from '@/components/atoms'
 import { NavigationWithArrow } from '@/components/blocks'
 import useGetUser from '@/hooks/useGetUser'
 import { COMPANY, MEMBER } from '@/type'
-import React from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import NavigationWithDivider from '../molecules/NavigationWithDivider'
 
@@ -30,10 +30,19 @@ const Orders = () => {
         <NavigationWithDivider
           buttons={[
             <ActiveLink active={params['*'] === 'company'} type="button" to="company">
-              요청
+              내 가게 주문
             </ActiveLink>,
             <ActiveLink active={params['*'] === 'consumer'} type="button" to="consumer">
-              응답
+              요청한 주문
+            </ActiveLink>,
+          ]}
+        />
+      )}
+      {user?.role === MEMBER && (
+        <NavigationWithDivider
+          buttons={[
+            <ActiveLink active={params['*'] === 'consumer'} type="button" to="consumer">
+              요청한 주문
             </ActiveLink>,
           ]}
         />
