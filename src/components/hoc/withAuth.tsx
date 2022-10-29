@@ -1,25 +1,42 @@
+import React, { ComponentType, useEffect } from 'react'
 import useGetUser from '@/hooks/useGetUser'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
-import React, { ComponentType, useEffect } from 'react'
+import { useToast } from '@jaewoong2/toast'
 import { useNavigate } from 'react-router-dom'
 
 const withAuth = (Component: ComponentType) => {
-  const HOC = <P extends {}>(props: P) => {
+  const Wrapper = <P extends {}>(props: P) => {
     const navigate = useNavigate()
     const { data: user } = useGetUser()
     const { data: company } = useGetCompanyRequest()
+    const { show } = useToast('잘못된 접근 입니다', {
+      color: 'white',
+      backgroundColor: '#354898',
+      borderRadius: 100,
+    })
 
     /* 권한 분기 */
     useEffect(() => {
       if (user?.id && company?.id) {
         if (user?.id !== company?.id) {
+          show()
           navigate('/')
-          window.alert('잘못된 접근')
         }
       }
     }, [user, company])
 
+    useEffect(() => {
+      if (!user?.id) {
+        show()
+        navigate('/')
+      }
+    }, [user])
+
     return <Component {...props} />
+  }
+
+  const HOC = <P extends {}>(props: P) => {
+    return <Wrapper {...props} />
   }
 
   return HOC

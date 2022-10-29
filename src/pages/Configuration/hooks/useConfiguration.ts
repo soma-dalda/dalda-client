@@ -8,10 +8,18 @@ import usePatchUser from './usePatchUser'
 const useConfiguration = () => {
   const [username, setUsername, onChangeUsername] = useInput()
   const [userPhone, setUserPhone, onChangeUserPhone] = useInput()
-  const { show } = useToast('휴대폰 번호 양식을 지켜주세요 :)', {
-    type: 'error',
+  const { show: successShow } = useToast('변경 완료', {
+    backgroundColor: '#354898',
+    width: 200,
+    color: 'white',
+    borderRadius: 100,
+  })
+
+  const { show: errorShow } = useToast('휴대폰 번호 양식을 지켜주세요 :)', {
+    backgroundColor: '#E56FB4',
     width: 300,
     color: 'white',
+    borderRadius: 100,
   })
 
   const { isLoading: userLoading } = useGetUser({
@@ -33,9 +41,10 @@ const useConfiguration = () => {
       e.preventDefault()
       if (userPhone.length === 11) {
         mutate({ username, userPhone })
-        navigate(-1)
+        navigate('/')
+        successShow()
       } else {
-        show()
+        errorShow()
       }
     },
     [username, userPhone]
