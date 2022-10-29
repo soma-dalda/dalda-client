@@ -1,7 +1,7 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
 import { Order } from '@/type'
-import { useToast } from '@jaewoong2/toast'
+import { useModal } from '@jaewoong2/modal'
 import { AxiosError } from 'axios'
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
@@ -13,7 +13,6 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const { id, domain } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
-  const { show } = useToast('주문 요청 되었습니다.', { backgroundColor: '#C6CDEB' })
 
   const { dispatchUpdateError } = useStatus()
   const [current, setCurrent] = useState(+location.hash.replace(/#/g, '0'))
@@ -51,7 +50,6 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       setCurrent(0)
       setOrder({ ...defaultOrder, templateId: id })
       navigate(`/${domain}`)
-      show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
@@ -59,6 +57,21 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       } else {
         dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
       }
+    },
+  })
+
+  const { show, hide } = useModal('text', {
+    message: '제출 하시겠습니까?',
+    header: null,
+    description: null,
+    modalWidth: '300px',
+    buttonText: '제출',
+    buttonType: 'primary',
+    onClickButton: () => {
+      const { companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone } =
+        order
+      mutate({ companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone })
+      hide()
     },
   })
 
@@ -160,8 +173,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   )
 
   const handleSubmit = useCallback(() => {
-    const { companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone } = order
-    mutate({ companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone })
+    show()
   }, [order])
 
   useEffect(() => {
