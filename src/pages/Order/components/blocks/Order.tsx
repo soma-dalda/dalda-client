@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { NavigationWithArrow } from '@/components/blocks'
 import { Layout } from '@/components'
 import useGetTemplate from '@/hooks/useGetTemplate'
 import { useParams } from 'react-router-dom'
-import LoadingPage from '@/components/molecules/LoadingPage'
 import QuestionDescription from '../molecules/QuestionDescription'
 import QuestionOption from '../molecules/QuestionOption'
 import Stepper from '../molecules/Stepper'
@@ -17,15 +16,11 @@ const Order = () => {
   const { handleChangeCheckbox, handleChangeRadio, handleChangeTextArea, handleClickStep } =
     useOrderActionContext()
 
-  const { data: template, isLoading } = useGetTemplate(id ?? '', {
+  const { data: template } = useGetTemplate(id ?? '', {
     enabled: false,
   })
 
-  if (isLoading) {
-    return <LoadingPage />
-  }
-
-  const content = template?.contentList[current]
+  const content = useMemo(() => template?.contentList[current], [current, template])
 
   return (
     <Layout navigtaion={<NavigationWithArrow>{template?.title}</NavigationWithArrow>}>
@@ -39,6 +34,7 @@ const Order = () => {
       <form className="w-full">
         {content && content.type !== 'subjective' && (
           <QuestionOption
+            name={content.question}
             img={content.img}
             detailType={content.type}
             answer={order.answers[current]}
@@ -53,6 +49,7 @@ const Order = () => {
         )}
         {content?.type === 'subjective' && (
           <QuestionDescription
+            name={content.question}
             img={content.img}
             questionTitle={`${content?.required ? '(*)' : ''} ${content.question}`}
             handleChangeDescription={handleChangeTextArea(current)}
