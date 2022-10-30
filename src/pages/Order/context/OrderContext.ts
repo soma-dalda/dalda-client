@@ -36,7 +36,7 @@ const defaultAction: OrderAction = {
   handleSubmit: () => {},
 }
 
-const OrderValueContext = createContext({ order: defaultOrder, current: 0 })
+const OrderValueContext = createContext({ order: { ...defaultOrder }, current: 0 })
 const OrderActionContext = createContext({ ...defaultAction })
 
 export { OrderValueContext, OrderActionContext }
