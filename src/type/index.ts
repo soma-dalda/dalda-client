@@ -85,7 +85,7 @@ export type Order = {
   companyId?: string
 
   image?: string
-  templateResponses?: { question: string; answer: string[] }[]
+  templateResponses: { question: string; answer: string[] }[]
 
   orderDate?: Date | string
   pickupDate?: string

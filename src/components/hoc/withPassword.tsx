@@ -2,18 +2,20 @@ import React, { ComponentType, useEffect, useState } from 'react'
 import useGetUser from '@/hooks/useGetUser'
 import { useNavigate } from 'react-router-dom'
 import { ModalProvider, useModal } from '@jaewoong2/modal'
-import withAuth from './withAuth'
 
 type MessageProps = {
   setStatusCancled: () => void
   setStatusLoading: () => void
+  flag: boolean
 }
 
-const Message = ({ setStatusCancled, setStatusLoading }: MessageProps) => {
+const Message = ({ setStatusCancled, setStatusLoading, flag }: MessageProps) => {
   useEffect(() => {
     setStatusLoading()
     return () => {
-      setStatusCancled()
+      if (flag) {
+        setStatusCancled()
+      }
     }
   }, [])
 
@@ -33,6 +35,7 @@ const withPassword = (Component: ComponentType) => {
         <Message
           setStatusCancled={() => setStatus('cancled')}
           setStatusLoading={() => setStatus('loading')}
+          flag={Boolean(user?.userPhone)}
         />
       ),
       modalWidth: '350px',
@@ -47,8 +50,10 @@ const withPassword = (Component: ComponentType) => {
 
     /* 권한 분기 */
     useEffect(() => {
-      if (!user?.userPhone) {
+      if (Boolean(user?.userPhone) === false) {
         show()
+      } else {
+        hide()
       }
     }, [user])
 
@@ -69,7 +74,7 @@ const withPassword = (Component: ComponentType) => {
     )
   }
 
-  return withAuth(HOC)
+  return HOC
 }
 
 export default withPassword

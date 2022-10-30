@@ -23,12 +23,15 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
 
   useGetTemplate(id ?? '', {
     onSuccess: (data) => {
-      setOrder((prev) => ({
-        ...prev,
-        companyId: data.userId,
-        templateId: id,
-        answers: Array(data?.contentList.length).fill(''),
-      }))
+      setOrder((draft) => {
+        draft.companyId = data.userId
+        draft.templateId = id
+        draft.answers = Array(data?.contentList.length).fill([''])
+        draft.templateResponses = Array(data?.contentList.length).fill({
+          question: '',
+          answer: [''],
+        })
+      })
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
@@ -85,13 +88,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
     index: number
   }) => {
     setOrder((draft) => {
-      if (draft.templateResponses) {
-        if (draft.templateResponses[index]) {
-          draft.templateResponses[index] = { question, answer }
-        } else {
-          draft.templateResponses.push({ question, answer })
-        }
-      }
+      draft.templateResponses[index] = { question, answer }
     })
   }
 
@@ -110,9 +107,9 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const handleClickStep = useCallback(
     (step: number) => () => {
       setCurrent(step)
-      navigate(`#${step}`)
+      navigate({ hash: `${step}` })
     },
-    []
+    [location]
   )
 
   const handleAddImage = useCallback((url: string) => {

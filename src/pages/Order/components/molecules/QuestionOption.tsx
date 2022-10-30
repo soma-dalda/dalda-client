@@ -3,6 +3,7 @@ import React from 'react'
 import QuestionLayout from './QuestionLayout'
 
 type Props = {
+  name: string
   questionTitle?: string
   answer: string[]
   options?: string[] | null
@@ -12,6 +13,7 @@ type Props = {
 }
 
 const QuestionOption = ({
+  name,
   questionTitle,
   options,
   answer,
@@ -30,7 +32,7 @@ const QuestionOption = ({
         >
           <div className="flex gap-3">
             <input
-              name={questionTitle}
+              name={name}
               type={detailType === 'singleObjective' ? 'radio' : 'checkbox'}
               id={`option-${+index}`}
               data-id={index}
