@@ -98,4 +98,4 @@ export type Order = {
 
 export type Company = User
 
-export type RequestError = AxiosError<{ error: { message: string } }>
+export type RequestError = AxiosError<{ message: string }>

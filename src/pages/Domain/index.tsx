@@ -29,7 +29,7 @@ const Domain = () => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err?.message })
       } else {
-        dispatchUpdateError({ code: err?.code, message: err.response?.data?.error?.message })
+        dispatchUpdateError({ code: err?.code, message: err.response?.data?.message })
       }
     },
   })
@@ -41,7 +41,7 @@ const Domain = () => {
         if (err.status === AxiosError.ECONNABORTED) {
           dispatchUpdateError({ code: 400, message: err?.message })
         } else {
-          dispatchUpdateError({ code: err?.code, message: err.response?.data?.error?.message })
+          dispatchUpdateError({ code: err?.code, message: err.response?.data?.message })
         }
       },
       enabled: Boolean(company?.id),
