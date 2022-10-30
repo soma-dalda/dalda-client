@@ -37,7 +37,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
       }
     },
     enabled: Boolean(id),
@@ -58,7 +58,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
       }
     },
   })
@@ -74,23 +74,8 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       const { companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone } =
         order
       mutate({ companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone })
-      hide()
     },
   })
-
-  const setTemplateResponse = ({
-    question,
-    answer,
-    index,
-  }: {
-    question: string
-    answer: string[]
-    index: number
-  }) => {
-    setOrder((draft) => {
-      draft.templateResponses[index] = { question, answer }
-    })
-  }
 
   const handlePickupdate = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setOrder((draft) => {
@@ -123,7 +108,8 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       (index) => (e) => {
         setOrder((draft) => {
           draft.answers[index] = [e.target.value]
-          setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+          draft.templateResponses[index].question = e.target.name
+          draft.templateResponses[index].answer = [e.target.value]
         })
       },
       []
@@ -143,7 +129,8 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
             } else {
               draft.answers[index] = [e.target.value]
             }
-            setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+            draft.templateResponses[index].question = e.target.name
+            draft.templateResponses[index].answer = [e.target.value]
           })
         }
 
@@ -151,8 +138,8 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
           setOrder((draft) => {
             const options: string[] = draft.answers[index]
             draft.answers[index] = options.filter((option) => option !== e.target.value)
-
-            setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+            draft.templateResponses[index].question = e.target.name
+            draft.templateResponses[index].answer = [e.target.value]
           })
         }
       },
@@ -163,7 +150,8 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setOrder((draft) => {
         draft.answers[index] = [e.target.value]
-        setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+        draft.templateResponses[index].question = e.target.name
+        draft.templateResponses[index].answer = [e.target.value]
       })
     },
     []
@@ -176,6 +164,12 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     setCurrent(+location.hash.slice(1))
   }, [location.hash])
+
+  useEffect(() => {
+    return () => {
+      hide()
+    }
+  }, [])
 
   const value = useMemo(() => ({ current, order }), [current, order])
   const action: OrderAction = useMemo(
