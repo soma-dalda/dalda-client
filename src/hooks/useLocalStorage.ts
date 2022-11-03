@@ -1,25 +1,9 @@
 import { useEffect, useState } from 'react'
 
-const useLocalStorage = <T = string>(key: string, initialValue?: T) => {
-  const [storeValue, setStoreValue] = useState<T>()
+const useLocalStorage = <T = string>(key: string, initialValue: T | string = '') => {
+  const [storeValue, setStoreValue] = useState<T | string>()
 
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      setStoreValue(initialValue)
-    }
-    try {
-      const prevValue = window.localStorage.getItem(key)
-      if (prevValue) {
-        setStoreValue(JSON.parse(prevValue))
-      } else {
-        setStoreValue(initialValue)
-      }
-    } catch (err) {
-      setStoreValue(initialValue)
-    }
-  }, [])
-
-  const setValue = (data: T | ((val?: T) => T)) => {
+  const setValue = (data: string | T | ((val?: T | string) => T)) => {
     const value = data instanceof Function ? data(storeValue) : data
 
     setStoreValue(value)
@@ -33,7 +17,31 @@ const useLocalStorage = <T = string>(key: string, initialValue?: T) => {
     }
   }
 
-  return [storeValue, setValue] as const
+  const refetch = () => {
+    if (typeof window === 'undefined') {
+      setValue(initialValue)
+    }
+    try {
+      const prevValue = window.localStorage.getItem(key)
+      if (prevValue) {
+        if (typeof prevValue === 'string') {
+          setValue(prevValue)
+        } else {
+          setValue(JSON.parse(prevValue))
+        }
+      } else {
+        setValue(initialValue)
+      }
+    } catch (err) {
+      setValue(initialValue)
+    }
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [window.localStorage])
+
+  return [storeValue, setValue, refetch] as const
 }
 
 export default useLocalStorage

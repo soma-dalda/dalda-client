@@ -28,7 +28,7 @@ const useGetOrders = (type: 'company' | 'consumer', options?: UseQueryOption) =>
     () => getConsumerOrdersByUserId(),
     {
       ...options,
-      enabled: options?.enabled && Boolean(user?.id),
+      enabled: user?.id ? options?.enabled : false,
     }
   )
 }

@@ -16,7 +16,7 @@ const useGetCompany = (options?: UseQueryOption) => {
     () => getCompany({ companyDomain: domain }),
     {
       ...options,
-      enabled: Boolean(domain) && options?.enabled,
+      enabled: domain ? options?.enabled : false,
     }
   )
 

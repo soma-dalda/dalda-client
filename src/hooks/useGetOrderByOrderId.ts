@@ -16,7 +16,7 @@ const useGetOrderByOrderId = (options?: UseQueryOption) => {
     () => getOrderByOrderId({ orderId: id }),
     {
       ...options,
-      enabled: options?.enabled && Boolean(id),
+      enabled: id ? options?.enabled : false,
     }
   )
 }
