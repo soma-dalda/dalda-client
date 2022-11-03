@@ -15,7 +15,7 @@ const RecommandCards = ({ title }: Props) => {
       <div className="flex w-full gap-4 overflow-y-scroll pb-5">
         {companies?.map((company) => (
           <Card
-            key={company.id}
+            key={company.companyName}
             companyDomain={encodeURIComponent(company.companyDomain ?? '')}
             companyName={company.companyName}
             profileImage={company.profileImage}
