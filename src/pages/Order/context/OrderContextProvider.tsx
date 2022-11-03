@@ -1,5 +1,6 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
+import useToast from '@/hooks/useToast'
 import { Order } from '@/type'
 import { useModal } from '@jaewoong2/modal'
 import { AxiosError } from 'axios'
@@ -20,6 +21,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
     ...defaultOrder,
     templateId: id,
   })
+  const { suceess } = useToast('제출 완료')
 
   useGetTemplate(id ?? '', {
     onSuccess: (data) => {
@@ -53,6 +55,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       setCurrent(0)
       setOrder({ ...defaultOrder, templateId: id })
       navigate(`/${domain}`)
+      suceess.show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
