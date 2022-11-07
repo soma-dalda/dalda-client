@@ -23,14 +23,14 @@ const QuestionOption = ({
 }: Props) => {
   return (
     <QuestionLayout title={questionTitle}>
-      <img src={img} alt={`${questionTitle}이미지`} />
+      {img && <img src={img} alt={`${questionTitle}이미지`} />}
       {options?.map((option, index) => (
         <label
           key={`option-${+index}`}
           htmlFor={`option-${+index}`}
           className="flex w-full justify-between rounded-xl border bg-white p-3"
         >
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3">
             <input
               name={name}
               type={detailType === 'singleObjective' ? 'radio' : 'checkbox'}
