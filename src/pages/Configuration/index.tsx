@@ -1,12 +1,16 @@
 import React from 'react'
 import { Layout } from '@/components'
 import { NavigationWithArrow } from '@/components/blocks'
+import withAuth from '@/components/hoc/withAuth'
+import useBeforeunload from '@/hooks/useBeforeunload'
 import FormInputBase from './components/molecules/FormInputBase'
 import useConfiguration from './hooks/useConfiguration'
 
 const Configuration = () => {
   const { handleSubmit, isLoading, onChangeUserPhone, onChangeUsername, userPhone, username } =
     useConfiguration()
+
+  useBeforeunload()
   return (
     <Layout
       navigtaion={
@@ -51,4 +55,4 @@ const Configuration = () => {
   )
 }
 
-export default Configuration
+export default withAuth(Configuration)
