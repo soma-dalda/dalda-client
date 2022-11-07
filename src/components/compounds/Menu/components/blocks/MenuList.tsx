@@ -65,7 +65,7 @@ const MenuList = () => {
           </MenuListItem>
           {Boolean(user.companyDomain) && (
             <MenuListItem to={`/${user.companyDomain}/edit`} icon={<ProfileIcon />}>
-              프로필 관리
+              가게 정보 관리
             </MenuListItem>
           )}
           <MenuListItem to="/#" icon={<TermIcon />}>
