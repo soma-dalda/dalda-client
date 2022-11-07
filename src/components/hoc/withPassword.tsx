@@ -13,7 +13,7 @@ const Message = ({ setStatusCancled, setStatusLoading, flag }: MessageProps) => 
   useEffect(() => {
     setStatusLoading()
     return () => {
-      if (flag) {
+      if (!flag) {
         setStatusCancled()
       }
     }
@@ -50,16 +50,17 @@ const withPassword = (Component: ComponentType) => {
 
     /* 권한 분기 */
     useEffect(() => {
-      if (Boolean(user?.userPhone) === false) {
+      if (!user?.userPhone) {
         show()
       } else {
         hide()
+        setStatus('clicked')
       }
-    }, [user])
+    }, [user?.userPhone, status])
 
     useEffect(() => {
       if (status === 'cancled') {
-        navigate(-1)
+        show()
       }
     }, [status])
 
