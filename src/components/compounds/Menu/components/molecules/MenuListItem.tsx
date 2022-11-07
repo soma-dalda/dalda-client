@@ -13,7 +13,7 @@ const MenuListItem = ({ icon, to, children, onClick }: PropsWithChildren<Props>)
   }
 
   return (
-    <li className="w-full border-b py-4">
+    <li className="w-full border-b py-4 hover:bg-gray-100">
       <Anchor onClick={onClick} href={to} className="flex w-fit items-center gap-4">
         {icon}
         <span className="flex items-center text-sm text-grayScale-800 ">{children}</span>
