@@ -94,6 +94,11 @@ const Domain = () => {
       />
       <DomainProfileHours onClick={show}>영업시간 확인하기</DomainProfileHours>
       <DomainTemplates templateList={templates?.templateList} />
+      {templates?.templateList.length === 0 && (
+        <div className="mt-8 flex h-[240px] w-full items-center justify-center rounded-xl border bg-gray-50">
+          <p className="text-xl text-point-700">등록된 주문서가 없습니다</p>
+        </div>
+      )}
     </Layout>
   )
 }

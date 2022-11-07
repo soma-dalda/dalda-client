@@ -137,3 +137,9 @@ export const patchProfileImage = async ({ imageUrl }: { imageUrl: string }) => {
 
   return data.data
 }
+
+export const postRefresh = async () => {
+  const data = await http.post<string>(PATH.postRefresh())
+
+  return data.data
+}

@@ -1,4 +1,5 @@
 import withAuth from '@/components/hoc/withAuth'
+
 import { ModalProvider } from '@jaewoong2/modal'
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'

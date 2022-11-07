@@ -17,10 +17,12 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
 
   const { dispatchUpdateError } = useStatus()
   const [current, setCurrent] = useState(+location.hash.replace(/#/g, '0'))
+
   const [order, setOrder] = useImmer<Order & { answers: string[][] }>({
     ...defaultOrder,
     templateId: id,
   })
+
   const { suceess } = useToast('제출 완료')
 
   useGetTemplate(id ?? '', {
@@ -61,7 +63,7 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data })
       }
     },
   })
@@ -133,7 +135,9 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
               draft.answers[index] = [e.target.value]
             }
             draft.templateResponses[index].question = e.target.name
-            draft.templateResponses[index].answer = [e.target.value]
+            draft.templateResponses[index].answer = draft.answers[index].filter(
+              (answer) => !!answer
+            )
           })
         }
 

@@ -19,7 +19,13 @@ const QuestionImageUpload = ({ handleContentImageUpdate, id }: Props) => {
 
   return (
     <label htmlFor={id} className="flex cursor-pointer items-center justify-center">
-      <input type="file" id={id} className="sr-only" onChange={handleChangeImage} />
+      <input
+        type="file"
+        id={id}
+        className="sr-only"
+        onChange={handleChangeImage}
+        accept="image/*"
+      />
       {img?.url && <p>+ {name}</p>}
       {!img?.url && <p>+ 이미지 추가</p>}
     </label>

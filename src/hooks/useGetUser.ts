@@ -1,9 +1,8 @@
-import { AxiosError } from 'axios'
 import { useQuery, UseQueryOptions, QueryKey } from 'react-query'
 import { getUser } from '@/apis/service'
 import { RequestError, User } from '@/type'
-import { http } from '@/apis/https'
 import useLocalStorage from './useLocalStorage'
+import useRefresh from './useRefresh'
 
 type UseQueryOption = Omit<
   UseQueryOptions<User, RequestError, User, QueryKey>,
@@ -11,7 +10,8 @@ type UseQueryOption = Omit<
 >
 
 const useGetUser = (options?: UseQueryOption) => {
-  const [value, setValue, refetch] = useLocalStorage('accessToken')
+  const [value, , refetch] = useLocalStorage('accessToken')
+  const { mutate } = useRefresh()
 
   const query = useQuery<User, RequestError>(
     'getUser',
@@ -22,20 +22,18 @@ const useGetUser = (options?: UseQueryOption) => {
     {
       ...options,
       enabled: value ? options?.enabled : false,
-      onError: async (error) => {
+      onSuccess: (data) => {
+        if (typeof options?.onSuccess === 'function') {
+          options?.onSuccess(data)
+        }
+        refetch()
+      },
+      onError: (error) => {
         if (typeof options?.onError === 'function') {
           options?.onError(error)
         }
         if (error.response?.status === 401) {
-          try {
-            const res = await http.post<string>('/api/user-auth/refresh')
-            setValue(res.data)
-          } catch (err) {
-            setValue('')
-            throw new AxiosError()
-          }
-        } else {
-          setValue('')
+          mutate()
         }
         query.remove()
       },

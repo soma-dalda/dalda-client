@@ -1,3 +1,4 @@
+import withAuth from '@/components/hoc/withAuth'
 import withPassword from '@/components/hoc/withPassword'
 import { ModalProvider } from '@jaewoong2/modal'
 import React from 'react'
@@ -23,4 +24,4 @@ const OrderRoute = () => {
   )
 }
 
-export default withPassword(OrderRoute)
+export default withAuth(withPassword(OrderRoute))
