@@ -25,6 +25,7 @@ const useConfiguration = () => {
     refetchOnWindowFocus: false,
     retry: false,
   })
+
   const { mutate, isLoading } = usePatchUser()
   const navigate = useNavigate()
 
