@@ -7,8 +7,11 @@ type Props = {
 
 const TemplateRadio = ({ id, onChange, children }: PropsWithChildren<Props>) => {
   return (
-    <label htmlFor={id} className="flex w-full justify-between rounded-xl border bg-white p-3">
-      <div className="flex gap-3">
+    <label
+      htmlFor={id}
+      className="flex w-full items-center justify-between rounded-xl border bg-white p-3"
+    >
+      <div className="flex items-center gap-3">
         <input name="form" type="radio" id={id} onChange={onChange} />
         <span>{children}</span>
       </div>
