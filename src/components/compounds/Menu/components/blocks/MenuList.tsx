@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import clsx from 'clsx'
 import UserIcon from '@/components/molecules/icons/UserIcon'
 import MyInformationIcon from '@/components/molecules/icons/MyInformationIcon'
@@ -23,11 +23,10 @@ const getMenuStyle = () =>
     'absolute right-0 top-0 z-50 flex min-h-screen w-full animate-fade-in-left-all flex-col bg-white p-3'
   )
 
-const getBellStyle = (length: string | number) =>
+const getBellStyle = () =>
   clsx(
-    'relative after:absolute after:-top-[3px] after:-right-[3px] after:h-3 after:w-3 after:p-1',
-    'after:bg-brand-300 after:flex after:items-center after:justify-center after:text-xs after:font-thin after:rounded-full after:text-grayScale-700',
-    `after:content-['${length.toString()}']`
+    'absolute -top-[3px] -right-[3px] h-3 w-3 p-1 text-[0.55em] text-point-700',
+    'bg-brand-300 flex items-center justify-center rounded-full text-grayScale-700'
   )
 
 const getLoginURL = (registerId: string) => {
@@ -43,7 +42,10 @@ const MenuList = () => {
   const { data: companyOrder } = useGetOrders('company')
   const { data: consumerOrder } = useGetOrders('consumer')
   const logout = useLogout()
-  const length = (companyOrder?.orderList?.length ?? 0) + (consumerOrder?.orderList?.length ?? 0)
+
+  const length = useMemo(() => {
+    return (companyOrder?.orderList?.length ?? 0) + (consumerOrder?.orderList?.length ?? 0)
+  }, [companyOrder, consumerOrder])
 
   return (
     <div className={getMenuStyle()}>
@@ -54,7 +56,7 @@ const MenuList = () => {
         <ul>
           {Boolean(user?.companyDomain) && (
             <MenuListItem
-              to={`/${user?.companyDomain}`}
+              to={`/${encodeURIComponent(user?.companyDomain ?? '')}`}
               icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
             >
               내 페이지
@@ -64,7 +66,10 @@ const MenuList = () => {
             내 정보 관리
           </MenuListItem>
           {Boolean(user.companyDomain) && (
-            <MenuListItem to={`/${user.companyDomain}/edit`} icon={<ProfileIcon />}>
+            <MenuListItem
+              to={`/${encodeURIComponent(user.companyDomain ?? '')}/edit`}
+              icon={<ProfileIcon />}
+            >
               가게 정보 관리
             </MenuListItem>
           )}
@@ -74,7 +79,8 @@ const MenuList = () => {
           <MenuListItem
             to="/orders"
             icon={
-              <div className={`${getBellStyle(length)}`}>
+              <div className="relative">
+                <span className={getBellStyle()}>{length}</span>
                 <BellIcon />
               </div>
             }

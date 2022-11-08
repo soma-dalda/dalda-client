@@ -17,6 +17,13 @@ export function getCookie(name: string): string | null {
   )
 }
 
+export function getOrderStatus<T extends string>(name: 'BEFORE_ACCEPT' | T | undefined) {
+  if (name === 'BEFORE_ACCEPT') {
+    return '접수 전'
+  }
+  return '확인 중'
+}
+
 export function deleteCookie(name: string) {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`
 }

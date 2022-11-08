@@ -92,7 +92,15 @@ export type Order = {
   pickupNoticePhone?: string
   consumerName?: string
 
-  orderStatus?: '접수 전' | '협의 중' | '가격 공지' | '제작 중' | '픽업 대기' | '픽업 완료' | '취소'
+  orderStatus?:
+    | '접수 전'
+    | '협의 중'
+    | '가격 공지'
+    | '제작 중'
+    | '픽업 대기'
+    | '픽업 완료'
+    | '취소'
+    | 'BEFORE_ACCEPT'
   statusChangeDate?: string
 }
 
