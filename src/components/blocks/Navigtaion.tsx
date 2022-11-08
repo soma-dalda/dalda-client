@@ -6,7 +6,7 @@ import TitleLogoIcon from '../molecules/icons/TitleLogoIcon'
 const Navigation = () => {
   return (
     <nav className="flex w-full justify-between">
-      <Link to="/" className="flex justify-start">
+      <Link to="/" className="flex justify-start" aria-label="banner for redirect mainpage">
         <TitleLogoIcon className="h-[20px] w-auto cursor-pointer" />
       </Link>
       <MenuHamberger />
