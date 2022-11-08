@@ -8,6 +8,7 @@ import useGetUser from '@/hooks/useGetUser'
 import LoadingPage from '@/components/molecules/LoadingPage'
 import useStatus from '@/hooks/useStatus'
 import { AxiosError } from 'axios'
+import useHelmet from '@/hooks/useHelmet'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
 import DomainProfileTitle from './components/molecules/DomainProfileTitle'
 import DomainProfileDescription from './components/molecules/DomainProfileDescription'
@@ -23,8 +24,17 @@ import DomainProfileImage from './components/molecules/DomainProfileImage'
 const Domain = () => {
   const { data: user } = useGetUser()
   const { dispatchUpdateError } = useStatus()
+  const { dispatchUpdateHelmet } = useHelmet()
 
   const { data: company, isLoading: companyLoading } = useGetCompanyRequest({
+    onSuccess: (data) => {
+      dispatchUpdateHelmet({
+        title: data.companyDomain,
+        description: data.companyIntroduction,
+        keywords: [data.companyName, data.companyLocation],
+        thumbnail: data.profileImage,
+      })
+    },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err?.message })

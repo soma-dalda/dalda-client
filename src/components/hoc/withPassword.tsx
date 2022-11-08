@@ -58,6 +58,7 @@ const withPassword = (Component: ComponentType) => {
       }
     }, [user?.userPhone, status])
 
+    // 비밀번호 등록 하지 않은 채로 X 누르거나 메시지를 껐을 때, 다시 보여줌
     useEffect(() => {
       if (status === 'cancled') {
         show()
