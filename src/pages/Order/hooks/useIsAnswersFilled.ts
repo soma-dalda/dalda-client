@@ -13,24 +13,10 @@ const useIsAnswersFilled = () => {
   })
 
   useEffect(() => {
-    const requiredAnswers = template?.contentList.map((templateContent, i) => {
-      if (templateContent.required) {
-        return order.answers[i]
-      }
-      return ['']
-    })
-
-    if (!requiredAnswers) {
-      setIsAnswersFilled(true)
-    } else {
-      setIsAnswersFilled(
-        !(
-          requiredAnswers
-            ?.map((answer) => Boolean(answer?.filter((ans) => ans?.trim() !== '')?.length > 0))
-            ?.filter((answer) => answer === false)?.length > 0
-        )
-      )
-    }
+    setIsAnswersFilled(
+      order.answers.map((answer) => answer.map((v) => v.trim() !== '').filter((v) => !!v))
+        .length === order.answers.length
+    )
   }, [order, template])
 
   return isAnswersFilled
