@@ -14,7 +14,6 @@ const LoginSSO = React.lazy(() => import('./pages/Login/LoginSSO'))
 const OrderRoute = React.lazy(() => import('./pages/Order'))
 const OrdersRoute = React.lazy(() => import('./pages/Orders'))
 const Configuration = React.lazy(() => import('./pages/Configuration'))
-const Logout = React.lazy(() => import('./pages/logout'))
 const ErrorPage = React.lazy(() => import('./pages/404'))
 
 const App = () => {
@@ -36,13 +35,13 @@ const App = () => {
             <Route element={<TemplatesRoute />} path=":domain/templates/*" />
             <Route element={<OrderRoute />} path=":domain/order/:id/*" />
             <Route element={<EditRoute />} path=":domain/edit/*" />
+            <Route element={<ErrorPage msg="존재하지 않는 페이지" />} path=":domain/*" />
             <Route element={<EditRoute />} path="/edit/*" />
           </Route>
           <Route element={<OrdersRoute />} path="/orders/*" />
           <Route element={<Configuration />} path="/configuration" />
           <Route element={<LoginRoute />} path="/login" />
           <Route element={<LoginSSO />} path="/login/:sso" />
-          <Route element={<Logout />} path="/logout" />
           <Route element={<ErrorPage />} path="/error" />
         </Routes>
       </Suspense>

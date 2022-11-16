@@ -1,4 +1,4 @@
-import { Company, Order, Template, User } from '@/type'
+import { Company, Order, Template, User, COMPANY, MEMBER } from '@/type'
 
 export const MOCK_HOURS = [
   { day: '월', start: '', end: '' },
@@ -12,20 +12,20 @@ export const MOCK_HOURS = [
 
 export const MOCK_TEMPLATE: Template = {
   id: '0',
-  companyId: '1',
+  userId: '1',
   title: '기본 주문서',
-  content: [
+  contentList: [
     {
-      type: 'option',
-      detailType: 'singleObjective',
+      type: 'singleObjective',
       question: '케이크 호수를 정해주세요.',
       img: 'https://i.ytimg.com/vi/g2sSCktflX8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCsx_IEUNclI10YLIagy0rEXhQQHg',
+      required: false,
       options: ['1호', '2호', '3호', '4호'],
     },
     {
-      type: 'description',
+      type: 'subjective',
       options: null,
-      detailType: 'shortSubjective',
+      required: false,
       question: '케이크 문구를 작성 해주세요.',
       img: '',
     },
@@ -35,7 +35,7 @@ export const MOCK_TEMPLATE: Template = {
 export const MOCK_USER: User = {
   id: '0',
   oAuthId: `0-kakao`,
-  role: 'MEMBER',
+  role: MEMBER,
   username: '',
   userPhone: '',
   companyName: '',
@@ -46,7 +46,7 @@ export const MOCK_USER: User = {
   companyPhone: '',
   profileImage: '',
   qnaLink: '',
-  instagramLink: '',
+  instaLink: '',
   etcLinks: [],
   createdAt: '',
   modifiedAt: '',
@@ -62,7 +62,7 @@ export const MOCK_COMPANY: Company = {
     'Make Your own Cake For Family, Friend, Co-workers Make Your own Cake For Family, Friend, Co-workers',
   profileImage: '/logo.png',
   companyDomain: 'test',
-  instagramLink: 'https://instagram.com',
+  instaLink: 'https://instagram.com',
   qnaLink: 'https://open.kakao.com/o/gSgY8Ove',
   etcLinks: [
     { title: '블로그', link: 'https://velog.io' },
@@ -75,7 +75,7 @@ export const MOCK_COMPANY: Company = {
   latestAt: new Date().toJSON(),
   modifiedAt: new Date().toJSON(),
   oAuthId: 'kakao',
-  role: 'COMPANY',
+  role: COMPANY,
   username: 'cake-dalda',
   userPhone: '010-0000-1234',
   withdraw: false,

@@ -13,7 +13,7 @@ const useGetCompanyRequest = (options?: UseQueryOption) => {
 
   return useQuery<Company, RequestError>(`${domain}`, () => getCompany({ companyDomain: domain }), {
     ...options,
-    enabled: Boolean(domain) && options?.enabled,
+    enabled: domain ? options?.enabled : false,
   })
 }
 

@@ -1,25 +1,59 @@
+import React, { ComponentType, useEffect } from 'react'
 import useGetUser from '@/hooks/useGetUser'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
-import React, { ComponentType, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import useLocalStorage from '@/hooks/useLocalStorage'
+import useToast from '@/hooks/useToast'
 
 const withAuth = (Component: ComponentType) => {
-  const HOC = <P extends {}>(props: P) => {
+  const Wrapper = <P extends {}>(props: P) => {
     const navigate = useNavigate()
-    const { data: user } = useGetUser()
-    const { data: company } = useGetCompanyRequest()
+
+    const { error } = useToast('잘못된 접근 입니다', {
+      backgroundColor: '#354898',
+    })
+
+    const { error: errorNotLogin } = useToast('로그인 후 사용 해주세요', {
+      backgroundColor: '#354898',
+    })
+
+    const [token, , , isLoading] = useLocalStorage('accessToken')
+    const { data: user, isSuccess: userIsSuccess } = useGetUser()
+    const { data: company, isSuccess: companyIsSuccess } = useGetCompanyRequest()
 
     /* 권한 분기 */
     useEffect(() => {
-      if (user?.id && company?.id) {
-        if (user?.id !== company?.id) {
-          navigate('/')
-          window.alert('잘못된 접근')
+      if (userIsSuccess && companyIsSuccess) {
+        if (user?.id && company?.id) {
+          if (user?.id !== company?.id) {
+            error.show()
+            navigate('/')
+          }
         }
       }
-    }, [user, company])
+    }, [user, company, userIsSuccess, companyIsSuccess])
+
+    useEffect(() => {
+      if (userIsSuccess) {
+        if (!user?.id) {
+          error.show()
+          navigate('/')
+        }
+      }
+    }, [user, userIsSuccess])
+
+    useEffect(() => {
+      if (!isLoading && !token) {
+        errorNotLogin.show()
+        navigate('/')
+      }
+    }, [token])
 
     return <Component {...props} />
+  }
+
+  const HOC = <P extends {}>(props: P) => {
+    return <Wrapper {...props} />
   }
 
   return HOC

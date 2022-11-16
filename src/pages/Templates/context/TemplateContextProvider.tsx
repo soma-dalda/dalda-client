@@ -1,28 +1,19 @@
-import React, { PropsWithChildren, useCallback, useMemo } from 'react'
+import React, { PropsWithChildren, useCallback, useEffect, useMemo } from 'react'
 import { useImmer } from 'use-immer'
-import {
-  OptionQuestion,
-  DescriptionQuestion,
-  Question,
-  OptionQuestionDetailType,
-  DescriptionQuestionDetailType,
-  Template,
-} from '@/type'
+import { OptionQuestion, DescriptionQuestion, Question, Template } from '@/type'
 import useGetCompanyRequest from '@/pages/Domain/hooks/useGetCompanyRequest'
 import useStatus from '@/hooks/useStatus'
 import { AxiosError } from 'axios'
 import { TemplateValueContext, defaultValue, TemplateActionContext } from './TemplateContext'
 
 export const defaultOptionQuestion: OptionQuestion = {
-  type: 'option',
+  type: 'singleObjective',
   question: '',
-  detailType: 'multiObjective',
   options: [],
   img: '',
 }
 export const defaultDescriptionQuestion: DescriptionQuestion = {
-  type: 'description',
-  detailType: 'longSubjective',
+  type: 'subjective',
   question: '',
   options: null,
   img: '',
@@ -34,14 +25,14 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const { refetch } = useGetCompanyRequest({
     onSuccess: (data) => {
       setTemplate((draft) => {
-        draft.companyId = data.id
+        draft.userId = data.id
       })
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
       }
     },
   })
@@ -49,7 +40,16 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
   const handleUpdateImage = useCallback(
     (index: number) => (imageUrl: string) => {
       setTemplate((draft) => {
-        draft.content[index].img = imageUrl
+        draft.contentList[index].img = imageUrl
+      })
+    },
+    []
+  )
+
+  const handleUpdateRequired = useCallback(
+    (index: number) => () => {
+      setTemplate((draft) => {
+        draft.contentList[index].required = !draft.contentList[index].required
       })
     },
     []
@@ -72,32 +72,32 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
 
   const handleAddQuestion = useCallback((type: Question['type']) => {
     setTemplate((draft) => {
-      if (type === 'option') {
-        draft.content = [...draft.content, defaultOptionQuestion]
+      if (type === 'multiObjective' || type === 'singleObjective') {
+        draft.contentList = [...draft.contentList, defaultOptionQuestion]
       }
-      if (type === 'description') {
-        draft.content = [...draft.content, defaultDescriptionQuestion]
+      if (type === 'subjective') {
+        draft.contentList = [...draft.contentList, defaultDescriptionQuestion]
       }
     })
   }, [])
   const handleDeleteQuestion = useCallback((index: number) => {
     setTemplate((draft) => {
-      draft.content = draft.content.filter((_, i) => i !== index)
+      draft.contentList = draft.contentList.filter((_, i) => i !== index)
     })
   }, [])
   const handleUpdateQuestionTitle = useCallback(
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setTemplate((draft) => {
-        draft.content[index].question = e.target.value
+        draft.contentList[index].question = e.target.value
       })
     },
     []
   )
   const handleAddOption = useCallback((index: number) => {
     setTemplate((draft) => {
-      const content = draft.content[index]
-      if (content.type === 'option') {
-        content.options = [...content.options, '']
+      const contentList = draft.contentList[index]
+      if (contentList.type === 'multiObjective' || contentList.type === 'singleObjective') {
+        contentList.options = [...contentList.options, '']
       }
     })
   }, [])
@@ -105,9 +105,9 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
     ({ contentIndex, optionIndex }: { contentIndex: number; optionIndex: number }) =>
       (e: React.ChangeEvent<HTMLInputElement>) => {
         setTemplate((draft) => {
-          const content = draft.content[contentIndex]
-          if (content.type === 'option') {
-            content.options[optionIndex] = e.target.value
+          const contentList = draft.contentList[contentIndex]
+          if (contentList.type === 'multiObjective' || contentList.type === 'singleObjective') {
+            contentList.options[optionIndex] = e.target.value
           }
         })
       },
@@ -117,29 +117,27 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
     ({ contentIndex, optionIndex }: { contentIndex: number; optionIndex: number }) =>
       () => {
         setTemplate((draft) => {
-          const content = draft.content[contentIndex]
-          if (content.type === 'option') {
-            content.options = content.options.filter((_, i) => i !== optionIndex)
+          const contentList = draft.contentList[contentIndex]
+          if (contentList.type === 'multiObjective' || contentList.type === 'singleObjective') {
+            contentList.options = contentList.options.filter((_, i) => i !== optionIndex)
           }
         })
       },
     []
   )
   const handleUpdateDetailType = useCallback(
-    ({
-      contentIndex,
-      detailType,
-    }: {
-      contentIndex: number
-      detailType: OptionQuestionDetailType | DescriptionQuestionDetailType
-    }) => {
+    ({ contentIndex, detailType }: { contentIndex: number; detailType: Question['type'] }) => {
       setTemplate((draft) => {
-        const content = draft.content[contentIndex]
-        content.detailType = detailType
+        const contentList = draft.contentList[contentIndex]
+        contentList.type = detailType
       })
     },
     []
   )
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   const action = useMemo(
     () => ({
@@ -151,6 +149,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       handleUpdateOption,
       handleDeleteOption,
       handleUpdateDetailType,
+      handleUpdateRequired,
       handleUpdateTemplate,
       handleResetTemplate,
       handleUpdateImage,
@@ -167,6 +166,7 @@ const TemplateContextProvider = ({ children }: PropsWithChildren) => {
       handleUpdateTemplate,
       handleResetTemplate,
       handleUpdateImage,
+      handleUpdateRequired,
     ]
   )
 

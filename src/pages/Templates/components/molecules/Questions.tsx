@@ -7,10 +7,10 @@ const Questions = ({ content }: { content: Question[] }) => {
   return (
     <>
       {content.map((question, i) =>
-        question.type === 'option' ? (
-          <TemplateOptionQuestion index={i} key={`option-${+i}`} />
-        ) : (
+        question.type === 'subjective' ? (
           <TemplateDescriptionQuestion index={i} key={`description-${+i}`} />
+        ) : (
+          <TemplateOptionQuestion index={i} key={`option-${+i}`} />
         )
       )}
     </>

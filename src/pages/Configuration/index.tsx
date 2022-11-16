@@ -1,12 +1,16 @@
 import React from 'react'
 import { Layout } from '@/components'
 import { NavigationWithArrow } from '@/components/blocks'
+import withAuth from '@/components/hoc/withAuth'
+import useBeforeunload from '@/hooks/useBeforeunload'
 import FormInputBase from './components/molecules/FormInputBase'
 import useConfiguration from './hooks/useConfiguration'
 
 const Configuration = () => {
   const { handleSubmit, isLoading, onChangeUserPhone, onChangeUsername, userPhone, username } =
     useConfiguration()
+
+  useBeforeunload()
   return (
     <Layout
       navigtaion={
@@ -38,14 +42,17 @@ const Configuration = () => {
         />
         <FormInputBase
           isRequired
+          type="number"
           isDisabled={isLoading}
+          minLength={11}
           label="사용자 전화번호"
           value={userPhone}
           onChange={onChangeUserPhone}
+          helper="01012345678 형식으로 작성해주세요 :)"
         />
       </form>
     </Layout>
   )
 }
 
-export default Configuration
+export default withAuth(Configuration)

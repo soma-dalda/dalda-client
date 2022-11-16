@@ -8,6 +8,7 @@ import useGetUser from '@/hooks/useGetUser'
 import LoadingPage from '@/components/molecules/LoadingPage'
 import useStatus from '@/hooks/useStatus'
 import { AxiosError } from 'axios'
+import useHelmet from '@/hooks/useHelmet'
 import useGetCompanyRequest from './hooks/useGetCompanyRequest'
 import DomainProfileTitle from './components/molecules/DomainProfileTitle'
 import DomainProfileDescription from './components/molecules/DomainProfileDescription'
@@ -23,13 +24,22 @@ import DomainProfileImage from './components/molecules/DomainProfileImage'
 const Domain = () => {
   const { data: user } = useGetUser()
   const { dispatchUpdateError } = useStatus()
+  const { dispatchUpdateHelmet } = useHelmet()
 
   const { data: company, isLoading: companyLoading } = useGetCompanyRequest({
+    onSuccess: (data) => {
+      dispatchUpdateHelmet({
+        title: data.companyDomain,
+        description: data.companyIntroduction,
+        keywords: [data.companyName, data.companyLocation],
+        thumbnail: data.profileImage,
+      })
+    },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
-        dispatchUpdateError({ code: 400, message: err.message })
+        dispatchUpdateError({ code: 400, message: err?.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err?.code, message: err.response?.data?.message })
       }
     },
   })
@@ -39,9 +49,9 @@ const Domain = () => {
     {
       onError: (err) => {
         if (err.status === AxiosError.ECONNABORTED) {
-          dispatchUpdateError({ code: 400, message: err.message })
+          dispatchUpdateError({ code: 400, message: err?.message })
         } else {
-          dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+          dispatchUpdateError({ code: err?.code, message: err.response?.data?.message })
         }
       },
       enabled: Boolean(company?.id),
@@ -76,7 +86,7 @@ const Domain = () => {
               to="templates"
               className="w-full rounded-xl bg-point-700 p-4 text-white hover:bg-point-500"
             >
-              주문서 수정하기
+              주문서 관리하기
             </Link>
           </div>
         )
@@ -89,11 +99,16 @@ const Domain = () => {
       <DomainProfileLocation>{company?.companyLocation}</DomainProfileLocation>
       <DomainProfileIcons
         etcLinks={company?.etcLinks}
-        instagramLink={company?.instagramLink}
+        instagramLink={company?.instaLink}
         qnaLink={company?.qnaLink}
       />
       <DomainProfileHours onClick={show}>영업시간 확인하기</DomainProfileHours>
-      <DomainTemplates templates={templates} />
+      <DomainTemplates templateList={templates?.templateList} />
+      {templates?.templateList.length === 0 && (
+        <div className="mt-8 flex h-[240px] w-full items-center justify-center rounded-xl border bg-gray-50">
+          <p className="text-xl text-point-700">등록된 주문서가 없습니다</p>
+        </div>
+      )}
     </Layout>
   )
 }

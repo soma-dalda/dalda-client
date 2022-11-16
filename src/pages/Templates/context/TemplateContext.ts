@@ -3,11 +3,9 @@ import { createContext } from 'react'
 
 export const defaultValue: Template = {
   id: '',
-  content: [],
+  contentList: [],
   title: '',
-  companyId: '',
-  createdAt: '',
-  modifiedAt: '',
+  userId: '',
 }
 
 type TemplateAction = {
@@ -35,11 +33,12 @@ type TemplateAction = {
     detailType,
   }: {
     contentIndex: number
-    detailType: Question['detailType']
+    detailType: Question['type']
   }) => void
   handleUpdateTemplate: (template: Template) => void
   handleResetTemplate: () => void
   handleUpdateImage: (index: number) => (imageUrl: string) => void
+  handleUpdateRequired: (index: number) => () => void
 }
 
 const defaultAction: TemplateAction = {
@@ -54,6 +53,7 @@ const defaultAction: TemplateAction = {
   handleUpdateTemplate: () => {},
   handleResetTemplate: () => {},
   handleUpdateImage: () => () => {},
+  handleUpdateRequired: () => () => {},
 }
 
 export const TemplateValueContext = createContext(defaultValue)

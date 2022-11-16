@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { Anchor } from '@/components/atoms'
 import clsx from 'clsx'
 import useGetUser from '@/hooks/useGetUser'
+import { MEMBER } from '@/type'
 import RecommandCards from './components/blocks/RecommandCards'
 
 const buttonText = clsx('p-3 text-[15px] font-[600]')
@@ -20,7 +21,6 @@ const editLink = clsx(
 
 const Home = () => {
   const { data: user } = useGetUser({
-    retry: 1,
     select: (data) => {
       return { ...data, companyDomain: encodeURIComponent(data.companyDomain ?? '') }
     },
@@ -43,7 +43,7 @@ const Home = () => {
         <LogoColorIcon className="h-[80px] w-[70px] translate-y-[-25px]" />
       </div>
       <h2 className="text-lg font-[500]">특별한 날 달달한 기억 달다</h2>
-      {user?.id && (
+      {user?.role === MEMBER && user?.id && (
         <Link
           to={user?.companyDomain ? `${user?.companyDomain}/edit` : '/edit'}
           className={editLink}

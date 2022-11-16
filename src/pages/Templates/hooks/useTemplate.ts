@@ -1,4 +1,5 @@
 import useStatus from '@/hooks/useStatus'
+import { useModal } from '@jaewoong2/modal'
 import { AxiosError } from 'axios'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -10,9 +11,12 @@ import useTemplateValueContext from './useTemplateValueContext'
 
 const useTemplate = () => {
   const { id } = useParams()
+
   const navigate = useNavigate()
   const { dispatchUpdateError } = useStatus()
+
   const template = useTemplateValueContext()
+
   const { handleUpdateTitle, handleAddQuestion, handleUpdateTemplate, handleResetTemplate } =
     useTemplateActionContext()
 
@@ -25,7 +29,7 @@ const useTemplate = () => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
       }
     },
   })
@@ -39,39 +43,58 @@ const useTemplate = () => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
       }
     },
   })
 
-  const { remove, isLoading: getLoading } = useGetTemplate(id ?? '', {
+  const { show: modalShow, hide } = useModal('text', {
+    message: '저장 하시겠습니까?',
+    header: null,
+    description: null,
+    modalWidth: '300px',
+    buttonText: '확인',
+    buttonType: 'normal',
+    onClickButton: () => {
+      if (template.id) {
+        putMutate(template)
+      } else {
+        postMutate(template)
+      }
+      hide()
+    },
+  })
+
+  const {
+    remove,
+    isLoading: getLoading,
+    refetch,
+  } = useGetTemplate(id ?? '', {
     onSuccess: (data) => {
       if (data) {
         handleUpdateTemplate(data)
       }
     },
-    retry: false,
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
       }
     },
-    enabled: Boolean(id !== 'post') && Boolean(id),
+    enabled: false,
   })
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      if (template.id) {
-        putMutate({ ...template })
-      } else {
-        postMutate({ ...template })
-      }
-    },
-    [template]
-  )
+  useEffect(() => {
+    if (id) {
+      refetch()
+    }
+  }, [id])
+
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    modalShow()
+  }, [])
 
   useEffect(() => {
     handleResetTemplate()

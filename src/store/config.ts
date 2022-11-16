@@ -2,11 +2,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { createLogger } from 'redux-logger'
 import statusSlice from '@/slice/statusSlice'
+import helmetSlice from '@/slice/helmetSlice'
 
 const logger = createLogger()
 
 const rootReducer = combineReducers({
   status: statusSlice.reducer,
+  helmet: helmetSlice.reducer,
 })
 
 const initialState = {}

@@ -3,30 +3,32 @@ import { Order, RequestError } from '@/type'
 import { getCompanyOrdersByUserId, getConsumerOrdersByUserId } from '@/apis/service'
 import useGetUser from './useGetUser'
 
+type OrderListsResponse = { orderList: Order[] }
+
 type UseQueryOption = Omit<
-  UseQueryOptions<Order[], RequestError, Order[], QueryKey>,
+  UseQueryOptions<OrderListsResponse, RequestError, OrderListsResponse, QueryKey>,
   'queryKey' | 'queryFn'
 >
 
 const useGetOrders = (type: 'company' | 'consumer', options?: UseQueryOption) => {
   const { data: user } = useGetUser()
   if (type === 'company') {
-    return useQuery<Order[], RequestError>(
+    return useQuery<OrderListsResponse, RequestError>(
       ['getOrder', user?.id, 'company'],
-      () => getCompanyOrdersByUserId({ userId: user?.id }),
+      () => getCompanyOrdersByUserId(),
       {
         ...options,
-        enabled: options?.enabled && Boolean(user?.id),
+        enabled: user?.id ? options?.enabled : false,
       }
     )
   }
 
-  return useQuery<Order[], RequestError>(
+  return useQuery<OrderListsResponse, RequestError>(
     ['getOrder', user?.id, 'consumer'],
-    () => getConsumerOrdersByUserId({ userId: user?.id }),
+    () => getConsumerOrdersByUserId(),
     {
       ...options,
-      enabled: options?.enabled && Boolean(user?.id),
+      enabled: user?.id ? options?.enabled : false,
     }
   )
 }

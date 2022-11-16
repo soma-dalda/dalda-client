@@ -32,10 +32,10 @@ const OrderConfirm = () => {
       <section className="mt-3 w-full">
         <h2 className="mb-7 text-lg font-semibold">{order?.id}님의 주문요청</h2>
         <section className="flex flex-col gap-7">
-          {template?.content.map((question, index) => (
+          {template?.contentList.map((question, index) => (
             <Question
-              question={question.question}
-              answer={order?.templateResponses?.[index].answer}
+              question={question?.question}
+              answer={order?.templateResponses?.[index]?.answer}
             />
           ))}
           <Link

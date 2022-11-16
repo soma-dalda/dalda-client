@@ -1,6 +1,8 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
 import useStatus from '@/hooks/useStatus'
+import useToast from '@/hooks/useToast'
 import { Order } from '@/type'
+import { useModal } from '@jaewoong2/modal'
 import { AxiosError } from 'axios'
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
@@ -15,19 +17,32 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
 
   const { dispatchUpdateError } = useStatus()
   const [current, setCurrent] = useState(+location.hash.replace(/#/g, '0'))
+
   const [order, setOrder] = useImmer<Order & { answers: string[][] }>({
     ...defaultOrder,
     templateId: id,
   })
 
+  const { suceess } = useToast('제출 완료')
+
   useGetTemplate(id ?? '', {
     onSuccess: (data) => {
-      setOrder((prev) => ({
-        ...prev,
-        companyId: data.companyId,
-        templateId: id,
-        answers: Array(data?.content.length).fill(''),
-      }))
+      setOrder((draft) => {
+        draft.companyId = data.userId
+        draft.templateId = id
+        draft.answers = Array(data?.contentList.length).fill([''])
+        draft.templateResponses = Array(data?.contentList.length).fill({
+          question: '',
+          answer: [''],
+        })
+      })
+    },
+    onError: (err) => {
+      if (err.status === AxiosError.ECONNABORTED) {
+        dispatchUpdateError({ code: 400, message: err.message })
+      } else {
+        dispatchUpdateError({ code: err.code, message: err.response?.data.message })
+      }
     },
     enabled: Boolean(id),
     refetchInterval: false,
@@ -42,35 +57,30 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       setCurrent(0)
       setOrder({ ...defaultOrder, templateId: id })
       navigate(`/${domain}`)
+      suceess.show()
     },
     onError: (err) => {
       if (err.status === AxiosError.ECONNABORTED) {
         dispatchUpdateError({ code: 400, message: err.message })
       } else {
-        dispatchUpdateError({ code: err.code, message: err.response?.data.error.message })
+        dispatchUpdateError({ code: err.code, message: err.response?.data })
       }
     },
   })
 
-  const setTemplateResponse = ({
-    question,
-    answer,
-    index,
-  }: {
-    question: string
-    answer: string[]
-    index: number
-  }) => {
-    setOrder((draft) => {
-      if (draft.templateResponses) {
-        if (draft.templateResponses[index]) {
-          draft.templateResponses[index] = { question, answer }
-        } else {
-          draft.templateResponses.push({ question, answer })
-        }
-      }
-    })
-  }
+  const { show, hide } = useModal('text', {
+    message: '제출 하시겠습니까?',
+    header: null,
+    description: null,
+    modalWidth: '300px',
+    buttonText: '제출',
+    buttonType: 'primary',
+    onClickButton: () => {
+      const { companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone } =
+        order
+      mutate({ companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone })
+    },
+  })
 
   const handlePickupdate = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setOrder((draft) => {
@@ -87,9 +97,9 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const handleClickStep = useCallback(
     (step: number) => () => {
       setCurrent(step)
-      navigate(`#${step}`)
+      navigate({ hash: `${step}` })
     },
-    []
+    [location]
   )
 
   const handleAddImage = useCallback((url: string) => {
@@ -103,7 +113,8 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
       (index) => (e) => {
         setOrder((draft) => {
           draft.answers[index] = [e.target.value]
-          setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+          draft.templateResponses[index].question = e.target.name
+          draft.templateResponses[index].answer = [e.target.value]
         })
       },
       []
@@ -123,7 +134,10 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
             } else {
               draft.answers[index] = [e.target.value]
             }
-            setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+            draft.templateResponses[index].question = e.target.name
+            draft.templateResponses[index].answer = draft.answers[index].filter(
+              (answer) => !!answer
+            )
           })
         }
 
@@ -131,8 +145,8 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
           setOrder((draft) => {
             const options: string[] = draft.answers[index]
             draft.answers[index] = options.filter((option) => option !== e.target.value)
-
-            setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+            draft.templateResponses[index].question = e.target.name
+            draft.templateResponses[index].answer = [e.target.value]
           })
         }
       },
@@ -143,20 +157,26 @@ const OrderContextProvider = ({ children }: PropsWithChildren) => {
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setOrder((draft) => {
         draft.answers[index] = [e.target.value]
-        setTemplateResponse({ question: e.target.name, answer: draft.answers[index], index })
+        draft.templateResponses[index].question = e.target.name
+        draft.templateResponses[index].answer = [e.target.value]
       })
     },
     []
   )
 
   const handleSubmit = useCallback(() => {
-    const { companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone } = order
-    mutate({ companyId, templateId, image, templateResponses, pickupDate, pickupNoticePhone })
+    show()
   }, [order])
 
   useEffect(() => {
     setCurrent(+location.hash.slice(1))
   }, [location.hash])
+
+  useEffect(() => {
+    return () => {
+      hide()
+    }
+  }, [])
 
   const value = useMemo(() => ({ current, order }), [current, order])
   const action: OrderAction = useMemo(

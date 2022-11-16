@@ -7,6 +7,14 @@
   .layout {
     @apply mobile:w-full mobile:max-w-full tablet:max-w-sm;
   }
+
+  .hidden-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hidden-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 }
 
 * {

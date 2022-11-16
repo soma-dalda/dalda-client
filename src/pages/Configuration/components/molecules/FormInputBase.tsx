@@ -17,7 +17,13 @@ const FormInputBase = ({
   isDisabled,
   isInvalid,
   isRequired,
-}: FormBaseProps & { helper?: string }) => {
+  minLength,
+  type,
+}: FormBaseProps & {
+  helper?: string
+  type?: JSX.IntrinsicElements['input']['type']
+  minLength?: number
+}) => {
   return (
     <FormControl
       as="div"
@@ -25,7 +31,13 @@ const FormInputBase = ({
       {...{ isDisabled, isInvalid, isRequired, isError }}
     >
       <FormLabel className="mb-2">{label}</FormLabel>
-      <FormInput className="w-full" value={value} onChange={onChange} />
+      <FormInput
+        minLength={minLength}
+        type={type}
+        className="w-full"
+        value={value}
+        onChange={onChange}
+      />
       <FormHelper variant="normal">{helper}</FormHelper>
     </FormControl>
   )

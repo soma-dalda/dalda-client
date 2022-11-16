@@ -1,5 +1,7 @@
 import useHandleImage from '@/hooks/useHandleImage'
 import React from 'react'
+import useGetCompanyRequest from '../../hooks/useGetCompanyRequest'
+import usePatchProfileImage from '../../hooks/usePatchProfileImage'
 import DomainProfileImage from '../molecules/DomainProfileImage'
 
 type Props = {
@@ -7,7 +9,19 @@ type Props = {
 }
 
 const DomainProfileImageUpload = ({ src }: Props) => {
-  const { isLoading, handleChangeImage } = useHandleImage()
+  const { refetch } = useGetCompanyRequest({ enabled: false })
+  const { mutate: patchProfileImage } = usePatchProfileImage({
+    onSuccess: () => {
+      refetch()
+    },
+  })
+  const { isLoading, handleChangeImage } = useHandleImage({
+    onSuccess: (data) => {
+      patchProfileImage({
+        imageUrl: data.url,
+      })
+    },
+  })
 
   return (
     <form>

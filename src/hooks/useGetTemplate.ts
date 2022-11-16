@@ -11,9 +11,7 @@ const useGetTemplate = (templateId: string, options?: UseQueryOption) => {
   return useQuery<Template, RequestError>(
     ['getTemplate', templateId],
     () => getTemplate({ templateId }),
-    {
-      ...options,
-    }
+    options
   )
 }
 

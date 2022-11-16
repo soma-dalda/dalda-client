@@ -9,11 +9,13 @@ const useStatus = () => {
   const navigate = useNavigate()
 
   const dispatchUpdateError = useCallback(
-    ({ message, code }: { message?: string; code?: string | number }) => {
-      if (message && code) {
-        dispatch(updateError({ message, code }))
-        navigate('/error')
+    ({ message, code }: { message?: string | { message: string }; code?: string | number }) => {
+      if (typeof message === 'string') {
+        dispatch(updateError({ message: message ?? '', code: code ?? '200' }))
+      } else {
+        dispatch(updateError({ message: message?.message ?? '', code: code ?? '200' }))
       }
+      navigate('/error')
     },
     []
   )

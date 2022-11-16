@@ -8,7 +8,7 @@ type Props = {
 const NavigationWithDivider = ({ buttons, divider = true }: Props) => {
   return (
     <div className="my-6 flex w-full items-center justify-start gap-2 border-b p-3 px-2 text-sm">
-      {buttons.map((button, i) => (
+      {buttons?.map((button, i) => (
         <React.Fragment key={`navigtaion.button${+i}`}>
           {button}
           {divider && i + 1 !== buttons.length && (

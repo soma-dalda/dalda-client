@@ -6,6 +6,7 @@ type Props = {
   handleChangeDescription: React.ChangeEventHandler
   description: string[]
   img?: string
+  name: string
 }
 
 const QuestionDescription = ({
@@ -13,6 +14,7 @@ const QuestionDescription = ({
   handleChangeDescription,
   description,
   img,
+  name,
 }: Props) => {
   return (
     <QuestionLayout title={questionTitle}>
@@ -23,7 +25,7 @@ const QuestionDescription = ({
       <div className="flex w-full flex-col gap-3">
         <textarea
           className="w-full resize-none rounded-xl border border-grayScale-500 bg-gray-100 p-3 text-gray-800"
-          name={questionTitle}
+          name={name}
           rows={10}
           id="description"
           value={description[0]}

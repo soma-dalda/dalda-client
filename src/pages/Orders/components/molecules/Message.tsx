@@ -6,14 +6,14 @@ type Props = {
   orderStatus: string
   orderTitle: string
   date: string
-  id: string
+  id: string | undefined
 }
 
 const Message = ({ orderStatus, orderTitle, date, id }: Props) => {
   return (
     <Link
-      to={id}
       className="group flex cursor-pointer items-center justify-between border-b border-dotted py-4 px-4 visited:text-gray-500 hover:bg-gray-200"
+      to={`${id}` ?? ''}
     >
       <div className="flex w-full items-center gap-5">
         <CakeCircleIcon className="h-8 w-8 group-visited:fill-gray-500" />
@@ -22,7 +22,7 @@ const Message = ({ orderStatus, orderTitle, date, id }: Props) => {
           <p className="text-sm">{orderTitle}</p>
         </div>
       </div>
-      <p className="w-[40px] text-sm">{date}</p>
+      <p className="mr-3 w-[40px] text-sm">{date}</p>
     </Link>
   )
 }

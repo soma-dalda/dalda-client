@@ -1,6 +1,7 @@
 import { createContext } from 'react'
 import { Order } from '@/type'
 import { Updater } from 'use-immer'
+import { getDateTime } from '@/utils'
 
 export type OrderAction = {
   handleClickStep: (step: number) => () => void
@@ -18,6 +19,9 @@ export const defaultOrder: Order & { answers: string[][] } = {
   templateId: '',
   answers: [['']],
   templateResponses: [],
+  pickupDate: getDateTime(new Date()),
+  image: '',
+  pickupNoticePhone: '',
 }
 
 const defaultAction: OrderAction = {
@@ -32,7 +36,7 @@ const defaultAction: OrderAction = {
   handleSubmit: () => {},
 }
 
-const OrderValueContext = createContext({ order: defaultOrder, current: 0 })
+const OrderValueContext = createContext({ order: { ...defaultOrder }, current: 0 })
 const OrderActionContext = createContext({ ...defaultAction })
 
 export { OrderValueContext, OrderActionContext }

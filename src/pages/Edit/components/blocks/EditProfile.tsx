@@ -14,14 +14,8 @@ type Props = {
 }
 
 const EditProfile = ({ handleSaveButtonClick }: Props) => {
-  const {
-    companyDomain,
-    companyIntroduction,
-    companyLocation,
-    companyName,
-    instagramLink,
-    qnaLink,
-  } = useCompanyEditValue()
+  const { companyDomain, companyIntroduction, companyLocation, companyName, instaLink, qnaLink } =
+    useCompanyEditValue()
 
   const {
     handleChangeDomain,
@@ -73,7 +67,7 @@ const EditProfile = ({ handleSaveButtonClick }: Props) => {
           />
           <FormLink
             label="인스타그램 링크"
-            value={instagramLink ?? ''}
+            value={instaLink ?? ''}
             onChange={handleChangeInstagram}
           />
           <FormLink label="오픈채팅 링크" value={qnaLink ?? ''} onChange={handleChangeQnaLink} />

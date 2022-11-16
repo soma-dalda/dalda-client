@@ -10,21 +10,13 @@ type Props = {
 }
 
 const TemplateDescriptionQuestion = ({ index }: Props) => {
-  const { content } = useTemplateValueContext()
+  const { contentList: content } = useTemplateValueContext()
   const {
     handleDeleteQuestion,
+    handleUpdateRequired,
     handleUpdateQuestionTitle,
-    handleUpdateDetailType,
     handleUpdateImage,
   } = useTemplateActionContext()
-
-  const handleChangeDetailType = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      handleUpdateDetailType({ contentIndex: index, detailType: 'shortSubjective' })
-    } else {
-      handleUpdateDetailType({ contentIndex: index, detailType: 'longSubjective' })
-    }
-  }
 
   return (
     <section className="mt-8 flex w-full flex-col">
@@ -48,12 +40,11 @@ const TemplateDescriptionQuestion = ({ index }: Props) => {
         />
       </div>
       <CheckBox
-        id={`설명타입-${index}`}
-        type="checkbox"
-        onChange={handleChangeDetailType}
-        checked={content[index]?.detailType === 'shortSubjective'}
+        id={`필수값-${index}`}
+        checked={content[index]?.required}
+        onChange={handleUpdateRequired(index)}
       >
-        단답형
+        필수 질문
       </CheckBox>
     </section>
   )

@@ -9,6 +9,7 @@ import useTemplate from '../../hooks/useTemplate'
 
 const Template = () => {
   const { handleAddQuestion, handleSubmit, handleUpdateTitle, template, isLoading } = useTemplate()
+
   if (isLoading) {
     return <LoadingPage />
   }
@@ -40,7 +41,7 @@ const Template = () => {
           주문서 이름
         </TemplateTitleInput>
         {/* 질문 들 */}
-        <Questions content={template?.content ?? []} />
+        <Questions content={template?.contentList ?? []} />
         {/* 주문서 바텀 */}
       </form>
     </Layout>

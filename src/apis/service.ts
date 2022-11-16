@@ -53,8 +53,8 @@ export const patchUser = async (payload: PatchUserAPIParmas) => {
   return data.data
 }
 
-export const patchCompany = async (user: PutUserAPIParams) => {
-  const data = await http.patch(PATH.patchCompany(), { ...user })
+export const patchCompany = (prev: PutUserAPIParams) => async (user: PutUserAPIParams) => {
+  const data = await http.patch(PATH.patchCompany(), { ...prev, ...user })
 
   return data
 }
@@ -93,14 +93,16 @@ export const getLogin = async ({
   return data.data
 }
 
-export const getConsumerOrdersByUserId = async ({ userId }: { userId?: string }) => {
-  const data = await http.get<Order[]>(PATH.getConsumerOrdersByUserId({ userId }))
+type OrderListsResponse = { orderList: Order[] }
+
+export const getConsumerOrdersByUserId = async () => {
+  const data = await http.get<OrderListsResponse>(PATH.getConsumerOrdersByUserId())
 
   return data.data
 }
 
-export const getCompanyOrdersByUserId = async ({ userId }: { userId?: string }) => {
-  const data = await http.get<Order[]>(PATH.getCompanyOrdersByUserId({ userId }))
+export const getCompanyOrdersByUserId = async () => {
+  const data = await http.get<OrderListsResponse>(PATH.getCompanyOrdersByUserId())
 
   return data.data
 }
@@ -120,6 +122,24 @@ export const postImage = async (formData: FormData) => {
       'Content-Type': 'multipart/form-data',
     },
   })
+
+  return data.data
+}
+
+export const getLogout = async () => {
+  const data = await http.get(PATH.getLogout())
+
+  return data.data
+}
+
+export const patchProfileImage = async ({ imageUrl }: { imageUrl: string }) => {
+  const data = await http.patch(PATH.patchProfileImage(), { imageUrl })
+
+  return data.data
+}
+
+export const postRefresh = async () => {
+  const data = await http.post<string>(PATH.postRefresh())
 
   return data.data
 }

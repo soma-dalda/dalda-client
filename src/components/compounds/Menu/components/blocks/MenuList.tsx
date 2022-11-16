@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import clsx from 'clsx'
 import UserIcon from '@/components/molecules/icons/UserIcon'
 import MyInformationIcon from '@/components/molecules/icons/MyInformationIcon'
@@ -13,6 +13,7 @@ import KakaoIcon from '@/components/molecules/icons/KakaoIcon'
 import NaverIcon from '@/components/molecules/icons/NaverIcon'
 import GoogleIcon from '@/components/molecules/icons/GoogleIcon'
 import { baseURL } from '@/apis/https'
+import useLogout from '@/hooks/useLogout'
 import RightArrowIcon from '../../../../molecules/icons/RightArrowIcon'
 import MenuCloseButton from './MenuCloseButton'
 import MenuListItem from '../molecules/MenuListItem'
@@ -22,11 +23,10 @@ const getMenuStyle = () =>
     'absolute right-0 top-0 z-50 flex min-h-screen w-full animate-fade-in-left-all flex-col bg-white p-3'
   )
 
-const getBellStyle = (length: string | number) =>
+const getBellStyle = () =>
   clsx(
-    'relative after:absolute after:-top-[3px] after:-right-[3px] after:h-3 after:w-3 after:p-1',
-    'after:bg-brand-300 after:flex after:items-center after:justify-center after:text-xs after:font-thin after:rounded-full after:text-grayScale-700',
-    `after:content-['${length.toString()}']`
+    'absolute -top-[3px] -right-[3px] h-3 w-3 p-1 text-[0.55em] text-point-700',
+    'bg-brand-300 flex items-center justify-center rounded-full text-grayScale-700'
   )
 
 const getLoginURL = (registerId: string) => {
@@ -35,11 +35,17 @@ const getLoginURL = (registerId: string) => {
     : `${baseURL}/oauth2/authorization/${registerId}`
 }
 
+const logoutURL = import.meta.env.MODE === 'development' ? `/logout` : `${baseURL}/logout`
+
 const MenuList = () => {
   const { data: user } = useGetUser()
   const { data: companyOrder } = useGetOrders('company')
   const { data: consumerOrder } = useGetOrders('consumer')
-  const length = (companyOrder?.length ?? 0) + (consumerOrder?.length ?? 0)
+  const logout = useLogout()
+
+  const length = useMemo(() => {
+    return (companyOrder?.orderList?.length ?? 0) + (consumerOrder?.orderList?.length ?? 0)
+  }, [companyOrder, consumerOrder])
 
   return (
     <div className={getMenuStyle()}>
@@ -48,18 +54,23 @@ const MenuList = () => {
       </MenuCloseButton>
       {user?.id ? (
         <ul>
-          <MenuListItem
-            to={`/${user?.companyDomain}`}
-            icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
-          >
-            내 페이지
-          </MenuListItem>
+          {Boolean(user?.companyDomain) && (
+            <MenuListItem
+              to={`/${encodeURIComponent(user?.companyDomain ?? '')}`}
+              icon={<UserIcon className="h-[20px] w-[20px] fill-[#131415]" />}
+            >
+              내 페이지
+            </MenuListItem>
+          )}
           <MenuListItem to="/configuration" icon={<MyInformationIcon />}>
             내 정보 관리
           </MenuListItem>
-          {user.companyDomain && (
-            <MenuListItem to={`/${user.companyDomain}/edit`} icon={<ProfileIcon />}>
-              프로필 관리
+          {Boolean(user.companyDomain) && (
+            <MenuListItem
+              to={`/${encodeURIComponent(user.companyDomain ?? '')}/edit`}
+              icon={<ProfileIcon />}
+            >
+              가게 정보 관리
             </MenuListItem>
           )}
           <MenuListItem to="/#" icon={<TermIcon />}>
@@ -68,7 +79,8 @@ const MenuList = () => {
           <MenuListItem
             to="/orders"
             icon={
-              <div className={`${getBellStyle(length)}`}>
+              <div className="relative">
+                <span className={getBellStyle()}>{length}</span>
                 <BellIcon />
               </div>
             }
@@ -78,7 +90,7 @@ const MenuList = () => {
           <MenuListItem to="/#" icon={<PersonalTermIcon />}>
             개인정보처리방침
           </MenuListItem>
-          <MenuListItem to="/logout" icon={<LogoutIcon />}>
+          <MenuListItem onClick={logout} to={logoutURL} icon={<LogoutIcon />}>
             로그아웃
           </MenuListItem>
         </ul>

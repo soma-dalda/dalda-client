@@ -1,8 +1,10 @@
 import { AxiosError } from 'axios'
-import { QuestionType } from '@/pages/Templates/constant'
+
+export const MEMBER = 'ROLE_MEMBER' as const
+export const COMPANY = 'ROLE_COMPANY' as const
 
 export type Days = '월' | '화' | '수' | '목' | '금' | '토' | '일'
-export type ROLE = 'MEMBER' | 'COMPANY'
+export type ROLE = typeof MEMBER | typeof COMPANY
 
 export type User = {
   id: string
@@ -22,10 +24,8 @@ export type User = {
       }[]
     | null
   companyPhone: string | null
-  // profileImage
   profileImage: string | null
   qnaLink: string | null
-  instagramLink: string | null
   etcLinks:
     | {
         title: string
@@ -37,48 +37,45 @@ export type User = {
   latestAt: string
   withdraw: boolean
   withdrawAt: string
+
+  instaLink: string
 }
 
-export type OptionQuestionType = typeof QuestionType.option
-export type DescriptionQuestionType = typeof QuestionType.description
+type QuestionType = 'singleObjective' | 'multiObjective'
+type DescriptionType = 'subjective'
 
-export type OptionQuestionDetailType =
-  | typeof QuestionType.detail.singleSubjective
-  | typeof QuestionType.detail.multiSubjectvie
-
-export type DescriptionQuestionDetailType =
-  | typeof QuestionType.detail.shortObjective
-  | typeof QuestionType.detail.longObjective
+export type OptionQuestionType = QuestionType
+export type DescriptionQuestionType = DescriptionType
 
 export type OptionQuestion = {
   type: OptionQuestionType
-  detailType: OptionQuestionDetailType
   question: string
   img?: string
   options: string[]
+  required?: boolean
 }
 
 export type DescriptionQuestion = {
   type: DescriptionQuestionType
-  detailType: DescriptionQuestionDetailType
   question: string
   img?: string
   options: null
+  required?: boolean
 }
 
 export type Question = OptionQuestion | DescriptionQuestion
 
 export type Template = {
   id: string
-  companyId?: string
+  userId: string
   title: string
-  content: Question[]
-
-  createdAt?: string
-  modifiedAt?: string
+  contentList: Question[]
 }
 
-export type Templates = Template[]
+export type Templates = {
+  userId: string
+  templateList: { id: string; title: string }[]
+}
 
 export type Order = {
   id?: string
@@ -88,16 +85,25 @@ export type Order = {
   companyId?: string
 
   image?: string
-  templateResponses?: { question: string; answer: string[] }[]
+  templateResponses: { question: string; answer: string[] }[]
 
-  orderDate?: string
+  orderDate?: Date | string
   pickupDate?: string
   pickupNoticePhone?: string
+  consumerName?: string
 
-  orderStatus?: '접수 전' | '협의 중' | '가격 공지' | '제작 중' | '픽업 대기' | '픽업 완료' | '취소'
+  orderStatus?:
+    | '접수 전'
+    | '협의 중'
+    | '가격 공지'
+    | '제작 중'
+    | '픽업 대기'
+    | '픽업 완료'
+    | '취소'
+    | 'BEFORE_ACCEPT'
   statusChangeDate?: string
 }
 
 export type Company = User
 
-export type RequestError = AxiosError<{ error: { message: string } }>
+export type RequestError = AxiosError<{ message: string }>

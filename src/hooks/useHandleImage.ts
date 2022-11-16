@@ -13,6 +13,7 @@ type UseMutationOption = Omit<
 const useHandleImage = (options?: UseMutationOption) => {
   const [name, setName] = useState<string>()
   const [isDragging, setIsDragging] = useState(false)
+
   const { mutate, reset, ...rest } = usePostImage({
     ...options,
     onSettled: () => {

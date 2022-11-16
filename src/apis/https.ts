@@ -12,9 +12,11 @@ const injectJWToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const token = window.localStorage.getItem('accessToken')
 
     if (token !== null && config) {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
+      if (token?.trim() !== '') {
+        config.headers = {
+          ...config.headers,
+          Authorization: `Bearer ${token}`,
+        }
       }
     }
 
@@ -30,8 +32,8 @@ const injectJWToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
 class Http {
   private instance: AxiosInstance | null = null
 
-  public baseURL: string = import.meta.env.DEV ? '' : 'https://api.dalda.shop'
-  // public baseURL: string = 'https://api.dalda.shop'
+  // public baseURL: string = 'https://dev.dalda.shop'
+  public baseURL: string = 'https://api.dalda.shop'
 
   get http(): AxiosInstance {
     return this.instance ?? this.initHttp()
@@ -49,10 +51,7 @@ class Http {
 
     http.interceptors.response.use(
       (response) => response,
-      async (error: AxiosError) => {
-        if (error.response?.status === 401) {
-          await axios.post('/api/user-auth/refresh')
-        }
+      (error: AxiosError) => {
         return Promise.reject(error)
       }
     )
