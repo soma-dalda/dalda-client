@@ -1,7 +1,5 @@
 import dayjs from 'dayjs'
 
-dayjs.locale('ko')
-
 export function getCookie(name: string): string | null {
   const nameLenPlus = name.length + 1
   return (
@@ -56,6 +54,8 @@ export function timeForToday(value: Date | string) {
   if (betweenTimeHour < 24) {
     return `${betweenTimeHour}시간전`
   }
+
+  dayjs.locale('ko')
 
   return dayjs(value).format('YY.MM/DD')
 }
