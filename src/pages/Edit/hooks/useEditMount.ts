@@ -18,6 +18,7 @@ const useEditMount = () => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     refetchIntervalInBackground: false,
+    refetchOnMount: false,
     onSuccess: (data) => {
       hanldeComapny({ ...data })
     },
