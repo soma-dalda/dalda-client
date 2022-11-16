@@ -1,17 +1,18 @@
 import useGetTemplate from '@/hooks/useGetTemplate'
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useOrderValueContext from './useOrderValueContext'
 
 const useIsAnswersFilled = () => {
   const { id } = useParams()
+  const [isAnswersFilled, setIsAnswersFilled] = useState(false)
   const { order } = useOrderValueContext()
 
   const { data: template } = useGetTemplate(id ?? '', {
     enabled: false,
   })
 
-  const isAnswersFilled = useMemo(() => {
+  useEffect(() => {
     const requiredAnswers = template?.contentList.map((templateContent, i) => {
       if (templateContent.required) {
         return order.answers[i]
@@ -20,15 +21,17 @@ const useIsAnswersFilled = () => {
     })
 
     if (!requiredAnswers) {
-      return true
+      setIsAnswersFilled(true)
+    } else {
+      setIsAnswersFilled(
+        !(
+          requiredAnswers
+            ?.map((answer) => Boolean(answer?.filter((ans) => ans?.trim() !== '')?.length > 0))
+            ?.filter((answer) => answer === false)?.length > 0
+        )
+      )
     }
-
-    return !(
-      requiredAnswers
-        ?.map((answer) => Boolean(answer?.filter((ans) => ans?.trim() !== '')?.length > 0))
-        ?.filter((answer) => answer === false)?.length > 0
-    )
-  }, [order.answers, template?.contentList])
+  }, [order, template])
 
   return isAnswersFilled
 }
