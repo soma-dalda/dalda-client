@@ -12,7 +12,15 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import store from './store/config'
 
+import { worker } from './mocks/browser'
+
 const queryClient = new QueryClient()
+
+if (import.meta.env.MODE === 'development') {
+  worker.start({ onUnhandledRequest: 'bypass' })
+}
+// eslint-disable-next-line global-require
+// worker.stop()
 
 axios.defaults.withCredentials = true
 
